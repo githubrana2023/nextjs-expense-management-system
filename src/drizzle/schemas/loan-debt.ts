@@ -5,46 +5,46 @@ import { createdAt, updatedAt } from "../schema-helpers";
 import { loanProvidersTable } from "./loan-provider";
 import { relations } from "drizzle-orm";
 
-export const paymentBillShopkeeperTable = pgTable('payment_bill_shopkeeper', {
+export const shopkeeperDebtTable = pgTable('shopkeeper_debt', {
     id: uuid('id').primaryKey().unique().defaultRandom().unique(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     shopkeeperId: uuid('shopkeeper_id').notNull().references(() => shopkeepersTable.id),
     amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
-    dateOfPayment: timestamp('date_of_payment', { withTimezone: true }).notNull(),
+    dateOfDebt: timestamp('date_of_debt', { withTimezone: true }).notNull(),
     createdAt,
     updatedAt
 })
 
 
-export const paymentBillShopkeeperRelation = relations(paymentBillShopkeeperTable, ({ one }) => ({
+export const shopkeeperDebtRelation = relations(shopkeeperDebtTable, ({ one }) => ({
     family: one(familyTable, {
-        fields: [paymentBillShopkeeperTable.familyId],
+        fields: [shopkeeperDebtTable.familyId],
         references: [familyTable.id]
     }),
     shopkeeper: one(shopkeepersTable, {
-        fields: [paymentBillShopkeeperTable.shopkeeperId],
+        fields: [shopkeeperDebtTable.shopkeeperId],
         references: [shopkeepersTable.id]
     }),
 }))
 
-export const paymentBillLoanProviderTable = pgTable('payment_bill_loan_provider', {
+export const loanTable = pgTable('loan', {
     id: uuid('id').primaryKey().unique().defaultRandom().unique(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     loanProviderId: uuid('loanProvider_id').notNull().references(() => loanProvidersTable.id),
     amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
-    dateOfPayment: timestamp('date_of_payment', { withTimezone: true }).notNull(),
+    dateOfLoan: timestamp('date_of_loan', { withTimezone: true }).notNull(),
     createdAt,
     updatedAt
 })
 
 
-export const paymentBillLoanProviderRelation = relations(paymentBillLoanProviderTable, ({ one }) => ({
+export const loanTableRelation = relations(loanTable, ({ one }) => ({
     family: one(familyTable, {
-        fields: [paymentBillLoanProviderTable.familyId],
+        fields: [loanTable.familyId],
         references: [familyTable.id]
     }),
     loanProvider: one(loanProvidersTable, {
-        fields: [paymentBillLoanProviderTable.loanProviderId],
+        fields: [loanTable.loanProviderId],
         references: [loanProvidersTable.id]
     }),
 }))

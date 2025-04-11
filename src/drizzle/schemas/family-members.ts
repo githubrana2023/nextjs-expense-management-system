@@ -18,9 +18,9 @@ export const familyMembersTable = pgTable('family_members', {
     updatedAt,
 })
 
-export const familyMembersRelation = relations(familyMembersTable, ({ one, many }) => ({
+export const familyMembersRelation = relations(familyMembersTable, ({ one }) => ({
     family: one(familyTable, {
-            fields: [familyMembersTable.familyId],
-            references: [familyTable.id]
-        }),
+        fields: [familyMembersTable.familyId],
+        references: [familyTable.id]
+    }),
 }))
