@@ -1,6 +1,7 @@
-import { boolean, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text, timestamp, uuid,varchar } from "drizzle-orm/pg-core";
 import { createdAt, updatedAt } from "../schema-helpers";
 import { relations } from "drizzle-orm";
+import { familyTable } from "./family-schema/family";
 
 
 export const usersTable = pgTable('users', {
@@ -10,6 +11,7 @@ export const usersTable = pgTable('users', {
     email: text('email').unique().notNull(),
     phone: text('phone').unique().notNull(),
     password: text('password').notNull(),
+    role:text('role').notNull(),
     emailVerifiedAt: timestamp('email_verified_at', { withTimezone: true }),
     isTwoFactorEnabled: boolean('is_two_factor_enabled').default(false).notNull(),
     createdAt,
@@ -17,5 +19,5 @@ export const usersTable = pgTable('users', {
 })
 
 export const usersRelation = relations(usersTable, ({ one, many }) => ({
-
+    family:one(familyTable)
 }))

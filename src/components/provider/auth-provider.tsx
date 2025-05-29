@@ -1,15 +1,28 @@
+'use client'
+import { currentFamily } from '@/lib/current-family';
+import { currentMember } from '@/lib/current-member';
+import { JWTPayload } from 'jose';
+import { createContext, ReactNode, useEffect, useState } from 'react'
 
-import { createContext, ReactNode } from 'react'
-
-type Session = { id: string; phone: string; email: string }
 type AuthProviderProps = {
     children: ReactNode;
-    session: Session | undefined
+    session: Session
 }
-export const AuthContext = createContext<Session | null | undefined>(null)
 
-export const AuthProvider = ({ children, session }: AuthProviderProps) => (
-    <AuthContext.Provider value={session}>
-        {children}
-    </AuthContext.Provider>
-)
+export type Session = {
+    family: JWTPayload | undefined;
+    member: JWTPayload | undefined;
+}
+
+export const AuthContext = createContext<Session | null>(null)
+
+export const AuthProvider = ({ children,session }: AuthProviderProps) => {
+    
+    return (
+
+
+        <AuthContext.Provider value={session}>
+            {children}
+        </AuthContext.Provider>
+    )
+}
