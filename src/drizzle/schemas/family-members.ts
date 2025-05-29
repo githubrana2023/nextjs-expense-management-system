@@ -2,6 +2,8 @@ import { boolean, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createdAt, familyMemberRole, updatedAt } from "@/drizzle/schema-helpers";
 import { relations } from "drizzle-orm";
 import { familyTable } from "./family";
+import { familyMemberTrxNameTable } from "./family-member-trx-name";
+import { familyMemberBankAccountsTable } from "./family-member-bank-account";
 
 
 export const familyMembersTable = pgTable('family_members', {
@@ -19,9 +21,11 @@ export const familyMembersTable = pgTable('family_members', {
     updatedAt,
 })
 
-export const familyMembersRelation = relations(familyMembersTable, ({ one }) => ({
+export const familyMembersRelation = relations(familyMembersTable, ({ one, many}) => ({
     family: one(familyTable, {
         fields: [familyMembersTable.familyId],
         references: [familyTable.id]
     }),
+    trxNames:many(familyMemberTrxNameTable),
+    bankAccounts:many(familyMemberBankAccountsTable)
 }))

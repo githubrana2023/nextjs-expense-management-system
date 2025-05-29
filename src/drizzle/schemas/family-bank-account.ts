@@ -10,6 +10,7 @@ export const familyBankAccountsTable = pgTable('family_bank_accounts', {
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     name: text('name').unique().notNull(),
     balance: numeric('balance', { precision: 7, scale: 2 }).notNull(),
+    lbn:text('local_bank_number').notNull().unique(),
     description: text('description'),
     createdAt,
     updatedAt,
@@ -21,6 +22,6 @@ export const familyBankAccountsRelation = relations(familyBankAccountsTable, ({ 
         fields: [familyBankAccountsTable.familyId],
         references: [familyTable.id]
     }),
-    assignfamilySourceTrx:many(assignFamilySourceBankTable,{relationName:"assignFamilySourceBank"}),
-    assignfamilyReceiveTrx:many(assignFamilyReceiveBankTable,{relationName:"assignFamilyReceiveBank"})
+    assignFamilySourceTrx:many(assignFamilySourceBankTable,{relationName:"assignFamilySourceBank"}),
+    assignFamilyReceiveTrx:many(assignFamilyReceiveBankTable,{relationName:"assignFamilyReceiveBank"})
 }))
