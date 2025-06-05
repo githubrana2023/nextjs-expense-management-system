@@ -13,8 +13,6 @@ export const Member = ({ member }: { member: { id: number, name: string, phone: 
     const dispatch = useAppDispatch()
     const router = useRouter()
     const session = useAuth()
-
-    console.log({ session })
     return (
         <div onClick={(e) => {
             e.stopPropagation()

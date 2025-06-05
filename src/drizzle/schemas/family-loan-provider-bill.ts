@@ -1,4 +1,4 @@
-import { pgTable, uuid, timestamp, numeric, text } from "drizzle-orm/pg-core";
+import { pgTable, uuid, timestamp, numeric, text, boolean } from "drizzle-orm/pg-core";
 import { familyTable } from "./family";
 import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
@@ -15,6 +15,8 @@ export const familyLoanProviderBillsTable = pgTable('family_shopkeepers-bill', {
     description:text('description'),
     paymentDate:timestamp('payment_date',{withTimezone:true}).notNull(),
     totalDebt: numeric('total_debt', { precision: 7, scale: 2 }).notNull(),
+    isCancel: boolean('isCancel').default(false),
+    cancelReason:text('cancel_reason'),
     createdAt,
     updatedAt
 })

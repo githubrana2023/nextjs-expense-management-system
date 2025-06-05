@@ -13,9 +13,9 @@ export const setCookie = async (key: string, value: string) => {
 
 export const getCookie = async (key: string) => {
     const cookie = await cookies()
-    const accesstoken = cookie.get(key)
-    if(!accesstoken)return null
-    return accesstoken.value
+    const token = cookie.get(key)
+    if(!token)return null
+    return token.value
 }
 
 export const hasCookie= async (key:string) => {

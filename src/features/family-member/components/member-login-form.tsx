@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useAppDispatch } from "@/hooks/redux"
 import { onClose } from "@/lib/redux/slice/modal-slice"
 import { FamilyMemberLoginFormValue, familyMemberLoginSchema } from "../schema"
-import { familyMemberLoginInAction } from "../actions/family-member-login-action"
+import { familyMemberLoginAction } from "../actions/family-member-login-action"
 
 
 export const MemberLoginForm = () => {
@@ -32,8 +32,7 @@ export const MemberLoginForm = () => {
     const onSubmit =handleSubmit(value=>{
         startTransition(
             async()=>{
-                const res = await familyMemberLoginInAction(value)
-                console.log({res})
+                const res = await familyMemberLoginAction(value)
                 dispatch(onClose())
                 router.push('/family-page-id/member/member-page-id')
             }

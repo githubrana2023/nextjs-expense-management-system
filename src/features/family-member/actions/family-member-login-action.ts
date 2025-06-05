@@ -7,7 +7,7 @@ import { TOKEN_KEY } from "@/constant/token-constant";
 import { familyMemberLoginSchema } from '../schema';
 import { JWTPayload } from 'jose';
 
-export const familyMemberLoginInAction = async (payload: { phone: string; password: string; }) => {
+export const familyMemberLoginAction = async (payload: { phone: string; password: string; }) => {
   try {
 
     const existMember:JWTPayload = {

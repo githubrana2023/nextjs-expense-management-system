@@ -1,4 +1,4 @@
-export const AUTH_ROUTES= ['/auth/login','/auth/register']
+export const AUTH_ROUTES= ['/auth/login','/auth/register','/auth/reset-password']
 export const PUBLIC_ROUTES = ['/','/public-route',]
 export const REDIRECT_TO = {
     HOME:'/',
@@ -21,3 +21,4 @@ export const appRoute = {
 
 
 type AppRoute = typeof appRoute[keyof typeof appRoute]
+type AppRouteKey = keyof typeof appRoute

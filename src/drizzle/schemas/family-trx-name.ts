@@ -1,4 +1,4 @@
-import { pgTable, uuid, text } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text, boolean } from "drizzle-orm/pg-core";
 import { createdAt, trxNameVariant, updatedAt } from "@/drizzle/schema-helpers";
 import { familyTable } from "./family";
 import { relations } from "drizzle-orm";
@@ -10,6 +10,7 @@ export const familyTrxNameTable = pgTable('family_trx_name', {
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     name: text('name').notNull(),
     variant: text('variant', { enum: trxNameVariant }).notNull(),
+    isDeleted:boolean("is_deleted").default(false),
     createdAt,
     updatedAt
 })

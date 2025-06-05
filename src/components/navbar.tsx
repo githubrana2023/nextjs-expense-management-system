@@ -3,11 +3,29 @@ import { currentFamily } from "@/lib/current-family"
 import { LogOutButton } from "@/features/auth/components/log-out"
 import { TOKEN_KEY } from "@/constant/token-constant"
 import { appRoute } from "@/constant"
+import { currentMember } from "@/lib/current-member"
 
 export const Navbar = async () => {
 
     const loggedFamily = await currentFamily()
+    const loggedMember = await currentMember()
     const routes = Object.entries(appRoute).map(([key, value]) => {
+        if(key==='FAMILY'){
+            return {
+                href: `/${loggedFamily?.id}`,
+                label:`${key.slice(0,1)}${key.slice(1,key.length).toLocaleLowerCase()}`,
+                id:value
+            }
+
+        }
+        if(key==='MEMBER'){
+            return {
+                href: `/${loggedFamily?.id}/member/${loggedMember?.id}`,
+                label:`${key.slice(0,1)}${key.slice(1,key.length).toLocaleLowerCase()}`,
+                id:value
+            }
+
+        }
         return {
             href: value,
             label:`${key.slice(0,1)}${key.slice(1,key.length).toLocaleLowerCase()}`,
@@ -27,6 +45,9 @@ export const Navbar = async () => {
 
                         )
                     )
+                }
+                {
+                    loggedFamily && <LogOutButton tokenKey={TOKEN_KEY.FAMILY_ACCESS_TOKEN} redirectTo="/auth/login"/>
                 }
                 {/* <li className="border border-b-indigo-800 px-2 py-1">
                     <Link href={'/'}>Home</Link>

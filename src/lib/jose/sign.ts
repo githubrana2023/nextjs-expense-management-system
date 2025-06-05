@@ -26,6 +26,5 @@ export async function verifyToken(token: string) {
         if(error instanceof JWTExpired){
             
         }
-        // console.log({error})
     }
 }

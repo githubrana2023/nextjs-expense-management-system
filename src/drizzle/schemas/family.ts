@@ -1,4 +1,4 @@
-import { pgTable, uuid, text } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text,timestamp } from "drizzle-orm/pg-core";
 import { createdAt, role, updatedAt } from "@/drizzle/schema-helpers";
 import { relations } from "drizzle-orm";
 import { familyMembersTable } from "./family-members";
@@ -16,10 +16,12 @@ import { familyLoanProviderBillsTable } from "./family-loan-provider-bill";
 
 export const familyTable = pgTable('family_table', {
     id: uuid('id').primaryKey().unique().defaultRandom().unique(),
+    name: text('family_name').notNull(),
     phone: text('phone').notNull().unique(),
     email: text('email').notNull().unique(),
+    password:text('password').notNull(),
     role: text('role', { enum: [role['0']] }).notNull().default('FAMILY'),
-    name: text('family_name').notNull(),
+    emailVerifiedAt : timestamp('email_verified_at',{withTimezone:true}),
     createdAt,
     updatedAt
 })

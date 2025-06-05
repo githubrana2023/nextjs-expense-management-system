@@ -1,4 +1,4 @@
-import { pgTable, uuid, text, numeric } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text, numeric, boolean } from "drizzle-orm/pg-core";
 import { familyTable } from "./family";
 import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
@@ -12,6 +12,7 @@ export const familyLoanProviderTable = pgTable('family_loan_provider', {
     name: text('name').notNull(),
     phone: text('phone').notNull().unique(),
     totalDebt: numeric('total_debt', { precision: 7, scale: 2 }),
+    isDeleted:boolean("is_deleted").default(false),
     createdAt,
     updatedAt
 })

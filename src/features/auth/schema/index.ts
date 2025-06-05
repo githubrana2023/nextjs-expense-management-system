@@ -1,2 +1,2 @@
-export * from './login-schema'
-export * from './register-schema'
+export * from './family-login-schema'
+export * from './family-register-schema'

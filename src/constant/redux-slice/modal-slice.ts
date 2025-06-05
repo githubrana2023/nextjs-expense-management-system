@@ -1,3 +1,9 @@
 export const MODAL_TYPE = {
+    ALERT_MODAL:"ALERT_MODAL",
     MEMBER_LOGIN:"MEMBER_LOGIN",
+    MEMBER_REGISTER:"MEMBER_REGISTER",
+    F_TRX_NAME:'F_TRX_NAME',
+    F_TRX:'F_TRX',
+    M_TRX_NAME:'M_TRX_NAME',
+    M_TRX:'M_TRX'
 } as const

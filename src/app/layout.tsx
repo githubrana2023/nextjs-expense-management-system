@@ -6,6 +6,7 @@ import { currentFamily } from "@/lib/current-family";
 import StoreProvider from "@/components/provider/redux-store-provider";
 import { ModalProvider } from "@/components/provider/modal-provider";
 import { currentMember } from "@/lib/current-member";
+import { ToastProvider } from "@/components/provider/toast-provider";
 
 
 const geistSans = Geist({
@@ -39,6 +40,7 @@ export default async function RootLayout({
       >
         <StoreProvider>
           <AuthProvider session={{family,member}}>
+            <ToastProvider/>
             <ModalProvider />
             {children}
           </AuthProvider>

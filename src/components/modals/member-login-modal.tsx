@@ -1,5 +1,4 @@
 'use client'
-import React, { useTransition } from 'react'
 import { Modal } from '../modal'
 import { useAppDispatch, useAppSelector } from '@/hooks/redux'
 import { onClose } from '@/lib/redux/slice/modal-slice'
@@ -17,7 +16,7 @@ export const MemberLoginModal = () => {
             open={open}
             onClose={() => dispatch(onClose())}
             title="Member Login Form"
-            description='Login to your expense account to mange your expense'
+            description='Login to your expense account to manage your expense'
         >
 
             <CardWrapper
