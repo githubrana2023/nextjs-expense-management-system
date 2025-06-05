@@ -1,6 +1,6 @@
 'use client'
 
-import { useQueryString } from "@/lib/query-string"
+import { useQueryString } from "@/hooks/use-query-string"
 
 export const FamilyTrxNameAssignTabContent = () => {
   const url = useQueryString()

@@ -1,29 +1,39 @@
-import { ReuseableTab } from '@/components/reuseable-tab'
-import { TrxNameTabContent} from '@/features/family/components/trx-name/family-trx-name-tab-content'
+import { ReuseableTab, TabItem } from '@/components/reuseable-tab'
+import { defaultActiveTab } from '@/constant/tab'
+import { TrxNameTabContent } from '@/features/family/components/trx-name/family-trx-name-tab-content'
 import { TrxTab } from '@/features/family/components/trx-tab-content'
-import { getAllFamilyTrxNameByFamilyId } from '@/features/family/db/get-family-trx-name'
+import { getAllFamilyTrxNameByFamilyId } from '@/features/family/db/trx-name/get-family-trx-name'
+import { TrxTabType } from '@/interface/tab'
 import React from 'react'
 
-const TrxPage = async({params}:{params:Promise<{familyId:string}>}) => {
+type TrxPageProps = {
+  params: Promise<{ familyId: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-  const {familyId} = await params
 
+const TrxPage = async ({ params, searchParams }: TrxPageProps) => {
+
+  const { familyId } = await params
+  const searParam = await searchParams
+  const { defaultActive } = defaultActiveTab.family.trx
   const familyTrxNames = await getAllFamilyTrxNameByFamilyId(familyId)
 
   return (
     <ReuseableTab
-    defaultValue='trx-name'
+      removeKeyOfValues={[defaultActive.transaction, defaultActive.trxName]}
+      defaultValue={(searParam.tab as TrxTabType) ||defaultActive.trxName }
       items={
         [
           {
-            value: 'Transaction',
+            value: defaultActive.transaction,
             label: 'Transaction',
-            content: <TrxTab/>
+            content: <TrxTab />
           },
           {
-            value: 'trx-name',
+            value: defaultActive.trxName,
             label: 'Trx Name',
-            content: <TrxNameTabContent familyTrxNames={familyTrxNames}/>
+            content: <TrxNameTabContent familyTrxNames={familyTrxNames} />
           },
         ] as const}
     />

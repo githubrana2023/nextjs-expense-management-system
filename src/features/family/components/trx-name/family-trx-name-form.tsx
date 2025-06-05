@@ -13,7 +13,7 @@ import { trxNameVariant } from "@/drizzle/schema-helpers"
 import { Button } from "@/components/ui/button"
 import toast from "react-hot-toast"
 import { onClose } from "@/lib/redux/slice/modal-slice"
-import { familyTrxNameCreateAction } from "../../action/family-trx-name-create-action"
+import { familyTrxNameCreateAction } from "../../action/trx-name/family-trx-name-create-action"
 
 export const FamilyTrxNameForm = () => {
     const [pending, startTransition] = useTransition()
@@ -69,7 +69,7 @@ export const FamilyTrxNameForm = () => {
                     <FormItem>
                         <FormLabel>Transaction Name Variant</FormLabel>
                         <FormControl>
-                            <Select onValueChange={field.onChange} defaultValue={field.value} >
+                            <Select onValueChange={field.onChange} defaultValue={field.value} disabled={pending} >
                                 <FormControl className="w-full">
                                     <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Select a transaction Variant?" />
@@ -89,7 +89,7 @@ export const FamilyTrxNameForm = () => {
                     </FormItem>
                 )}
             />
-            <Button className='w-full' type='submit'>
+            <Button className='w-full' type='submit' disabled={pending}>
                 Continue
             </Button>
         </form>

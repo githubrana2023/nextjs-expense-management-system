@@ -16,3 +16,4 @@ export const familyTrxNameUpdateFormSchema = z.object(
 )
 
 export type FamilyTrxNameFormValue = z.infer<typeof familyTrxNameCreateFormSchema>
+export type FamilyTrxNameUpdateFormValue = z.infer<typeof familyTrxNameUpdateFormSchema>

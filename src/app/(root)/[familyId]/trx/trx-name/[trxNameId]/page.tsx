@@ -5,8 +5,10 @@ import {
   FamilyTrxNameUpdateTabContent,
   FamilyTrxNameAssignTabContent,
 } from '@/features/family/components/trx-name'
-import { TabType } from '@/interface/tab'
+import { getActiveFamilyTrxNameByIdAndFamilyId } from '@/features/family/db/trx-name/get-family-trx-name'
+import { TrxNameTabType } from '@/interface/tab'
 import { currentFamily } from '@/lib/current-family'
+import { uuidValidator } from '@/lib/zod'
 import { Info, SquarePen, Cable } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
@@ -14,17 +16,28 @@ import React from 'react'
 type TrxNameDetailsPageProp = {
   params: Promise<{ familyId: string, trxNameId: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+
 }
 
 const TrxNameDetailsPage = async ({ params, searchParams }: TrxNameDetailsPageProp) => {
+  const searchParam = await searchParams
+  const param = await params
+  
   const loggedFamily = await currentFamily()
   if (!loggedFamily) redirect(REDIRECT_TO.LOGIN_PAGE)
-  const searchParam = await searchParams
+
+  const familyTrxNameId = uuidValidator(param.trxNameId)
+  if (!familyTrxNameId) redirect(`/${param.familyId}/trx`)
+
+  const trxName = await getActiveFamilyTrxNameByIdAndFamilyId(param.trxNameId, param.familyId)
+
+  if (!trxName) redirect(`/${param.familyId}/trx`)
+
 
   return (
     <ReuseableTab
-      removeKeyOfValues={['assign','details','update']}
-      defaultValue={(searchParam.tab as TabType) || 'details'}
+      removeKeyOfValues={['assign', 'details', 'update']}
+      defaultValue={(searchParam.tab as TrxNameTabType) || 'details'}
       items={[
         {
           value: 'details',
@@ -36,13 +49,13 @@ const TrxNameDetailsPage = async ({ params, searchParams }: TrxNameDetailsPagePr
           value: 'update',
           label: 'Update',
           Icon: <SquarePen />,
-          content: <FamilyTrxNameUpdateTabContent/>
+          content: <FamilyTrxNameUpdateTabContent trxName={trxName} />
         },
         {
           value: 'assign',
           label: 'Assign',
           Icon: <Cable />,
-          content: <FamilyTrxNameAssignTabContent/>
+          content: <FamilyTrxNameAssignTabContent />
         },
       ]}
     />

@@ -10,13 +10,13 @@ import {
 import { Cable, Info, MoreHorizontal, RotateCcw, SquarePen, Trash } from 'lucide-react'
 import { FamilyTrxNameColumn } from './family-trx-name-table-columns'
 import { useAppDispatch } from '@/hooks/redux'
-import { familyTrxNameDeleteAction } from '../../action/family-trx-name-delete-action'
+import { familyTrxNameDeleteAction } from '../../action/trx-name/family-trx-name-delete-action'
 import toast from 'react-hot-toast'
 import { useState, useTransition } from 'react'
 import { AlertModal } from '@/components'
 import { useAlertModal } from '@/hooks/redux/use-modal'
 import { onAlertClose, onAlertOpen } from '@/lib/redux/slice/alert-modal-slice'
-import { familyTrxNameUpdateAction } from '../../action/family-trx-name-update-action'
+import { familyTrxNameUpdateAction } from '../../action/trx-name/family-trx-name-update-action'
 import DDMenuItem from '@/components/drop-down-menu-item'
 import Link from 'next/link'
 import { defaultActiveTab } from '@/constant/tab'
@@ -25,6 +25,7 @@ type DeleteActionInfo = Pick<FamilyTrxNameColumn, 'name' | 'familyId' | 'id'>
 
 export const FamilyTrxNameActionCell = ({ trxName }: { trxName: FamilyTrxNameColumn }) => {
     const { familyId, id, name } = trxName
+    const { queryString } = defaultActiveTab.family.trxName
     const [isOpenDropdownMenu, setIsOpenDropDownMenu] = useState(false)
     const [pending, startTransition] = useTransition()
     const { isAlertOpen, payload } = useAlertModal()
@@ -84,19 +85,19 @@ export const FamilyTrxNameActionCell = ({ trxName }: { trxName: FamilyTrxNameCol
                     {
                         !trxName.isDeleted && (
                             <>
-                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${defaultActiveTab['details-Tab']}`}>
+                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${queryString.detailsTab}`}>
                                     <DDMenuItem
                                         label='Details'
                                         Icon={<Info />}
                                     />
                                 </Link>
-                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${defaultActiveTab['update-Tab']}`}>
+                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${queryString.updateTab}`}>
                                     <DDMenuItem
                                         label='Update'
                                         Icon={<SquarePen />}
                                     />
                                 </Link>
-                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${defaultActiveTab['assign-Tab']}`}>
+                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${queryString.assignTab}`}>
                                     <DDMenuItem
                                         label='Assign'
                                         Icon={<Cable />}

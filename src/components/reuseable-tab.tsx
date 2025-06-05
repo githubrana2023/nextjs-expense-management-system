@@ -7,7 +7,7 @@ import {
   TabsContent,
 } from "@/components/ui/tabs"
 import { NotEmptyStr, Replace } from "@/interface"
-import { useQueryString } from "@/lib/query-string"
+import { useQueryString } from "@/hooks/use-query-string"
 import { cn } from "@/lib/utils"
 import React, { JSX } from "react"
 
@@ -37,24 +37,46 @@ export const ReuseableTab = <T extends string>({
   className,
 }: TabsProps<T>) => {
   const safeDefault = defaultValue ?? items[0]?.value
-  const setSearchParam = useQueryString()
+  const { rowSearchParams, setQueryParams } = useQueryString()
+
+  // get the tab query
+  const isTabSearchQuery = rowSearchParams.has('tab')
+
   return (
     <Tabs defaultValue={safeDefault} className={className}>
       <TabsList>
         {items.map(({ Icon, ...item }) => (
-          <TabsTrigger
-            key={item.value}
-            value={item.value}
-            className={cn("", Icon && "min-w-22")}
-            onClick={
-              () => setSearchParam('tab', item.value, removeKeyOfValues)
-            }>
-            <div className={cn("", Icon && "flex items-center gap-1.5 w-full")}>
-              <span>{item.label}</span>
-              {Icon && Icon}
-            </div>
+          <div key={item.value}>
+            {
+              isTabSearchQuery
+                ? (
+                  <TabsTrigger
 
-          </TabsTrigger>
+                    value={item.value}
+                    className={cn("", Icon && "min-w-22")}
+                    onClick={
+                      () => setQueryParams('tab', item.value, removeKeyOfValues)
+                    }>
+                    <div className={cn("", Icon && "flex items-center gap-1.5 w-full")}>
+                      <span>{item.label}</span>
+                      {Icon && Icon}
+                    </div>
+
+                  </TabsTrigger>
+                ) : (
+                  <TabsTrigger
+                    value={item.value}
+                    className={cn("", Icon && "min-w-22")}>
+                    <div className={cn("", Icon && "flex items-center gap-1.5 w-full")}>
+                      <span>{item.label}</span>
+                      {Icon && Icon}
+                    </div>
+
+                  </TabsTrigger>
+                )
+            }
+          </div>
+
         ))}
       </TabsList>
 

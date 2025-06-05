@@ -1,17 +1,17 @@
 'use server'
 
+import { SendResponse } from "@/interface"
 import { currentFamily } from "@/lib/current-family"
-import { getFamilyById } from "../db/get-family"
+import { getFamilyById } from "../../db/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
-import { getFamilyTrxNameByIdAndFamilyId } from "../db/get-family-trx-name"
+import { familyTrxNameCreateFormSchema, FamilyTrxNameFormValue } from "../../schema/family-trx-name-schema"
+import { getFamilyTrxNameByNameAndFamilyId } from "../../db/trx-name/get-family-trx-name"
+import { insertFamilyTrxName } from "../../db/trx-name/insert-family-trx-name"
 import { revalidatePath } from "next/cache"
-import { FamilyTrxName } from "@/drizzle/type"
-import { updateFamilyTrxName } from "../db/update-family-trx-name"
-import { familyTrxNameUpdateFormSchema } from "../schema/family-trx-name-schema"
 
 
-export const familyTrxNameUpdateAction = async (trxNameId:string,payload:Partial<FamilyTrxName>) => {
+export const familyTrxNameCreateAction = async (payload: FamilyTrxNameFormValue): Promise<SendResponse<unknown, Error>> => {
     try {
         const loggedFamily = await currentFamily()
         if (!loggedFamily) return {
@@ -21,14 +21,14 @@ export const familyTrxNameUpdateAction = async (trxNameId:string,payload:Partial
             error: null
         }
 
-        const validation = familyTrxNameUpdateFormSchema.safeParse(payload)
-
-         if (!validation.success) return {
+        const validation = familyTrxNameCreateFormSchema.safeParse(payload)
+        if (!validation.success) return {
             success: false,
             message: 'Invalid Fields!',
             data: null,
             error: null
         }
+        const { name, variant } = payload
 
         const existFamily = await getFamilyById(loggedFamily.id)
 
@@ -42,31 +42,33 @@ export const familyTrxNameUpdateAction = async (trxNameId:string,payload:Partial
             }
         }
 
-        const existFamilyTrxName = await getFamilyTrxNameByIdAndFamilyId(trxNameId, existFamily.id)
+        const existFamilyTrxName = await getFamilyTrxNameByNameAndFamilyId(name, existFamily.id)
 
-        if (!existFamilyTrxName) return {
+        if (existFamilyTrxName) return {
             success: false,
-            message: 'Trx Name not exist!',
+            message: 'Trx Name already exist!',
             data: null,
             error: null
         }
 
-        const updatedFamilyTrxName = await updateFamilyTrxName(trxNameId, existFamily.id,payload)
-
+        const newFamilyTrxName = await insertFamilyTrxName({
+            name,
+            variant,
+            familyId:existFamily.id
+        })
 
         revalidatePath(`/${existFamily.id}/trx`)
 
         return {
             success: true,
-            message: 'Transaction Name updated!',
-            data: updatedFamilyTrxName,
+            message: 'Transaction Name created!',
+            data: newFamilyTrxName,
             error: null
         }
     } catch (error) {
-        console.log(error)
         return {
             success: false,
-            message: 'Failed to update family trx name',
+            message: '',
             data: null,
             error
         }
