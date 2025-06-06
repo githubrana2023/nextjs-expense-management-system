@@ -19,13 +19,13 @@ import { onAlertClose, onAlertOpen } from '@/lib/redux/slice/alert-modal-slice'
 import { familyTrxNameUpdateAction } from '../../action/trx-name/family-trx-name-update-action'
 import DDMenuItem from '@/components/drop-down-menu-item'
 import Link from 'next/link'
-import { defaultActiveTab } from '@/constant/tab'
+import {  familyTab } from '@/constant/tab'
 
 type DeleteActionInfo = Pick<FamilyTrxNameColumn, 'name' | 'familyId' | 'id'>
 
 export const FamilyTrxNameActionCell = ({ trxName }: { trxName: FamilyTrxNameColumn }) => {
     const { familyId, id, name } = trxName
-    const { queryString } = defaultActiveTab.family.trxName
+    const {familyTrxName}=familyTab
     const [isOpenDropdownMenu, setIsOpenDropDownMenu] = useState(false)
     const [pending, startTransition] = useTransition()
     const { isAlertOpen, payload } = useAlertModal()
@@ -85,19 +85,19 @@ export const FamilyTrxNameActionCell = ({ trxName }: { trxName: FamilyTrxNameCol
                     {
                         !trxName.isDeleted && (
                             <>
-                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${queryString.detailsTab}`}>
+                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${familyTrxName.queryString.detailsTab}`}>
                                     <DDMenuItem
                                         label='Details'
                                         Icon={<Info />}
                                     />
                                 </Link>
-                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${queryString.updateTab}`}>
+                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${familyTrxName.queryString.updateTab}`}>
                                     <DDMenuItem
                                         label='Update'
                                         Icon={<SquarePen />}
                                     />
                                 </Link>
-                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${queryString.assignTab}`}>
+                                <Link href={`/${trxName.familyId}/trx/trx-name/${trxName.id}${familyTrxName.queryString.assignTab}`}>
                                     <DDMenuItem
                                         label='Assign'
                                         Icon={<Cable />}

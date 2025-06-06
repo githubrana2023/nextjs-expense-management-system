@@ -2,7 +2,7 @@ import { DefaultActiveTab } from "@/interface/tab";
 
 export const defaultActiveTab: DefaultActiveTab = {
     family: {
-        trxName: {
+        familyTrxName: {
             defaultActive: {
                 assign: 'assign',
                 details: 'details',
@@ -14,7 +14,7 @@ export const defaultActiveTab: DefaultActiveTab = {
                 updateTab: "?tab=update"
             }
         },
-        trx: {
+        familyTrx: {
             defaultActive: {
                 transaction: 'transaction',
                 trxName: 'trx-name'
@@ -24,7 +24,7 @@ export const defaultActiveTab: DefaultActiveTab = {
                 trxNameTab: '?tab=trx-name'
             }
         },
-        bank: {
+        familyBank: {
             defaultActive: {
                 details: "details",
                 update: 'update'
@@ -34,7 +34,7 @@ export const defaultActiveTab: DefaultActiveTab = {
                 updateTab: '?tab=update',
             }
         },
-        loan: {
+        familyLoan: {
             defaultActive: {
                 details: "details",
                 update: 'update'
@@ -44,7 +44,7 @@ export const defaultActiveTab: DefaultActiveTab = {
                 updateTab: '?tab=update'
             }
         },
-        shopkeeper: {
+        familyShopkeeper: {
             defaultActive: {
                 assign: 'assign',
                 details: 'details',
@@ -58,7 +58,7 @@ export const defaultActiveTab: DefaultActiveTab = {
         }
     },
     member: {
-        trx: {
+        memberTrx: {
             defaultActive: {
                 transaction: 'transaction',
                 trxName: 'trx-name'
@@ -68,11 +68,19 @@ export const defaultActiveTab: DefaultActiveTab = {
                 trxNameTab: '?tab=trx-name'
             }
         },
-        trxName: {
-            defaultActive: { assign: "assign", details: 'details', update: "update" },
-            queryString: { assignTab: "?tab=assign", detailsTab: "?tab=details", updateTab: '?tab=update' }
+        memberTrxName: {
+            defaultActive: {
+                assign: "assign",
+                details: 'details',
+                update: "update"
+            },
+            queryString: {
+                assignTab: "?tab=assign",
+                detailsTab: "?tab=details",
+                updateTab: '?tab=update'
+            }
         },
-        bank: {
+        memberBank: {
             defaultActive: {
                 details: "details",
                 update: 'update'
@@ -82,7 +90,7 @@ export const defaultActiveTab: DefaultActiveTab = {
                 updateTab: '?tab=update',
             }
         },
-        loan: {
+        memberLoan: {
             defaultActive: {
                 details: "details",
                 update: 'update'
@@ -92,7 +100,7 @@ export const defaultActiveTab: DefaultActiveTab = {
                 updateTab: '?tab=update'
             }
         },
-        shopkeeper: {
+        memberShopkeeper: {
             defaultActive: {
                 assign: 'assign',
                 details: 'details',
@@ -106,3 +114,5 @@ export const defaultActiveTab: DefaultActiveTab = {
         }
     }
 }
+
+export const {family:familyTab,member:memberTab} = defaultActiveTab

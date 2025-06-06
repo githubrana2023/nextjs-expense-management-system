@@ -10,9 +10,11 @@ export type Replace<Str extends string> = Str extends `${infer BH}-${infer AH}`
   : Str
 
 
-  export type CamelCase<S extends string> =
+export type CamelCase<S extends string> =
   S extends `${infer Head}-${infer Tail}`
   ? `${Head}${Capitalize<CamelCase<Tail>>}`
   : S extends `${infer Head}_${infer Tail}`
   ? `${Head}${Capitalize<CamelCase<Tail>>}`
   : S;
+
+export type FirstCharacter<Character extends string> = Character extends `${infer F}${string}` ? F : never

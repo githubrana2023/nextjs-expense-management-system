@@ -16,7 +16,7 @@ const TrxPage = async ({ params, searchParams }: TrxPageProps) => {
 
   const { familyId } = await params
   const searParam = await searchParams
-  const { defaultActive } = defaultActiveTab.family.trx
+  const { defaultActive } = defaultActiveTab.family
   const familyTrxNames = await getAllFamilyTrxNameByFamilyId(familyId)
 
   return (
