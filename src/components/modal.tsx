@@ -15,7 +15,7 @@ export const Modal = ({ title, description, open, onClose, children }: ModalProp
         open={open}
         onOpenChange={onClose}
     >
-        <DialogContent>
+        <DialogContent className="p-2">
             <DialogHeader>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogDescription>{description}</DialogDescription>

@@ -17,7 +17,7 @@ export const getFamilyTrxNameByIdAndFamilyId = async (id: string, familyId: stri
         eq(familyTrxNameTable.familyId, familyId),
     )
 })
-export const getActiveFamilyTrxNameByIdAndFamilyId = async (id: string, familyId: string) => await db.query.familyTrxNameTable.findFirst({
+export const getOnlyActiveFamilyTrxNameByIdAndFamilyId = async (id: string, familyId: string) => await db.query.familyTrxNameTable.findFirst({
     where: and(
         eq(familyTrxNameTable.id, id),
         eq(familyTrxNameTable.familyId, familyId),

@@ -5,7 +5,8 @@ import {
   FamilyTrxNameUpdateTabContent,
   FamilyTrxNameAssignTabContent,
 } from '@/features/family/components/trx-name'
-import { getActiveFamilyTrxNameByIdAndFamilyId } from '@/features/family/db/trx-name/get-family-trx-name'
+import { getAllFamilyBankAccountsByFamilyId } from '@/features/family/db/bank-account/get-bank-account'
+import { getOnlyActiveFamilyTrxNameByIdAndFamilyId } from '@/features/family/db/trx-name/get-family-trx-name'
 import { TrxNameTabType } from '@/interface/tab'
 import { currentFamily } from '@/lib/current-family'
 import { uuidValidator } from '@/lib/zod'
@@ -29,7 +30,8 @@ const TrxNameDetailsPage = async ({ params, searchParams }: TrxNameDetailsPagePr
   const familyTrxNameId = uuidValidator(param.trxNameId)
   if (!familyTrxNameId) redirect(`/${param.familyId}/trx`)
 
-  const trxName = await getActiveFamilyTrxNameByIdAndFamilyId(param.trxNameId, param.familyId)
+  const trxName = await getOnlyActiveFamilyTrxNameByIdAndFamilyId(param.trxNameId, param.familyId)
+  const familyBankAccounts = await getAllFamilyBankAccountsByFamilyId(param.familyId)
 
   if (!trxName) redirect(`/${param.familyId}/trx`)
 
@@ -55,7 +57,7 @@ const TrxNameDetailsPage = async ({ params, searchParams }: TrxNameDetailsPagePr
           value: 'assign',
           label: 'Assign',
           Icon: <Cable />,
-          content: <FamilyTrxNameAssignTabContent />
+          content: <FamilyTrxNameAssignTabContent familyBanks={familyBankAccounts} familyTrxName={trxName}/>
         },
       ]}
     />

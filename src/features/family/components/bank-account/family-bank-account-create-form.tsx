@@ -23,7 +23,7 @@ export const FamilyTrxNameForm = () => {
         {
             resolver: zodResolver(familyTrxNameCreateFormSchema),
             defaultValues: {
-                name: ''
+                name: 'INCOME'
             }
         }
     )
@@ -56,7 +56,7 @@ export const FamilyTrxNameForm = () => {
                     <FormItem>
                         <FormLabel>Full Name</FormLabel>
                         <FormControl>
-                            <Input placeholder='e.g. EXPENSE' {...field} disabled={pending} />
+                            <Input placeholder='Rohan Hamid' {...field} disabled={pending} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>

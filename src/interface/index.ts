@@ -3,10 +3,12 @@ export * from './response'
 
 export type NotEmptyStr<T extends string> = T extends "" ? never : T
 
-export type Replace<Str extends string> = Str extends `${infer BH}-${infer AH}`
-  ? `${Capitalize<BH>} ${Replace<Capitalize<AH>>}`
+export type Replace<Str extends string,ReplaceWith extends string="_"> =
+  Str extends `${infer Head}-${infer Tail}`
+  ? `${Capitalize<Head>} ${Replace<Capitalize<Tail>>}`
   : Str extends `${infer BU}_${infer AU}`
   ? `${BU} ${Replace<Capitalize<AU>>}`
+  :Str extends `${infer Head} ${infer Tail}`? `${Head}${ReplaceWith}${Tail}`
   : Str
 
 

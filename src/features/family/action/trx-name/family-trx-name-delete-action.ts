@@ -4,7 +4,7 @@ import { currentFamily } from "@/lib/current-family"
 import { getFamilyById } from "../../db/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
-import { getActiveFamilyTrxNameByIdAndFamilyId } from "../../db/trx-name/get-family-trx-name"
+import { getOnlyActiveFamilyTrxNameByIdAndFamilyId } from "@/features/family/db/trx-name"
 import { revalidatePath } from "next/cache"
 import { deleteFamilyTrxName } from "../../db/trx-name/delete-family-trx-name"
 
@@ -31,7 +31,7 @@ export const familyTrxNameDeleteAction = async (trxNameId:string) => {
             }
         }
 
-        const existFamilyTrxName = await getActiveFamilyTrxNameByIdAndFamilyId(trxNameId, existFamily.id)
+        const existFamilyTrxName = await getOnlyActiveFamilyTrxNameByIdAndFamilyId(trxNameId, existFamily.id)
 
         if (!existFamilyTrxName) return {
             success: false,

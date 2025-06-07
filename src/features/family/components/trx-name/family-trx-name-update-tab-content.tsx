@@ -17,7 +17,7 @@ import {
 import {
   familyTrxNameUpdateFormSchema,
   FamilyTrxNameUpdateFormValue,
-} from "@/features/family/schema/family-trx-name-schema"
+} from "@/features/family/schema/trx-name/family-trx-name-schema"
 import { useAppDispatch } from "@/hooks/redux"
 import { Input } from "@/components/ui/input"
 import {

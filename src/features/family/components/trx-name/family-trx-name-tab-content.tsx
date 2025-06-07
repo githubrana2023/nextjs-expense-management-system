@@ -7,6 +7,7 @@ import { useAppDispatch } from "@/hooks/redux"
 import { onOpen } from "@/lib/redux/slice/modal-slice"
 import { Plus } from "lucide-react"
 import { FamilyTrxNameTableColumns } from "./family-trx-name-table-columns"
+import { pluralize } from "@/lib/helpers/plural"
 
 
 type TrxNameTabContentProps = {
@@ -14,33 +15,27 @@ type TrxNameTabContentProps = {
 }
 
 export const TrxNameTabContent = ({ familyTrxNames }: TrxNameTabContentProps) => {
-
+    const numberOfFamilyTrxName = familyTrxNames.length
     const dispatch = useAppDispatch()
 
     return <CardWrapper
-        title="Transaction Name"
-        description="Create your transaction"
-    >
-        <div className="space-y-4">
-            <div className="flex items-center gap-1.5">
-                <Button className="w-full" onClick={() => {
+        title={`${pluralize(numberOfFamilyTrxName, 'Family Transaction')} Name (${numberOfFamilyTrxName})`}
+        description='Family Transaction name'
+        headerElement={
+            <Button
+            size={'sm'}
+                onClick={() => {
                     dispatch(onOpen(MODAL_TYPE.F_TRX_NAME))
-                }}>
-                    <Plus />
-                    <span>
-                        New
-                    </span>
-                </Button>
-            </div>
-            <div>
-                <CardWrapper
-                    title='Family Transaction Name'
-                    description='Family Transaction name'
-                >
+                }}
+            >
+                <Plus />
+                <span>
+                    New
+                </span>
+            </Button>
+        }
+    >
 
-                    <DataTable data={familyTrxNames} columns={FamilyTrxNameTableColumns} />
-                </CardWrapper>
-            </div>
-        </div>
+        <DataTable data={familyTrxNames} columns={FamilyTrxNameTableColumns} />
     </CardWrapper>
 }
