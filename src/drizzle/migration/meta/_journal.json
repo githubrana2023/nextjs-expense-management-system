@@ -15,6 +15,13 @@
       "when": 1749030796203,
       "tag": "0001_tearful_jean_grey",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1749401088663,
+      "tag": "0002_silent_lethal_legion",
+      "breakpoints": true
     }
   ]
 }

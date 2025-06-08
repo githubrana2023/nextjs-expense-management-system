@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useState, useTransition } from "react"
 import { Button } from "@/components/ui/button"
 import { assignFamilyTrxNameActions } from "@/features/family/action/trx-name"
+import toast from "react-hot-toast"
 
 type FamilyTrxNameAssignTabContentProp = {
   familyTrxName: FamilyTrxName;
@@ -40,8 +41,16 @@ export const FamilyTrxNameAssignTabContent = ({ familyBanks, familyTrxName }: Fa
   const onSubmit = handleSubmit((formValue) => {
     startTransition(
       async () => {
-        const res = await assignFamilyTrxNameActions(formValue, familyTrxName.id)
-        console.log({ res })
+        const {data,success,message} = await assignFamilyTrxNameActions(formValue, familyTrxName.id)
+
+        console.log({ data })
+        if(!success){
+          toast.error(message)
+          return
+        }
+
+        toast.success(message)
+
       }
     )
   })
