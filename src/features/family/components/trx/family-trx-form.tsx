@@ -18,6 +18,7 @@ import { familyTrxTable } from "@/drizzle/schema"
 import { Textarea } from "@/components/ui/textarea"
 import { FamilyTrxName, AssignFamilyReceiveBank, AssignFamilySourceBank, FamilyBankAccount } from "@/drizzle/type"
 import { useTrxName } from "@/hooks/use-trx-name"
+import { familyTrxCreateAction } from "../../action/trx/family-trx-create-action"
 
 type TrxTabProps = {
     familyTrxNames: (FamilyTrxName & {
@@ -61,18 +62,22 @@ export const FamilyTrxForm = ({ familyTrxNames }: TrxTabProps) => {
     const onSubmit = handleSubmit(value => {
         startTransition(
             async () => {
-                // const { success, message } = await familyTrxCreateAction(value)
+                const { data,success, message } = await familyTrxCreateAction(value)
 
-                // if (!success) {
-                //     toast.error(message)
-                //     return
-                // }
-                // reset()
-                // router.refresh()
-                // dispatch(onClose())
-                // toast.success(message)
 
-                console.log(value)
+                console.log({
+                    data,message
+                })
+
+                if (!success) {
+                    toast.error(message)
+                    return
+                }
+                reset()
+                router.refresh()
+                dispatch(onClose())
+                toast.success(message)
+
             }
         )
     })
@@ -82,7 +87,6 @@ export const FamilyTrxForm = ({ familyTrxNames }: TrxTabProps) => {
     const isSource = selectedTrxName?.variant === 'SOURCE'
     const isReceive = selectedTrxName?.variant === 'RECEIVE'
 
-    console.log({selectedTrxName,isSelectedTrxName,isBoth,isSource,isReceive})
 
     return <Form {...familyTrxForm}>
         <form className='space-y-4' onSubmit={onSubmit}>

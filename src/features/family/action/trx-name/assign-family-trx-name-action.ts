@@ -83,12 +83,10 @@ export const assignFamilyTrxNameActions = async <
         if (existAssignedFamilyReceiveBank && existAssignedFamilySourceBank) return failureResponse('Selected Banks Already Assigned!')
 
         // Assign both
-        if (
-            existFamilySourceBank
-            && existFamilyReceiveBank
-            && !existAssignedFamilySourceBank
-            && !existAssignedFamilyReceiveBank
-        ) {
+        if (existFamilyTrxName.variant === 'BOTH') {
+
+            //check family have both bank to assign
+            if (!existFamilyReceiveBank || !existFamilySourceBank) return failureResponse('Invalid Bank!')
 
             if (existFamilySourceBank.id === existFamilyReceiveBank.id) return failureResponse(
                 'Source and Receive Bank should not be same!'
@@ -104,38 +102,75 @@ export const assignFamilyTrxNameActions = async <
                 && existFamilySourceBank.name.toLocaleLowerCase() !== 'cash'
             ) return failureResponse("Source Bank must be Cash")
 
-            return await db.transaction(
-                async (tx) => {
-                    const [newAssignedSource] = await tx
-                        .insert(assignFamilySourceBankTable)
-                        .values({
-                            familySourceBankId: existFamilySourceBank.id,
-                            familyTrxNameId: existFamilyTrxName.id
+            if (!existAssignedFamilyReceiveBank && !existAssignedFamilySourceBank) {
+                return await db.transaction(
+                    async (tx) => {
+                        const [newAssignedSource] = await tx
+                            .insert(assignFamilySourceBankTable)
+                            .values({
+                                familySourceBankId: existFamilySourceBank.id,
+                                familyTrxNameId: existFamilyTrxName.id
+                            })
+                            .returning()
+
+                        const [newAssignedReceive] = await tx
+                            .insert(assignFamilyReceiveBankTable)
+                            .values({
+                                familyReceiveBankId: existFamilyReceiveBank.id,
+                                familyTrxNameId: existFamilyTrxName.id
+                            })
+                            .returning()
+
+                        if (!newAssignedSource || !newAssignedReceive) {
+                            tx.rollback()
+                            return failureResponse('Failed to assign both bank!')
+                        }
+
+                        return successResponse('Assigned both source and receive banks.', {
+                            source: newAssignedSource,
+                            receive: newAssignedReceive
                         })
-                        .returning()
-
-                    const [newAssignedReceive] = await tx
-                        .insert(assignFamilyReceiveBankTable)
-                        .values({
-                            familyReceiveBankId: existFamilyReceiveBank.id,
-                            familyTrxNameId: existFamilyTrxName.id
-                        })
-                        .returning()
-
-                    if (!newAssignedSource || !newAssignedReceive) {
-                        tx.rollback()
-                        return failureResponse('Failed to assign both bank!')
-                    }
-
-                    return successResponse('Assigned both source and receive banks.', {
-                        source: newAssignedSource,
-                        receive: newAssignedReceive
                     })
+            }
+
+
+
+            if (!existAssignedFamilyReceiveBank) {
+                const [newAssignedReceive] = await db
+                    .insert(assignFamilyReceiveBankTable)
+                    .values({
+                        familyReceiveBankId: existFamilyReceiveBank.id,
+                        familyTrxNameId: existFamilyTrxName.id
+                    })
+                    .returning()
+
+                if (!newAssignedReceive) return failureResponse('Failed to assign receive bank!')
+                return successResponse('Assigned receive bank!', {
+                    receive: newAssignedReceive
                 })
+            }
+
+                const [newAssignedSource] = await db
+                    .insert(assignFamilySourceBankTable)
+                    .values({
+                        familySourceBankId: existFamilySourceBank.id,
+                        familyTrxNameId: existFamilyTrxName.id
+                    })
+                    .returning()
+
+                if (!newAssignedSource) return failureResponse('Failed to assign source bank!')
+                return successResponse('Assigned source bank!', {
+                    source: newAssignedSource
+                })
+
         }
 
         // Assign only source
-        if (existFamilySourceBank && !existAssignedFamilySourceBank) {
+        if (existFamilyTrxName.variant === 'SOURCE') {
+
+            if (!existFamilySourceBank) return failureResponse('Source bank not found!')
+            if (existAssignedFamilySourceBank) return failureResponse('Source bank already assigned!')
+
             const [newAssignedSource] = await db
                 .insert(assignFamilySourceBankTable)
                 .values({
@@ -150,21 +185,21 @@ export const assignFamilyTrxNameActions = async <
         }
 
         // Assign only receive
-        if (existFamilyReceiveBank && !existAssignedFamilyReceiveBank) {
-            const [newAssignedReceive] = await db
-                .insert(assignFamilyReceiveBankTable)
-                .values({
-                    familyReceiveBankId: existFamilyReceiveBank.id,
-                    familyTrxNameId: existFamilyTrxName.id
-                })
-                .returning()
 
-            if (!newAssignedReceive) return failureResponse('Failed to assign receive bank!')
+        if (!existFamilyReceiveBank) return failureResponse('Receive bank not found!')
+        if (existAssignedFamilyReceiveBank) return failureResponse('Receive bank already assigned!')
 
-            return successResponse('Assigned receive bank.', { receive: newAssignedReceive })
-        }
+        const [newAssignedReceive] = await db
+            .insert(assignFamilyReceiveBankTable)
+            .values({
+                familyReceiveBankId: existFamilyReceiveBank.id,
+                familyTrxNameId: existFamilyTrxName.id
+            })
+            .returning()
 
-        return failureResponse('Already assigned!')
+        if (!newAssignedReceive) return failureResponse('Failed to assign receive bank!')
+
+        return successResponse('Assigned receive bank.', { receive: newAssignedReceive })
     } catch (error) {
         return failureResponse('Something went wrong!')
     }

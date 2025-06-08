@@ -28,7 +28,7 @@ export const familyTrxNameCreateAction = async (payload: FamilyTrxNameFormValue)
             data: null,
             error: null
         }
-        const { name, variant } = payload
+        const { name, variant } = validation.data
 
         const existFamily = await getFamilyById(loggedFamily.id)
 
