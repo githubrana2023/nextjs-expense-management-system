@@ -5,7 +5,7 @@ import { familyMemberTrxNameTable } from "./family-member-trx-name";
 import { familyMemberBankAccountsTable } from "./family-member-bank-account";
 
 export const assignFamilyMemberReceiveBankTable = pgTable('assign_member_receive_bank', {
-    id: uuid('id').primaryKey().unique().defaultRandom().unique(),
+    id: uuid('id').primaryKey().unique().defaultRandom(),
     familyMemberTrxNameId:uuid('family_member_trx_name_id').notNull().references(()=>familyMemberTrxNameTable.id),
     familyMemberReceiveBankId:uuid('family_member_receive_bank_id').notNull().references(()=>familyMemberBankAccountsTable.id),
     createdAt,

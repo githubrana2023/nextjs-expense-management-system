@@ -22,7 +22,19 @@ export const getOnlyActiveFamilyTrxNameByIdAndFamilyId = async (id: string, fami
         eq(familyTrxNameTable.id, id),
         eq(familyTrxNameTable.familyId, familyId),
         eq(familyTrxNameTable.isDeleted,false),
-    )
+    ),
+    with:{
+        assignFamilyReceiveBanks:{
+            with:{
+                familyReceiveBank:true
+            }
+        },
+        assignFamilySourceBanks:{
+            with:{
+                familySourceBank:true
+            }
+        },
+    }
 })
 
 export const getAllFamilyTrxNameByFamilyId = async (familyId: string) => await db.query.familyTrxNameTable.findMany({
@@ -32,4 +44,18 @@ export const getAllFamilyTrxNameByFamilyId = async (familyId: string) => await d
     with:{
         family: true
     }
+})
+export const getOnlyActiveFamilyTrxNameByFamilyId = async (familyId: string) => await db.query.familyTrxNameTable.findMany({
+    where: and(
+        eq(familyTrxNameTable.familyId, familyId),
+        eq(familyTrxNameTable.isDeleted, false),
+    ),
+    with:{
+        assignFamilyReceiveBanks:{
+            with:{familyReceiveBank:true}
+        },
+        assignFamilySourceBanks:{
+            with:{familySourceBank:true}
+        },
+    },
 })

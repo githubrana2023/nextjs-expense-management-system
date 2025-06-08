@@ -1,5 +1,7 @@
 import { ReuseableTab } from '@/components'
 import { REDIRECT_TO } from '@/constant'
+import { db } from '@/drizzle/db'
+import { assignFamilyReceiveBankTable, assignFamilySourceBankTable, familyTable, familyTrxNameTable } from '@/drizzle/schema'
 import {
   FamilyTrxNameDetailsTabContent,
   FamilyTrxNameUpdateTabContent,
@@ -10,6 +12,7 @@ import { getOnlyActiveFamilyTrxNameByIdAndFamilyId } from '@/features/family/db/
 import { TrxNameTabType } from '@/interface/tab'
 import { currentFamily } from '@/lib/current-family'
 import { uuidValidator } from '@/lib/zod'
+import { and, eq } from 'drizzle-orm'
 import { Info, SquarePen, Cable } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
@@ -23,7 +26,7 @@ type TrxNameDetailsPageProp = {
 const TrxNameDetailsPage = async ({ params, searchParams }: TrxNameDetailsPageProp) => {
   const searchParam = await searchParams
   const param = await params
-  
+
   const loggedFamily = await currentFamily()
   if (!loggedFamily) redirect(REDIRECT_TO.LOGIN_PAGE)
 
@@ -45,7 +48,7 @@ const TrxNameDetailsPage = async ({ params, searchParams }: TrxNameDetailsPagePr
           value: 'details',
           label: 'Details',
           Icon: <Info />,
-          content: <FamilyTrxNameDetailsTabContent />
+          content: <FamilyTrxNameDetailsTabContent trxName={trxName} />
         },
         {
           value: 'update',
@@ -57,7 +60,7 @@ const TrxNameDetailsPage = async ({ params, searchParams }: TrxNameDetailsPagePr
           value: 'assign',
           label: 'Assign',
           Icon: <Cable />,
-          content: <FamilyTrxNameAssignTabContent familyBanks={familyBankAccounts} familyTrxName={trxName}/>
+          content: <FamilyTrxNameAssignTabContent familyBanks={familyBankAccounts} familyTrxName={trxName} />
         },
       ]}
     />

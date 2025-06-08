@@ -7,7 +7,7 @@ import { familyMemberLoansTable } from "./family-member-loan";
 
 
 export const familyMemberLoanProviderTable = pgTable('family_member_loan_provider', {
-    id: uuid('id').primaryKey().unique().defaultRandom().unique(),
+    id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     familyMemberId: uuid('family_member_id').notNull().references(() => familyMembersTable.id),
     name: text('name').notNull(),

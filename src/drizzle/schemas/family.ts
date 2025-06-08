@@ -12,10 +12,11 @@ import { familyLoanProviderTable } from "./family-loan-provider";
 import { familyLoansTable } from "./family-loan";
 import { familyBankAccountsTable } from "./family-bank-account";
 import { familyLoanProviderBillsTable } from "./family-loan-provider-bill";
+import { familyTrxNameTable } from "./family-trx-name";
 
 
 export const familyTable = pgTable('family_table', {
-    id: uuid('id').primaryKey().unique().defaultRandom().unique(),
+    id: uuid('id').primaryKey().unique().defaultRandom(),
     name: text('family_name').notNull(),
     phone: text('phone').notNull().unique(),
     email: text('email').notNull().unique(),
@@ -27,6 +28,7 @@ export const familyTable = pgTable('family_table', {
 })
 
 export const familyRelation = relations(familyTable, ({  many }) => ({
+    familyTrxNames:many(familyTrxNameTable),
     familyBanks:many(familyBankAccountsTable),
     familyMembers: many(familyMembersTable),
     assignFamilySourceBanks: many(assignFamilySourceBankTable),

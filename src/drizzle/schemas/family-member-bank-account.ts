@@ -8,7 +8,7 @@ import { assignFamilyMemberSourceBankTable } from "./assign-family-member-source
 import { familyMemberTrxTable } from "./family-member-trx";
 
 export const familyMemberBankAccountsTable = pgTable('family_member_bank_accounts', {
-    id: uuid('id').primaryKey().unique().defaultRandom().unique(),
+    id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     familyMemberId: uuid('family_member_id').notNull().references(() => familyMembersTable.id),
     name: text('name').unique().notNull(),

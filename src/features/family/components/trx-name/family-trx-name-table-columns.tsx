@@ -13,17 +13,17 @@ import { onOpen } from '@/lib/redux/slice/modal-slice'
 
 export type FamilyTrxNameColumn = FamilyTrxName & { family: Family }
 
-export const FamilyTrxNameTableColumns: ColumnDef<FamilyTrxNameColumn>[] = [
+export const familyTrxNameTableColumns: ColumnDef<FamilyTrxNameColumn>[] = [
     {
         accessorKey: 'name',
         header: 'Name',
         cell: ({ row: { original } }) => {
-            const formattedDate = dateFormatter(original.createdAt)
-            const isDeleted = original.isDeleted
+            const formattedDate = dateFormatter(original?.createdAt)
+            const isDeleted = original?.isDeleted
             return (
                 <>
                     <CardTitle className='flex items-center gap-1.5'>
-                        <span>{original.name}</span>
+                        <span>{original?.name}</span>
                         {isDeleted
                             ? <Ban size={16} fontWeight={400} className='text-destructive' />
                             : <Check size={16} fontWeight={400} className='text-success' />
@@ -44,7 +44,7 @@ export const FamilyTrxNameTableColumns: ColumnDef<FamilyTrxNameColumn>[] = [
 
             return (
                 <Badge className='flex items-center justify-between' variant='secondary'>
-                    <span>{original.variant}</span>
+                    <span>{original?.variant}</span>
                     <Tag />
                 </Badge>
             )
@@ -57,7 +57,7 @@ export const FamilyTrxNameTableColumns: ColumnDef<FamilyTrxNameColumn>[] = [
 
             return (
                 <Badge className='flex items-center justify-between'>
-                    <span>{original.family.name}</span>
+                    <span>{original?.family?.name}</span>
                     <Users />
                 </Badge>
             )
@@ -67,7 +67,7 @@ export const FamilyTrxNameTableColumns: ColumnDef<FamilyTrxNameColumn>[] = [
         accessorKey: 'updatedAt',
         header: 'Last Updated',
         cell: ({ row: { original } }) => {
-            const formattedDate = dateFormatter(original.updatedAt)
+            const formattedDate = dateFormatter(original?.updatedAt)
             return (
                 <Badge className='flex items-center justify-between'>
                     <span>{formattedDate}</span>

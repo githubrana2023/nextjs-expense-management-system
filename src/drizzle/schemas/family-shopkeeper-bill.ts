@@ -6,7 +6,7 @@ import { familyShopkeepersTable } from "./family-shopkeeper";
 
 
 export const familyShopkeeperBillsTable = pgTable('family_shopkeepers-bill', {
-    id: uuid('id').primaryKey().unique().defaultRandom().unique(),
+    id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     familyShopkeeperId: uuid('family_shopkeeper_id').notNull().references(() => familyShopkeepersTable.id),
     amount: numeric('total_debt', { precision: 7, scale: 2 }).notNull(),
