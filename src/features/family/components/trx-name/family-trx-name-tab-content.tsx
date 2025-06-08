@@ -6,7 +6,7 @@ import { Family, FamilyTrxName } from "@/drizzle/type"
 import { useAppDispatch } from "@/hooks/redux"
 import { onOpen } from "@/lib/redux/slice/modal-slice"
 import { Plus } from "lucide-react"
-import { FamilyTrxNameTableColumns } from "./family-trx-name-table-columns"
+import { familyTrxNameTableColumns } from "./family-trx-name-table-columns"
 import { pluralize } from "@/lib/helpers/plural"
 
 
@@ -36,6 +36,6 @@ export const TrxNameTabContent = ({ familyTrxNames }: TrxNameTabContentProps) =>
         }
     >
 
-        <DataTable data={familyTrxNames} columns={FamilyTrxNameTableColumns} />
+        <DataTable data={familyTrxNames} columns={familyTrxNameTableColumns} />
     </CardWrapper>
 }

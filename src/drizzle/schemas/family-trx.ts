@@ -6,7 +6,7 @@ import { createdAt, updatedAt } from "@/drizzle/schema-helpers";
 
 
 export const familyTrxTable = pgTable('family_transaction', {
-    id: uuid('id').primaryKey().unique().defaultRandom().unique(),
+    id: uuid('id').primaryKey().unique().defaultRandom(),
     name: text('trx_name').unique().notNull(),
     amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
     description: text('description'),

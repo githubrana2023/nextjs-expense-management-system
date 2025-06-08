@@ -6,7 +6,7 @@ import { assignFamilySourceBankTable } from "./assign-family-source-bank";
 import { assignFamilyReceiveBankTable } from "./assign-family-receive-bank";
 
 export const familyTrxNameTable = pgTable('family_trx_name', {
-    id: uuid('id').primaryKey().unique().defaultRandom().unique(),
+    id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     name: text('name').notNull(),
     variant: text('variant', { enum: trxNameVariant }).notNull(),
