@@ -46,14 +46,12 @@ export const defaultActiveTab: DefaultActiveTab = {
         },
         familyShopkeeper: {
             defaultActive: {
-                assign: 'assign',
-                details: 'details',
-                update: 'update'
+                shopkeeper: 'shopkeeper',
+                shopkeeperBill: 'shopkeeper-bill',
             },
             queryString: {
-                assignTab: '?tab=assign',
-                detailsTab: '?tab=details',
-                updateTab: '?tab=update'
+                shopkeeperBillTab: '?tab=shopkeeper-bill',
+                shopkeeperTab: "?tab=shopkeeper"
             }
         }
     },
@@ -102,17 +100,15 @@ export const defaultActiveTab: DefaultActiveTab = {
         },
         memberShopkeeper: {
             defaultActive: {
-                assign: 'assign',
-                details: 'details',
-                update: 'update'
+                shopkeeper: 'shopkeeper',
+                shopkeeperBill: 'shopkeeper-bill',
             },
             queryString: {
-                assignTab: '?tab=assign',
-                detailsTab: '?tab=details',
-                updateTab: '?tab=update'
+                shopkeeperBillTab: '?tab=shopkeeper-bill',
+                shopkeeperTab: "?tab=shopkeeper"
             }
         }
     }
 }
 
-export const {family:familyTab,member:memberTab} = defaultActiveTab
+export const { family: familyTab, member: memberTab } = defaultActiveTab

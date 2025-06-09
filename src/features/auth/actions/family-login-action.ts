@@ -5,11 +5,9 @@ import { FamilyLoginFormValue, familyLoginSchema } from "../schema";
 import { signJwt } from '@/lib/jose/sign';
 import { setCookie, } from '@/lib/helpers';
 import { TOKEN_KEY } from "@/constant/token-constant";
-import { JWTPayload } from "jose";
 import { db } from "@/drizzle/db";
 import { eq } from "drizzle-orm";
 import { familyTable } from "@/drizzle/schema";
-import bcrypt from "bcryptjs";
 import { SendResponse } from "@/interface";
 import { comparePw } from "@/lib/bcrypt";
 
@@ -105,17 +103,18 @@ export const familyLoginAction = async <FR extends Error>(payload: FamilyLoginFo
       success: true,
       message: "Login Successful!",
       data: {
-        isSendMail:false,
-        familyId:existFamily.id
+        isSendMail: false,
+        familyId: existFamily.id
       },
       error: null
     }
   } catch (error) {
+    console.error("Family Login Action Error:", error)
     return {
       success: false,
       message: "Failed to login!",
       data: null,
-      error: null
+      error
     }
   }
 }

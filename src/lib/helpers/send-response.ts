@@ -11,7 +11,7 @@ export function successResponse<T>(message: string, data: T): SendResponse<T, ne
 
 export function failureResponse<E extends Error>(
   message: string,
-  error: E | null = null
+  error: E | unknown | null = null
 ): SendResponse<null, E> {
   return {
     success: false,

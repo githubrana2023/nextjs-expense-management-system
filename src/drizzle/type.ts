@@ -1,3 +1,4 @@
+import { db } from "./db";
 import {
     familyTable,
     familyTrxNameTable,
@@ -42,3 +43,15 @@ export type MemberTrx = typeof familyMemberTrxTable.$inferSelect
 export type Member = typeof familyMembersTable.$inferSelect
 export type familyShopkeeperBill = typeof familyShopkeeperBillsTable.$inferSelect
 export type Shopkeeper = typeof familyShopkeepersTable.$inferSelect
+export type ShopkeeperInsert = typeof familyShopkeepersTable.$inferInsert
+
+
+
+
+export type DbQuery = typeof db.query
+export type DbQueryKey = keyof DbQuery
+export type DbFindFirst<Key extends DbQueryKey> = Parameters<DbQuery[Key]['findFirst']>[number]
+export type DbFindMany<Key extends DbQueryKey> = Parameters<DbQuery[Key]['findMany']>[number]
+
+export type DbFindFirstReturnType<Key extends DbQueryKey> = ReturnType<DbQuery[Key]['findFirst']>
+export type DbFindManyReturnType<Key extends DbQueryKey> = ReturnType<DbQuery[Key]['findMany']>
