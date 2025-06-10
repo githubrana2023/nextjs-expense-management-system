@@ -34,6 +34,7 @@ export type AssignFamilySourceBank = typeof assignFamilySourceBankTable.$inferSe
 export type FamilyLoanProviderBill = typeof familyLoanProviderBillsTable.$inferSelect
 export type FamilyLoanProvider = typeof familyLoanProviderTable.$inferSelect
 export type FamilyLoan = typeof familyLoansTable.$inferSelect
+export type FamilyLoanInsert = typeof familyLoansTable.$inferInsert
 export type MemberBankAccount = typeof familyMemberBankAccountsTable.$inferSelect
 export type MemberLoanProviderBills = typeof familyMemberLoanProviderBillsTable.$inferSelect
 export type MemberLoanProvider = typeof familyMemberLoanProviderTable.$inferSelect
