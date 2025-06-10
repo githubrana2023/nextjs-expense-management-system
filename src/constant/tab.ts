@@ -48,10 +48,12 @@ export const defaultActiveTab: DefaultActiveTab = {
             defaultActive: {
                 shopkeeper: 'shopkeeper',
                 shopkeeperBill: 'shopkeeper-bill',
+                purchaseDue: 'purchase-due'
             },
             queryString: {
                 shopkeeperBillTab: '?tab=shopkeeper-bill',
-                shopkeeperTab: "?tab=shopkeeper"
+                shopkeeperTab: "?tab=shopkeeper",
+                purchaseDueTab: '?tab=purchase-due'
             }
         }
     },
@@ -102,10 +104,12 @@ export const defaultActiveTab: DefaultActiveTab = {
             defaultActive: {
                 shopkeeper: 'shopkeeper',
                 shopkeeperBill: 'shopkeeper-bill',
+                purchaseDue: 'purchase-due'
             },
             queryString: {
                 shopkeeperBillTab: '?tab=shopkeeper-bill',
-                shopkeeperTab: "?tab=shopkeeper"
+                shopkeeperTab: "?tab=shopkeeper",
+                purchaseDueTab: '?tab=purchase-due'
             }
         }
     }

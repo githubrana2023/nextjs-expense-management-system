@@ -7,7 +7,7 @@ type ClientRole = 'family' | 'member'
 
 export type TrxTabType = 'transaction' | 'trx-name'
 export type TrxNameTabType = 'details' | 'update' | 'assign'
-export type ShopkeeperTabType = 'shopkeeper' | 'shopkeeper-bill'
+export type ShopkeeperTabType = 'shopkeeper' | 'purchase-due' | 'shopkeeper-bill'
 export type BankTabType = 'details' | 'update'
 export type LoanTabType = 'details' | 'update'
 

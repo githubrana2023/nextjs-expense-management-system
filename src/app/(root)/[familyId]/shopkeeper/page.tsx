@@ -6,6 +6,7 @@ import { Store, ScrollText } from 'lucide-react'
 import { ShopkeeperTabContent } from '@/features/family/components/shopkeeper'
 import { getAllShopkeepersByFamilyId } from '@/features/family/db/shopkeeper'
 import { ShopkeeperWithFamilyIdAndName } from '@/interface/shopkeeper'
+import { ShopkeeperBillContents } from '@/features/family/components/shopkeeper/shopkeeper-bill-tab-contents'
 
 type ShopkeeperPageProps = {
   params: Promise<{ familyId: string }>
@@ -29,6 +30,7 @@ const ShopkeeperPage = async ({ params }: ShopkeeperPageProps) => {
   const {
     shopkeeper,
     shopkeeperBill,
+    purchaseDue
   } = familyTab.familyShopkeeper.defaultActive
 
 
@@ -47,7 +49,13 @@ const ShopkeeperPage = async ({ params }: ShopkeeperPageProps) => {
           value: shopkeeperBill,
           label: formatLabel(shopkeeperBill),
           Icon: <ScrollText />,
-          content: <div>shopkeeper bill</div>
+          content: <ShopkeeperBillContents />
+        },
+        {
+          value: purchaseDue,
+          label: formatLabel(purchaseDue),
+          Icon: <ScrollText />,
+          content: <ShopkeeperBillContents />
         }
       ] as const}
     />
