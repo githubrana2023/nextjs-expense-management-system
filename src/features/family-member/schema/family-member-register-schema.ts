@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-import { familyMemberRelation } from "@/drizzle/schema-helpers";
+import { memberRelation } from "@/drizzle/schema-helpers";
 
 
-export const familyMemberRegisterSchema = z.object({
+export const memberRegisterSchema = z.object({
     name: z.string({ required_error: "Name is required!" }),
     phone: z.string({ required_error: "Phone is required!" })
         .min(11, { message: 'Phone must be at least 11 characters long!' })
@@ -11,7 +11,7 @@ export const familyMemberRegisterSchema = z.object({
     email: z.string({ required_error: "Email is required!" }).email(),
     password: z.string({ required_error: "Password is required!" }),
     confirmPassword: z.string({ required_error: "Confirm password is required!" }),
-    relation: z.enum(familyMemberRelation),
+    relation: z.enum(memberRelation),
 })
 
-export type FamilyMemberRegisterFormValue = z.infer<typeof familyMemberRegisterSchema>
+export type MemberRegisterFormValue = z.infer<typeof memberRegisterSchema>

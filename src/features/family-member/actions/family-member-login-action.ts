@@ -4,10 +4,10 @@
 import { signJwt } from '@/lib/jose/sign';
 import { setCookie, } from '@/lib/helpers';
 import { TOKEN_KEY } from "@/constant/token-constant";
-import { familyMemberLoginSchema } from '../schema';
+import { memberLoginSchema } from '../schema';
 import { JWTPayload } from 'jose';
 
-export const familyMemberLoginAction = async (payload: { phone: string; password: string; }) => {
+export const memberLoginAction = async (payload: { phone: string; password: string; }) => {
   try {
 
     const existMember:JWTPayload = {
@@ -18,15 +18,15 @@ export const familyMemberLoginAction = async (payload: { phone: string; password
       phone: '01785585238'
     }
 
-    const validation = familyMemberLoginSchema.safeParse(payload)
+    const validation = memberLoginSchema.safeParse(payload)
 
     if (!validation.success) return { success: false }
 
     if (!existMember) return { success: false }
 
-    const familyMemberAccessToken = await signJwt(existMember, { secret: process.env.AUTH_SECRET!,expireIn:'3d' })
+    const memberAccessToken = await signJwt(existMember, { secret: process.env.AUTH_SECRET!,expireIn:'3d' })
 
-    await setCookie(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN, familyMemberAccessToken)
+    await setCookie(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN, memberAccessToken)
 
     return { success: true }
   } catch (error) {

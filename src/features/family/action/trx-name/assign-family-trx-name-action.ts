@@ -6,16 +6,16 @@ import {
 } from "@/features/family/schema/trx-name"
 import { SendResponse } from "@/interface"
 import { currentFamily } from "@/lib/current-family"
-import { getFamilyById } from "@/features/family/db/get-family"
+import { getFamilyById } from "@/services/family/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
 import {
     getOnlyActiveFamilyTrxNameByIdAndFamilyId,
     getExistAssignedSourceAndReceiveBank
-} from "@/features/family/db/trx-name"
+} from "@/services/family/trx-name"
 import {
     getOnlyActiveExistFamilySourceAndReceiveBankByIdAndFamilyId
-} from "@/features/family/db/bank-account"
+} from "@/services/family/bank-account"
 import { db } from "@/drizzle/db"
 import { assignFamilyReceiveBankTable, assignFamilySourceBankTable } from "@/drizzle/schema"
 import { trxsNameReceiveByCash, trxsNameSourceByCash } from "@/constant/trx-name"

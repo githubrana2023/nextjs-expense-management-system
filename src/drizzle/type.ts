@@ -4,47 +4,84 @@ import {
     familyTrxNameTable,
     familyTrxTable,
     familyBankAccountsTable,
-    assignFamilyMemberReceiveBankTable,
-    assignFamilyMemberSourceBankTable,
+    assignMemberReceiveBankTable,
+    assignMemberSourceBankTable,
     assignFamilyReceiveBankTable,
     assignFamilySourceBankTable,
     familyLoanProviderBillsTable,
     familyLoanProviderTable,
     familyLoansTable,
-    familyMemberBankAccountsTable,
-    familyMemberLoanProviderBillsTable,
-    familyMemberLoanProviderTable,
-    familyMemberLoansTable,
-    familyMemberTrxNameTable,
-    familyMemberTrxTable,
-    familyMembersTable,
+    memberBankAccountsTable,
+    memberLoanProviderBillsTable,
+    memberLoanProviderTable,
+    memberLoansTable,
+    memberTrxNameTable,
+    memberTrxTable,
+    membersTable,
     familyShopkeeperBillsTable,
     familyShopkeepersTable,
 } from "./schema";
 
 export type Family = typeof familyTable.$inferSelect
+export type FamilyInsert = typeof familyTable.$inferInsert
+
 export type FamilyTrxName = typeof familyTrxNameTable.$inferSelect
-export type InsertFamilyTrxName = typeof familyTrxNameTable.$inferInsert
+export type FamilyTrxNameInsert = typeof familyTrxNameTable.$inferInsert
+
 export type FamilyTrx = typeof familyTrxTable.$inferSelect
+export type FamilyTrxInsert = typeof familyTrxTable.$inferInsert
+
 export type FamilyBankAccount = typeof familyBankAccountsTable.$inferSelect
-export type AssignMemberReceiveBank = typeof assignFamilyMemberReceiveBankTable.$inferSelect
-export type AssignMemberSourceBank = typeof assignFamilyMemberSourceBankTable.$inferSelect
+export type FamilyBankAccountInsert = typeof familyBankAccountsTable.$inferInsert
+
+export type AssignMemberReceiveBank = typeof assignMemberReceiveBankTable.$inferSelect
+export type AssignMemberReceiveBankInsert = typeof assignMemberReceiveBankTable.$inferInsert
+
+export type AssignMemberSourceBank = typeof assignMemberSourceBankTable.$inferSelect
+export type AssignMemberSourceBankInsert = typeof assignMemberSourceBankTable.$inferInsert
+
 export type AssignFamilyReceiveBank = typeof assignFamilyReceiveBankTable.$inferSelect
+export type AssignFamilyReceiveBankInsert = typeof assignFamilyReceiveBankTable.$inferInsert
+
 export type AssignFamilySourceBank = typeof assignFamilySourceBankTable.$inferSelect
+export type AssignFamilySourceBankInsert = typeof assignFamilySourceBankTable.$inferInsert
+
 export type FamilyLoanProviderBill = typeof familyLoanProviderBillsTable.$inferSelect
+export type FamilyLoanProviderBillInsert = typeof familyLoanProviderBillsTable.$inferInsert
+
 export type FamilyLoanProvider = typeof familyLoanProviderTable.$inferSelect
+export type FamilyLoanProviderInsert = typeof familyLoanProviderTable.$inferInsert
+
 export type FamilyLoan = typeof familyLoansTable.$inferSelect
 export type FamilyLoanInsert = typeof familyLoansTable.$inferInsert
-export type MemberBankAccount = typeof familyMemberBankAccountsTable.$inferSelect
-export type MemberLoanProviderBills = typeof familyMemberLoanProviderBillsTable.$inferSelect
-export type MemberLoanProvider = typeof familyMemberLoanProviderTable.$inferSelect
-export type MemberLoan = typeof familyMemberLoansTable.$inferSelect
-export type MemberTrxName = typeof familyMemberTrxNameTable.$inferSelect
-export type MemberTrx = typeof familyMemberTrxTable.$inferSelect
-export type Member = typeof familyMembersTable.$inferSelect
+
+export type MemberBankAccount = typeof memberBankAccountsTable.$inferSelect
+export type MemberBankAccountInsert = typeof memberBankAccountsTable.$inferInsert
+
+export type MemberLoanProviderBills = typeof memberLoanProviderBillsTable.$inferSelect
+export type MemberLoanProviderBillsInsert = typeof memberLoanProviderBillsTable.$inferInsert
+
+export type MemberLoanProvider = typeof memberLoanProviderTable.$inferSelect
+export type MemberLoanProviderInsert = typeof memberLoanProviderTable.$inferInsert
+
+export type MemberLoan = typeof memberLoansTable.$inferSelect
+export type MemberLoanInsert = typeof memberLoansTable.$inferInsert
+
+export type MemberTrxName = typeof memberTrxNameTable.$inferSelect
+export type MemberTrxNameInsert = typeof memberTrxNameTable.$inferInsert
+
+export type MemberTrx = typeof memberTrxTable.$inferSelect
+export type MemberTrxInsert = typeof memberTrxTable.$inferInsert
+
+export type Member = typeof membersTable.$inferSelect
+export type MemberInsert = typeof membersTable.$inferInsert
+
 export type familyShopkeeperBill = typeof familyShopkeeperBillsTable.$inferSelect
+export type familyShopkeeperBillInsert = typeof familyShopkeeperBillsTable.$inferInsert
+
 export type Shopkeeper = typeof familyShopkeepersTable.$inferSelect
 export type ShopkeeperInsert = typeof familyShopkeepersTable.$inferInsert
+
 
 
 

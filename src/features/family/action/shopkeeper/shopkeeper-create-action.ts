@@ -3,11 +3,11 @@
 import { failureResponse, successResponse } from "@/lib/helpers/send-response"
 import { familyShopkeeperCreateFormSchema } from "../../schema/shopkeeper"
 import { currentFamily } from "@/lib/current-family"
-import { getFamilyById } from "../../db/get-family"
+import { getFamilyById } from "../../../../services/family/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
-import { getShopkeeperByPhoneAndFamilyId } from "../../db/shopkeeper"
-import { insertShopkeeper } from "../../db/shopkeeper/insert-shopkeeper"
+import { getShopkeeperByPhoneAndFamilyId } from "../../../../services/family/shopkeeper"
+import { insertShopkeeper } from "../../../../services/family/shopkeeper/insert-shopkeeper"
 import { revalidatePath } from "next/cache"
 
 export const familyShopkeeperCreateAction = async (payload: unknown) => {

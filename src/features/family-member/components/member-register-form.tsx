@@ -11,11 +11,11 @@ import { Input } from '@/components/ui/input'
 import { useAppDispatch } from "@/hooks/redux"
 import { Button } from '@/components/ui/button'
 import { EmailInput } from "@/components/email-input"
-import { familyMemberRegisterAction } from "../actions"
+import { memberRegisterAction } from "../actions"
 import { onClose } from "@/lib/redux/slice/modal-slice"
 import { PasswordInput } from "@/components/password-input"
-import { familyMemberRelation } from "@/drizzle/schema-helpers"
-import { FamilyMemberRegisterFormValue, familyMemberRegisterSchema } from "../schema"
+import { memberRelation } from "@/drizzle/schema-helpers"
+import { MemberRegisterFormValue, memberRegisterSchema } from "../schema"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 
@@ -24,9 +24,9 @@ export const MemberRegisterForm = () => {
     const [pending, startTransition] = useTransition()
     const dispatch = useAppDispatch()
     const router = useRouter()
-    const memberRegisterForm = useForm<FamilyMemberRegisterFormValue>(
+    const memberRegisterForm = useForm<MemberRegisterFormValue>(
         {
-            resolver: zodResolver(familyMemberRegisterSchema),
+            resolver: zodResolver(memberRegisterSchema),
             defaultValues: {
                 name: 'Raiyan Hamid',
                 email: "raiyan.hamid@gamil.com",
@@ -42,7 +42,7 @@ export const MemberRegisterForm = () => {
     const onSubmit = handleSubmit(value => {
         startTransition(
             async () => {
-                const { success, message} = await familyMemberRegisterAction(value)
+                const { success, message} = await memberRegisterAction(value)
 
                 if (!success) {
                     toast.error(message)
@@ -121,7 +121,7 @@ export const MemberRegisterForm = () => {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent className='w-full'>
-                                    {familyMemberRelation.map(relation => (<SelectItem value={relation} key={relation}>{relation}</SelectItem>))}
+                                    {memberRelation.map(relation => (<SelectItem value={relation} key={relation}>{relation}</SelectItem>))}
                                 </SelectContent>
                             </Select>
                         </FormControl>

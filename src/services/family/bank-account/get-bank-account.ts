@@ -2,6 +2,7 @@
 
 import { db } from "@/drizzle/db"
 import { familyBankAccountsTable } from "@/drizzle/schema"
+import { DbFindMany } from "@/drizzle/type"
 import { and, eq } from "drizzle-orm"
 
 export const getAllFamilyBankAccountsByFamilyId = async (familyId: string) => (
@@ -13,17 +14,6 @@ export const getAllFamilyBankAccountsByFamilyId = async (familyId: string) => (
     })
 )
 
-export const getOnlyActiveFamilyBankAccountsByFamilyId = async (familyId: string) => (
-    await db.query.familyBankAccountsTable.findMany({
-        where: and(
-            eq(familyBankAccountsTable.isDeleted, false),
-            eq(familyBankAccountsTable.familyId, familyId),
-        ),
-        with: {
-            family: true
-        }
-    })
-)
 export const getAllFamilyBankAccountByIdAndFamilyId = async (bankAccountId: string, familyId: string) => (
     await db.query.familyBankAccountsTable.findFirst({
         where: and(
@@ -35,6 +25,36 @@ export const getAllFamilyBankAccountByIdAndFamilyId = async (bankAccountId: stri
         }
     })
 )
+
+
+export const getFamilyBankAccountByLbnAndFamilyId = async (lbn: string, familyId: string) => (await db.query.familyBankAccountsTable.findFirst({
+    where: and(
+        eq(familyBankAccountsTable.lbn, lbn),
+        eq(familyBankAccountsTable.familyId, familyId),
+    )
+}))
+
+
+
+
+
+
+
+// only Active
+
+
+export const getOnlyActiveFamilyBankAccountsByFamilyId = async (familyId: string,options?:any) => (
+    await db.query.familyBankAccountsTable.findMany({
+        where: and(
+            eq(familyBankAccountsTable.isDeleted, false),
+            eq(familyBankAccountsTable.familyId, familyId),
+        ),
+        with: {
+            family: true
+        }
+    })
+)
+
 
 export const getOnlyActiveFamilyBankAccountByIdAndFamilyId = async (bankAccountId: string, familyId: string) => (
     await db.query.familyBankAccountsTable.findFirst({
@@ -48,13 +68,6 @@ export const getOnlyActiveFamilyBankAccountByIdAndFamilyId = async (bankAccountI
         }
     })
 )
-
-export const getFamilyBankAccountByLbnAndFamilyId = async (lbn: string, familyId: string) => (await db.query.familyBankAccountsTable.findFirst({
-    where: and(
-        eq(familyBankAccountsTable.lbn, lbn),
-        eq(familyBankAccountsTable.familyId, familyId),
-    )
-}))
 
 export const getOnlyActiveFamilyBankAccountByLbnAndFamilyId = async (lbn: string, familyId: string) => (await db.query.familyBankAccountsTable.findFirst({
     where: and(

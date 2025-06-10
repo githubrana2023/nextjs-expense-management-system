@@ -2,12 +2,12 @@
 
 import { SendResponse } from "@/interface"
 import { currentFamily } from "@/lib/current-family"
-import { getFamilyById } from "@/features/family/db/get-family"
+import { getFamilyById } from "@/services/family/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
 import { familyBankAccountCreateFormSchema } from "@/features/family/schema/bank-account"
-import { getFamilyBankAccountByLbnAndFamilyId } from "@/features/family/db/bank-account"
-import { insertFamilyBankAccount } from "@/features/family/db/bank-account"
+import { getFamilyBankAccountByLbnAndFamilyId } from "@/services/family/bank-account"
+import { insertFamilyBankAccount } from "@/services/family/bank-account"
 import { FamilyBankAccount } from "@/drizzle/type"
 import { revalidatePath } from "next/cache"
 

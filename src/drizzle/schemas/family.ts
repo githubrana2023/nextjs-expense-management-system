@@ -1,11 +1,11 @@
 import { pgTable, uuid, text,timestamp } from "drizzle-orm/pg-core";
 import { createdAt, role, updatedAt } from "@/drizzle/schema-helpers";
 import { relations } from "drizzle-orm";
-import { familyMembersTable } from "./family-members";
+import { membersTable } from "./members";
 import { assignFamilySourceBankTable } from "./assign-family-source-bank";
 import { assignFamilyReceiveBankTable } from "./assign-family-receive-bank";
-import { familyMemberTrxNameTable } from "./family-member-trx-name";
-import { familyMemberBankAccountsTable } from "./family-member-bank-account";
+import { memberTrxNameTable } from "./member-trx-name";
+import { memberBankAccountsTable } from "./member-bank-account";
 import { familyShopkeeperBillsTable } from "./family-shopkeeper-bill";
 import { familyShopkeepersTable } from "./family-shopkeeper";
 import { familyLoanProviderTable } from "./family-loan-provider";
@@ -31,11 +31,11 @@ export const familyTable = pgTable('family_table', {
 export const familyRelation = relations(familyTable, ({  many }) => ({
     familyTrxNames:many(familyTrxNameTable),
     familyBanks:many(familyBankAccountsTable),
-    familyMembers: many(familyMembersTable),
+    members: many(membersTable),
     assignFamilySourceBanks: many(assignFamilySourceBankTable),
     assignFamilyReceiveBanks: many(assignFamilyReceiveBankTable),
-    memberTrxNames: many(familyMemberTrxNameTable),
-    memberBankAccounts:many(familyMemberBankAccountsTable),
+    memberTrxNames: many(memberTrxNameTable),
+    memberBankAccounts:many(memberBankAccountsTable),
     shopkeepers :many(familyShopkeepersTable),
     shopkeeperPaidBills :many(familyShopkeeperBillsTable),
     loanProviderPaidBills :many(familyLoanProviderBillsTable),

@@ -6,7 +6,7 @@ import { familyLoanProviderTable } from "./family-loan-provider";
 import { familyLoansTable } from "./family-loan";
 
 
-export const familyMemberLoanProviderBillsTable = pgTable('family_shopkeepers-bill', {
+export const memberLoanProviderBillsTable = pgTable('family_shopkeepers-bill', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     familyLoanProviderId: uuid('family_loan_provider_id').notNull().references(() => familyLoanProviderTable.id),
@@ -22,17 +22,17 @@ export const familyMemberLoanProviderBillsTable = pgTable('family_shopkeepers-bi
 })
 
 
-export const familyMemberLoanProviderBillsRelation = relations(familyMemberLoanProviderBillsTable, ({ one }) => ({
+export const memberLoanProviderBillsRelation = relations(memberLoanProviderBillsTable, ({ one }) => ({
     family: one(familyTable, {
-        fields: [familyMemberLoanProviderBillsTable.familyId],
+        fields: [memberLoanProviderBillsTable.familyId],
         references: [familyTable.id]
     }),
     familyLoanProvider:one(familyLoanProviderTable,{
-         fields: [familyMemberLoanProviderBillsTable.familyLoanProviderId],
+         fields: [memberLoanProviderBillsTable.familyLoanProviderId],
         references: [familyLoanProviderTable.id]
     }),
     familyLoan:one(familyLoansTable,{
-         fields: [familyMemberLoanProviderBillsTable.familyLoanId],
+         fields: [memberLoanProviderBillsTable.familyLoanId],
         references: [familyLoansTable.id]
     }),
 }))

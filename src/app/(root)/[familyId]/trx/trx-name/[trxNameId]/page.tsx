@@ -7,8 +7,8 @@ import {
   FamilyTrxNameUpdateTabContent,
   FamilyTrxNameAssignTabContent,
 } from '@/features/family/components/trx-name'
-import { getAllFamilyBankAccountsByFamilyId } from '@/features/family/db/bank-account/get-bank-account'
-import { getOnlyActiveFamilyTrxNameByIdAndFamilyId } from '@/features/family/db/trx-name/get-family-trx-name'
+import { getAllFamilyBankAccountsByFamilyId } from '@/services/family/bank-account/get-bank-account'
+import { getOnlyActiveFamilyTrxNameByIdAndFamilyId } from '@/services/family/trx-name/get-family-trx-name'
 import { TrxNameTabType } from '@/interface/tab'
 import { currentFamily } from '@/lib/current-family'
 import { uuidValidator } from '@/lib/zod'

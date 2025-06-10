@@ -3,14 +3,14 @@
 import { failureResponse } from "@/lib/helpers/send-response"
 import { familyLoanCreateFormSchema } from "../../schema/loan"
 import { currentFamily } from "@/lib/current-family"
-import { getFamilyById } from "../../db/get-family"
+import { getFamilyById } from "../../../../services/family/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
-import { getOnlyActiveFamilyLoanProviderByIdAndFamilyId } from "../../db/loan-provider/get-loan-provider"
-import { getOnlyActiveFamilyBankAccountByIdAndFamilyId } from "../../db/bank-account"
+import { getOnlyActiveFamilyLoanProviderByIdAndFamilyId } from "../../../../services/family/loan-provider/get-loan-provider"
+import { getOnlyActiveFamilyBankAccountByIdAndFamilyId } from "../../../../services/family/bank-account"
 import { loanType } from "@/drizzle/schema-helpers"
 import { db } from "@/drizzle/db"
-import { loanGiveTransaction, loanTakeTransaction } from "../../db/loan"
+import { loanGiveTransaction, loanTakeTransaction } from "../../../../services/family/loan"
 
 export const familyLoanCreateAction = async (payload: unknown) => {
     try {

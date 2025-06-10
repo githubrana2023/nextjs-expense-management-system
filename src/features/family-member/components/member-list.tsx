@@ -2,24 +2,24 @@ import { CardWrapper } from "@/components/card-wrapper"
 import { DataTable } from "@/components/data-table"
 import { Button } from "@/components/ui/button"
 import { db } from "@/drizzle/db"
-import { familyMembersTable } from "@/drizzle/schema"
+import { membersTable } from "@/drizzle/schema"
 import { pluralize } from "@/lib/helpers/plural"
 import { eq } from "drizzle-orm"
 import { memberTableColumns } from "./member-table-columns"
 
-export const FamilyMemberList = async ({ currentFamilyId }: { currentFamilyId: string }) => {
-    const familyMembers = await db.query.familyMembersTable.findMany({
-        where: eq(familyMembersTable.familyId, currentFamilyId),
+export const MemberList = async ({ currentFamilyId }: { currentFamilyId: string }) => {
+    const members = await db.query.membersTable.findMany({
+        where: eq(membersTable.familyId, currentFamilyId),
         with: {
             family: true
         }
     })
-    const formattedMembers = familyMembers.map(member => ({
+    const formattedMembers = members.map(member => ({
         ...member,
         familyName: member.family.name
     }))
 
-    const totalMembers = familyMembers.length
+    const totalMembers = members.length
     return (
         <CardWrapper
             title={pluralize(totalMembers, "Member")}

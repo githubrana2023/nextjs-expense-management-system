@@ -1,12 +1,12 @@
 'use server'
 
 import { currentFamily } from "@/lib/current-family"
-import { getFamilyById } from "../../db/get-family"
+import { getFamilyById } from "../../../../services/family/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
-import { getOnlyActiveFamilyTrxNameByIdAndFamilyId } from "@/features/family/db/trx-name"
+import { getOnlyActiveFamilyTrxNameByIdAndFamilyId } from "@/services/family/trx-name"
 import { revalidatePath } from "next/cache"
-import { deleteFamilyTrxName } from "../../db/trx-name/delete-family-trx-name"
+import { deleteFamilyTrxName } from "../../../../services/family/trx-name/delete-family-trx-name"
 
 
 export const familyTrxNameDeleteAction = async (trxNameId:string) => {
