@@ -7,10 +7,10 @@ import { assignMemberReceiveBankTable } from "./assign-member-receive-bank";
 import { assignMemberSourceBankTable } from "./assign-member-source-bank";
 import { memberTrxTable } from "./member-trx";
 
-export const memberBankAccountsTable = pgTable('family_member_bank_accounts', {
+export const memberBankAccountsTable = pgTable('member_bank_accounts', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
-    memberId: uuid('family_member_id').notNull().references(() => membersTable.id),
+    memberId: uuid('member_id').notNull().references(() => membersTable.id),
     name: text('name').unique().notNull(),
     balance: numeric('balance', { precision: 7, scale: 2 }).notNull(),
     lbn:text('local_bank_number').notNull().unique(),

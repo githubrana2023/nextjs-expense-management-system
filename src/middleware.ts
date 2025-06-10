@@ -26,11 +26,11 @@ export async function middleware(req: NextRequest) {
 
   }
   const familyCookie = cookies.get(TOKEN_KEY.FAMILY_ACCESS_TOKEN)
-  const memberCookie = cookies.get(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN)
+  const memberCookie = cookies.get(TOKEN_KEY.MEMBER_ACCESS_TOKEN)
 
   if (!familyCookie && !isAuthRoute) return NextResponse.redirect(new URL(REDIRECT_TO.LOGIN_PAGE, url));
   if (!familyCookie) {
-    await deleteCookie(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN)
+    await deleteCookie(TOKEN_KEY.MEMBER_ACCESS_TOKEN)
     return NextResponse.next();
   }
   const familyToken = familyCookie.value
@@ -43,7 +43,7 @@ export async function middleware(req: NextRequest) {
 
   if (familyTokenError instanceof JWTExpired || !familyPayload?.payload?.email) {
     await deleteCookie(TOKEN_KEY.FAMILY_ACCESS_TOKEN);
-    await deleteCookie(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN)
+    await deleteCookie(TOKEN_KEY.MEMBER_ACCESS_TOKEN)
     if (!isAuthRoute && !isPublicRoute) {
       return NextResponse.redirect(new URL(REDIRECT_TO.LOGIN_PAGE, req.url));
     }
@@ -56,7 +56,7 @@ export async function middleware(req: NextRequest) {
 
   if (familyToken && isMemberRoute && pathname.startsWith(memberRoute)) {
 
-    const memberCookie = cookies.get(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN)
+    const memberCookie = cookies.get(TOKEN_KEY.MEMBER_ACCESS_TOKEN)
     if (!memberCookie) return NextResponse.redirect(new URL(REDIRECT_TO.HOME, url))
 
     const memberToken = memberCookie.value
@@ -65,7 +65,7 @@ export async function middleware(req: NextRequest) {
 
     //verify member token
     if (error instanceof JWTExpired || !data?.payload?.email) {
-      await deleteCookie(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN);
+      await deleteCookie(TOKEN_KEY.MEMBER_ACCESS_TOKEN);
       if (!isAuthRoute && !isPublicRoute) {
         return NextResponse.redirect(new URL(REDIRECT_TO.HOME, req.url));
       }

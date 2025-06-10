@@ -6,7 +6,7 @@ import { familyLoanProviderTable } from "./family-loan-provider";
 import { familyLoansTable } from "./family-loan";
 
 
-export const memberLoanProviderBillsTable = pgTable('family_shopkeepers-bill', {
+export const memberLoanProviderBillsTable = pgTable('member_loan_provider_bill', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     familyLoanProviderId: uuid('family_loan_provider_id').notNull().references(() => familyLoanProviderTable.id),

@@ -6,7 +6,7 @@ import { memberTrxNameTable } from "./member-trx-name";
 import { memberBankAccountsTable } from "./member-bank-account";
 
 
-export const membersTable = pgTable('family_members', {
+export const membersTable = pgTable('members', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     name: text('name').notNull(),
@@ -14,7 +14,7 @@ export const membersTable = pgTable('family_members', {
     phone: text('phone').unique().notNull(),
     password: text('password').notNull(),
     relation: text('relation', { enum: memberRelation }).notNull(),
-    role: text('role', { enum: role }).notNull(),
+    role: text('role', { enum: role }).default('MEMBER').notNull(),
     emailVerifiedAt: timestamp('email_verified_at', { withTimezone: true }),
     isDeleted:boolean("is_deleted").default(false),
     createdAt,

@@ -7,10 +7,10 @@ import { assignMemberReceiveBankTable } from "./assign-member-receive-bank";
 import { assignMemberSourceBankTable } from "./assign-member-source-bank";
 import { memberTrxTable } from "./member-trx";
 
-export const memberTrxNameTable = pgTable('family_member_trx_name', {
+export const memberTrxNameTable = pgTable('member_trx_name', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
-    memberId: uuid('family_member_id').notNull().references(() => membersTable.id),
+    memberId: uuid('member_id').notNull().references(() => membersTable.id),
     name: text('name').notNull(),
     variant: text('variant', { enum: trxNameVariant }).notNull(),
     isDeleted:boolean("is_deleted").default(false),

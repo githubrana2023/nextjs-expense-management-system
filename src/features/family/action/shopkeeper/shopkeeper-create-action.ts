@@ -24,7 +24,7 @@ export const familyShopkeeperCreateAction = async (payload: unknown) => {
 
         if (!existFamily) {
             await deleteCookie(TOKEN_KEY.FAMILY_ACCESS_TOKEN)
-            await deleteCookie(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN)
+            await deleteCookie(TOKEN_KEY.MEMBER_ACCESS_TOKEN)
             return failureResponse('Unauthorized Access!')
         }
 

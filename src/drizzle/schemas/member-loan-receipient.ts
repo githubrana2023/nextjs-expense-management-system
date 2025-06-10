@@ -3,30 +3,30 @@ import { familyTable } from "./family";
 import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
 import { membersTable } from "./members";
-import { memberTakeLoansTable } from "./member-loan";
+import { memberGiveLoansTable } from "./member-loan";
 
 
-export const memberLoanProviderTable = pgTable('member_loan_provider', {
+export const memberLoanReceipientTable = pgTable('member_loan_receipient', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     memberId: uuid('member_id').notNull().references(() => membersTable.id),
     name: text('name').notNull(),
     phone: text('phone').notNull().unique(),
-    totalDebt: numeric('total_debt', { precision: 7, scale: 2 }),
+    totalCredit: numeric('total_credit', { precision: 7, scale: 2 }),
     isDeleted:boolean("is_deleted").default(false),
     createdAt,
     updatedAt
 })
 
 
-export const memberLoanProviderRelation = relations(memberLoanProviderTable, ({ one ,many}) => ({
+export const memberLoanReceipientRelation = relations(memberLoanReceipientTable, ({ one ,many}) => ({
     family: one(familyTable, {
-        fields: [memberLoanProviderTable.familyId],
+        fields: [memberLoanReceipientTable.familyId],
         references: [familyTable.id]
     }),
     member: one(membersTable, {
-        fields: [memberLoanProviderTable.memberId],
+        fields: [memberLoanReceipientTable.memberId],
         references: [membersTable.id]
     }),
-    providedLoans:many(memberTakeLoansTable),
+    reaceivedLoans:many(memberGiveLoansTable),
 }))

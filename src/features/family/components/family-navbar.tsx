@@ -13,7 +13,7 @@ export const FamilyNavbar = async () => {
     const loggedFamily = await currentFamily()
     if (!loggedFamily) {
         await deleteCookie(TOKEN_KEY.FAMILY_ACCESS_TOKEN)
-        await deleteCookie(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN)
+        await deleteCookie(TOKEN_KEY.MEMBER_ACCESS_TOKEN)
         redirect('/auth/login')
     }
     const navbarLinks = [

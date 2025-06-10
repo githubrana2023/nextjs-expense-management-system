@@ -26,7 +26,7 @@ export const memberLoginAction = async (payload: { phone: string; password: stri
 
     const memberAccessToken = await signJwt(existMember, { secret: process.env.AUTH_SECRET!,expireIn:'3d' })
 
-    await setCookie(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN, memberAccessToken)
+    await setCookie(TOKEN_KEY.MEMBER_ACCESS_TOKEN, memberAccessToken)
 
     return { success: true }
   } catch (error) {

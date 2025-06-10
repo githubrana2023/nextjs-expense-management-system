@@ -6,8 +6,8 @@ import { memberBankAccountsTable } from "./member-bank-account";
 
 export const assignMemberReceiveBankTable = pgTable('assign_member_receive_bank', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
-    memberTrxNameId:uuid('family_member_trx_name_id').notNull().references(()=>memberTrxNameTable.id),
-    memberReceiveBankId:uuid('family_member_receive_bank_id').notNull().references(()=>memberBankAccountsTable.id),
+    memberTrxNameId:uuid('member_trx_name_id').notNull().references(()=>memberTrxNameTable.id),
+    memberReceiveBankId:uuid('member_receive_bank_id').notNull().references(()=>memberBankAccountsTable.id),
     createdAt,
     updatedAt,
 })
@@ -15,11 +15,11 @@ export const assignMemberReceiveBankTable = pgTable('assign_member_receive_bank'
 export const assignMemberReceiveBankRelation = relations(assignMemberReceiveBankTable, ({ one }) => ({
   memberTrxName:one(memberTrxNameTable,{
     fields:[assignMemberReceiveBankTable.memberTrxNameId],
-    references:[memberTrxNameTable.id]
+    references:[memberTrxNameTable.id],
+    relationName:'assignMemberReceiveBank'
   }),
   memberReceiveBank:one(memberBankAccountsTable,{
     fields:[assignMemberReceiveBankTable.memberReceiveBankId],
     references:[memberBankAccountsTable.id],
-    relationName:'assignMemberReceiveBank'
   }),
 }))
