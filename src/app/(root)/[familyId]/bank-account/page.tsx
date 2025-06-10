@@ -1,7 +1,7 @@
 
 import { REDIRECT_TO } from "@/constant"
 import { FamilyBankAccountTable } from "@/features/family/components/bank-account/family-bank-account-table"
-import { getAllFamilyBankAccountsByFamilyId } from "@/features/family/db/bank-account/get-bank-account"
+import { getAllFamilyBankAccountsByFamilyId } from "@/services/family/bank-account/get-bank-account"
 import { currentFamily } from "@/lib/current-family"
 import { redirect } from "next/navigation"
 

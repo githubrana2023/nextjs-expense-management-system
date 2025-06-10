@@ -9,17 +9,17 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { useAppDispatch } from "@/hooks/redux"
 import { onClose } from "@/lib/redux/slice/modal-slice"
-import { FamilyMemberLoginFormValue, familyMemberLoginSchema } from "../schema"
-import { familyMemberLoginAction } from "../actions/family-member-login-action"
+import { MemberLoginFormValue, memberLoginSchema } from "../schema"
+import { memberLoginAction } from "../actions/family-member-login-action"
 
 
 export const MemberLoginForm = () => {
     const [pending,startTransition] = useTransition()
     const dispatch=useAppDispatch()
     const router = useRouter()
-    const memberLoginForm = useForm<FamilyMemberLoginFormValue>(
+    const memberLoginForm = useForm<MemberLoginFormValue>(
         {
-            resolver: zodResolver(familyMemberLoginSchema),
+            resolver: zodResolver(memberLoginSchema),
             defaultValues: {
                 phone: '01785585238',
                 password: "123456789"
@@ -32,7 +32,7 @@ export const MemberLoginForm = () => {
     const onSubmit =handleSubmit(value=>{
         startTransition(
             async()=>{
-                const res = await familyMemberLoginAction(value)
+                const res = await memberLoginAction(value)
                 dispatch(onClose())
                 router.push('/family-page-id/member/member-page-id')
             }

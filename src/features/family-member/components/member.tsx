@@ -30,7 +30,7 @@ export const Member = ({ member }: { member: { id: number, name: string, phone: 
                 </CardHeader>
                 {
                     session?.member && <CardContent>
-                        <LogOutButton tokenKey={TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN} redirectTo={REDIRECT_TO.HOME}>Exit</LogOutButton>
+                        <LogOutButton tokenKey={TOKEN_KEY.MEMBER_ACCESS_TOKEN} redirectTo={REDIRECT_TO.HOME}>Exit</LogOutButton>
                     </CardContent>
                 }
             </Card>

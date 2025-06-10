@@ -2,12 +2,12 @@
 
 import { SendResponse } from "@/interface"
 import { currentFamily } from "@/lib/current-family"
-import { getFamilyById } from "../../db/get-family"
+import { getFamilyById } from "../../../../services/family/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
 import { familyTrxNameCreateFormSchema, FamilyTrxNameFormValue } from "../../schema/trx-name/family-trx-name-schema"
-import { getFamilyTrxNameByNameAndFamilyId } from "../../db/trx-name/get-family-trx-name"
-import { insertFamilyTrxName } from "../../db/trx-name/insert-family-trx-name"
+import { getFamilyTrxNameByNameAndFamilyId } from "../../../../services/family/trx-name/get-family-trx-name"
+import { insertFamilyTrxName } from "../../../../services/family/trx-name/insert-family-trx-name"
 import { revalidatePath } from "next/cache"
 
 

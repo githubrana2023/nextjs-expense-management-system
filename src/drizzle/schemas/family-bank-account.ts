@@ -4,6 +4,7 @@ import {  relations } from "drizzle-orm";
 import { familyTable } from "./family";
 import { assignFamilySourceBankTable } from "./assign-family-source-bank";
 import { assignFamilyReceiveBankTable } from "./assign-family-receive-bank";
+import { familyLoansTable } from "./family-loan";
 
 export const familyBankAccountsTable = pgTable('family_bank_accounts', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
@@ -24,5 +25,7 @@ export const familyBankAccountsRelation = relations(familyBankAccountsTable, ({ 
         references: [familyTable.id]
     }),
     assignFamilySourceTrx:many(assignFamilySourceBankTable,{relationName:"assignFamilySourceBank"}),
-    assignFamilyReceiveTrx:many(assignFamilyReceiveBankTable,{relationName:"assignFamilyReceiveBank"})
+    assignFamilyReceiveTrx:many(assignFamilyReceiveBankTable,{relationName:"assignFamilyReceiveBank"}),
+    familyLoansSource:many(familyLoansTable,{relationName:"familyLoanSource"}),
+    familyLoansReceive:many(familyLoansTable,{relationName:"familyLoanReceive"}),
 }))

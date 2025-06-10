@@ -4,7 +4,7 @@ import { familyTab } from '@/constant/tab'
 import { formatLabel } from '@/lib/word-formatter'
 import { Store, ScrollText } from 'lucide-react'
 import { ShopkeeperTabContent } from '@/features/family/components/shopkeeper'
-import { getAllShopkeepersByFamilyId } from '@/features/family/db/shopkeeper'
+import { getAllShopkeepersByFamilyId } from '@/services/family/shopkeeper'
 import { ShopkeeperWithFamilyIdAndName } from '@/interface/shopkeeper'
 import { ShopkeeperBillContents } from '@/features/family/components/shopkeeper/shopkeeper-bill-tab-contents'
 

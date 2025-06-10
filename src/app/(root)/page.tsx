@@ -7,7 +7,7 @@ import Link from "next/link";
 const RootPage = async () => {
 
   const loggedMember = await currentMember()
-  const familyMembers = [
+  const members = [
     {
       id: 1,
       name: "Rana Miah",
@@ -69,7 +69,7 @@ const RootPage = async () => {
         >
           <div className="grid grid-cols-2 gap-4 w-full">
             {
-              familyMembers.map(
+              members.map(
                 member => <Member key={member.id} member={member} />
               )
             }

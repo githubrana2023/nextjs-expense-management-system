@@ -11,7 +11,7 @@ export const familyLoanProviderBillsTable = pgTable('family_shopkeepers-bill', {
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     familyLoanProviderId: uuid('family_loan_provider_id').notNull().references(() => familyLoanProviderTable.id),
     familyLoanId: uuid('family_loan_id').notNull().references(() => familyLoansTable.id),
-    amount:numeric('total_debt', { precision: 7, scale: 2 }).notNull(),
+    amount:numeric('amount', { precision: 7, scale: 2 }).notNull(),
     description:text('description'),
     paymentDate:timestamp('payment_date',{withTimezone:true}).notNull(),
     totalDebt: numeric('total_debt', { precision: 7, scale: 2 }).notNull(),

@@ -1,13 +1,13 @@
 'use server'
 
 import { currentFamily } from "@/lib/current-family"
-import { getFamilyById } from "../../db/get-family"
+import { getFamilyById } from "../../../../services/family/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
-import { getFamilyTrxNameByIdAndFamilyId } from "../../db/trx-name/get-family-trx-name"
+import { getFamilyTrxNameByIdAndFamilyId } from "../../../../services/family/trx-name/get-family-trx-name"
 import { revalidatePath } from "next/cache"
 import { FamilyTrxName } from "@/drizzle/type"
-import { updateFamilyTrxName } from "../../db/trx-name/update-family-trx-name"
+import { updateFamilyTrxName } from "../../../../services/family/trx-name/update-family-trx-name"
 import { familyTrxNameUpdateFormSchema } from "../../schema/trx-name/family-trx-name-schema"
 
 
@@ -34,7 +34,7 @@ export const familyTrxNameUpdateAction = async (trxNameId:string,payload:Partial
 
         if (!existFamily) {
             await deleteCookie(TOKEN_KEY.FAMILY_ACCESS_TOKEN)
-            await deleteCookie(TOKEN_KEY.FAMILY_MEMBER_ACCESS_TOKEN)
+            await deleteCookie(TOKEN_KEY.MEMBER_ACCESS_TOKEN)
             return {
                 success: false,
                 message: 'Unauthenticated Access!',

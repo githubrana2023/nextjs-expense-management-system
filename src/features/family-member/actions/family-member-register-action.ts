@@ -1,12 +1,12 @@
 'use server'
-import { familyMemberRegisterSchema, FamilyMemberRegisterFormValue } from '../schema';
+import { memberRegisterSchema, MemberRegisterFormValue } from '../schema';
 import { currentFamily } from '@/lib/current-family';
 import { getMemberByPhoneOrEmail } from '../db';
 import { encryptPw } from '@/lib/bcrypt';
 import { insertMember } from '../db/insert-member';
 import { revalidatePath } from 'next/cache';
 
-export const familyMemberRegisterAction = async (payload: FamilyMemberRegisterFormValue) => {
+export const memberRegisterAction = async (payload: MemberRegisterFormValue) => {
   try {
     const loggedFamily = await currentFamily()
 
@@ -14,7 +14,7 @@ export const familyMemberRegisterAction = async (payload: FamilyMemberRegisterFo
 
     if (loggedFamily.role !== 'FAMILY') return { success: false, message: 'Unauthorized Access!' }
 
-    const validation = familyMemberRegisterSchema.safeParse(payload)
+    const validation = memberRegisterSchema.safeParse(payload)
     if (!validation.success) return { success: false, message: 'Invalid Fields!', data: null }
 
     const { email, phone, password, confirmPassword, name, relation } = validation.data

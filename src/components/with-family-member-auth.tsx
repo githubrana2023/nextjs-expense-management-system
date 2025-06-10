@@ -6,7 +6,7 @@ export type WrappedComponentProp = {
     member : Record<string,unknown>
 }
 
-export const withFamilyMemberAuth = <P extends WrappedComponentProp>(
+export const withMemberAuth = <P extends WrappedComponentProp>(
     WrappedComponent: ComponentType<P>,redirectTo?:string
 ) => {
     return async (props: Omit<P, keyof WrappedComponentProp>) => {

@@ -1,0 +1,1 @@
+ALTER TABLE "family_shopkeepers-bill" ADD COLUMN "amount" numeric(7, 2) NOT NULL;
