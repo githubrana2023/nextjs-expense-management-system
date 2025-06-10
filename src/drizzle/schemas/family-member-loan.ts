@@ -11,7 +11,7 @@ export const familyMemberLoansTable = pgTable('family_shopkeepers-bill', {
     familyMemberLoanProviderId: uuid('family_member_loan_provider_id').notNull().references(() => familyMemberLoanProviderTable.id),
     loanType: text('loan_type', { enum: loanType }).notNull(),
     loanStatus: text('loan_type', { enum: loanStatus }).notNull(),
-    amount: numeric('total_debt', { precision: 7, scale: 2 }).notNull(),
+    amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
     description:text('description'),
     loanDate: timestamp('loan_date', { withTimezone: true }).notNull(),
     createdAt,

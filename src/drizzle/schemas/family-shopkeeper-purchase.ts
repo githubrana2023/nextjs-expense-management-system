@@ -5,14 +5,15 @@ import { createdAt, updatedAt } from "../schema-helpers";
 import { familyShopkeepersTable } from "./family-shopkeeper";
 
 
-export const familyShopkeeperBillsTable = pgTable('family_shopkeepers-bill', {
+export const familyShopkeeperPurchaseTable = pgTable('family_shopkeepers-bill', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     familyShopkeeperId: uuid('family_shopkeeper_id').notNull().references(() => familyShopkeepersTable.id),
-    amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
-    description: text('description'),
-    paymentDate: timestamp('payment_date', { withTimezone: true }).notNull(),
-    totalDebt: numeric('total_debt', { precision: 7, scale: 2 }).notNull(),
+    total: numeric('total', { precision: 7, scale: 2 }).notNull(),
+    description: text('description').notNull(),
+    purchaseDate: timestamp('purchase_date', { withTimezone: true }).notNull(),
+    paid: numeric('paid', { precision: 7, scale: 2 }).notNull(),
+    due: numeric('due', { precision: 7, scale: 2 }).notNull(),
     isCancel: boolean('isCancel').default(false),
     cancelReason: text('cancel_reason'),
     createdAt,
@@ -20,13 +21,13 @@ export const familyShopkeeperBillsTable = pgTable('family_shopkeepers-bill', {
 })
 
 
-export const familyShopkeeperBillsRelation = relations(familyShopkeeperBillsTable, ({ one }) => ({
+export const familyShopkeeperPurchaseRelation = relations(familyShopkeeperPurchaseTable, ({ one }) => ({
     family: one(familyTable, {
-        fields: [familyShopkeeperBillsTable.familyId],
+        fields: [familyShopkeeperPurchaseTable.familyId],
         references: [familyTable.id]
     }),
     familyShopkeeper: one(familyShopkeepersTable, {
-        fields: [familyShopkeeperBillsTable.familyShopkeeperId],
+        fields: [familyShopkeeperPurchaseTable.familyShopkeeperId],
         references: [familyShopkeepersTable.id]
     })
 }))

@@ -13,6 +13,7 @@ import { familyLoansTable } from "./family-loan";
 import { familyBankAccountsTable } from "./family-bank-account";
 import { familyLoanProviderBillsTable } from "./family-loan-provider-bill";
 import { familyTrxNameTable } from "./family-trx-name";
+import { familyShopkeeperPurchaseTable } from "./family-shopkeeper-purchase";
 
 
 export const familyTable = pgTable('family_table', {
@@ -39,5 +40,6 @@ export const familyRelation = relations(familyTable, ({  many }) => ({
     shopkeeperPaidBills :many(familyShopkeeperBillsTable),
     loanProviderPaidBills :many(familyLoanProviderBillsTable),
     loanProviders:many(familyLoanProviderTable),
-    familyLoans:many(familyLoansTable)
+    familyLoans:many(familyLoansTable),
+    familyShopkeeperPurchases:many(familyShopkeeperPurchaseTable)
 }))
