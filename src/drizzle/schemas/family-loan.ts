@@ -11,9 +11,9 @@ import { familyLoanRecipientPaymentTable } from "./family-loan-recipient-payment
 
 export const familyTakenLoanTable = pgTable('family_taken_loan', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
-    takenBy: uuid('family_id').notNull().references(() => familyTable.id),
-    loanProvidedBy: uuid('loan_provider_id').references(() => familyLoanProviderTable.id),
-    receiveBankId: uuid('receive_bank_id').references(() => familyBankAccountsTable.id),
+    familyId: uuid('family_id').notNull().references(() => familyTable.id),
+    loanProviderId: uuid('loan_provider_id').notNull().references(() => familyLoanProviderTable.id),
+    receiveBankId: uuid('receive_bank_id').notNull().references(() => familyBankAccountsTable.id),
     
     amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
     description: text('description'),
@@ -27,11 +27,11 @@ export const familyTakenLoanTable = pgTable('family_taken_loan', {
 
 export const familyTakenLoanRelation = relations(familyTakenLoanTable, ({ one, many }) => ({
     family: one(familyTable, {
-        fields: [familyTakenLoanTable.takenBy],
+        fields: [familyTakenLoanTable.familyId],
         references: [familyTable.id]
     }),
     familyLoanProvider: one(familyLoanProviderTable, {
-        fields: [familyTakenLoanTable.loanProvidedBy],
+        fields: [familyTakenLoanTable.loanProviderId],
         references: [familyLoanProviderTable.id]
     }),
     takenLoanPayments: many(familyLoanProviderBillsTable),
@@ -51,8 +51,8 @@ export const familyTakenLoanRelation = relations(familyTakenLoanTable, ({ one, m
 export const familyGivenLoanTable = pgTable('family_given_loan', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
-    familyLoanRecipientId: uuid('family_loan_recipient').references(() => familyLoanRecipientTable.id),
-    familySourceBankId: uuid('source_bank_id').references(() => familyBankAccountsTable.id),
+    familyLoanRecipientId: uuid('family_loan_recipient').notNull().references(() => familyLoanRecipientTable.id),
+    familySourceBankId: uuid('source_bank_id').notNull().references(() => familyBankAccountsTable.id),
 
     amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
     description: text('description'),

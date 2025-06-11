@@ -150,18 +150,18 @@ export const assignFamilyTrxNameActions = async <
                 })
             }
 
-                const [newAssignedSource] = await db
-                    .insert(assignFamilySourceBankTable)
-                    .values({
-                        familySourceBankId: existFamilySourceBank.id,
-                        familyTrxNameId: existFamilyTrxName.id
-                    })
-                    .returning()
-
-                if (!newAssignedSource) return failureResponse('Failed to assign source bank!')
-                return successResponse('Assigned source bank!', {
-                    source: newAssignedSource
+            const [newAssignedSource] = await db
+                .insert(assignFamilySourceBankTable)
+                .values({
+                    familySourceBankId: existFamilySourceBank.id,
+                    familyTrxNameId: existFamilyTrxName.id
                 })
+                .returning()
+
+            if (!newAssignedSource) return failureResponse('Failed to assign source bank!')
+            return successResponse('Assigned source bank!', {
+                source: newAssignedSource
+            })
 
         }
 

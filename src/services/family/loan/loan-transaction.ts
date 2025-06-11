@@ -1,20 +1,20 @@
 'use server'
 
 import { db } from "@/drizzle/db"
-import { familyBankAccountsTable, familyLoanProviderTable, familyLoansTable } from "@/drizzle/schema"
-import { FamilyLoanInsert } from "@/drizzle/type"
+import { familyBankAccountsTable, familyLoanProviderTable, familyGivenLoanTable, familyTakenLoanTable, familyLoanRecipientTable } from "@/drizzle/schema"
+import { FamilyGivenLoanInsert, FamilyTakenLoanInsert } from "@/drizzle/type"
 import { failureResponse, successResponse } from "@/lib/helpers/send-response"
 import { and, eq } from "drizzle-orm"
 
-export const loanGiveTransaction = async (
-    loanValues: Omit<FamilyLoanInsert, 'familyLoanProviderId'>,
+export const loanGivenTransaction = async (
+    loanValues: FamilyGivenLoanInsert,
     deductedAmount: number,
-    sourceBankId: string,
+    recipientTotalDebt:number
 ) => {
     return await db.transaction(
         async (tx) => {
 
-            const [newLoan] = await tx.insert(familyLoansTable).values(loanValues).returning()
+            const [newLoan] = await tx.insert(familyGivenLoanTable).values(loanValues).returning()
 
             const [updatedBank] = await tx.update(familyBankAccountsTable)
                 .set({
@@ -22,14 +22,25 @@ export const loanGiveTransaction = async (
                 })
                 .where(
                     and(
-                        eq(familyBankAccountsTable.id, sourceBankId),
+                        eq(familyBankAccountsTable.id, loanValues.familySourceBankId),
                         eq(familyBankAccountsTable.familyId, loanValues.familyId),
                         eq(familyBankAccountsTable.isDeleted, false),
                     )
                 )
                 .returning()
 
-            if (!newLoan || !updatedBank) {
+                const [updatedFamilyLoanRecipient] = await tx.update(familyLoanRecipientTable).set({
+                    totalDebt:recipientTotalDebt.toString()
+                })
+                .where(
+                    and(
+                        eq(familyLoanRecipientTable.id,loanValues.familyLoanRecipientId),
+                        eq(familyLoanRecipientTable.familyId,loanValues.familyId),
+                        eq(familyLoanRecipientTable.isDeleted,false)
+                    )
+                ).returning()
+
+            if (!newLoan || !updatedBank||!updatedFamilyLoanRecipient) {
                 tx.rollback()
                 return failureResponse('Failed to give loan!')
             }
@@ -39,21 +50,19 @@ export const loanGiveTransaction = async (
     )
 }
 
+
+
 export const loanTakeTransaction = async (
-    loanValues: FamilyLoanInsert,
+    loanValues: FamilyTakenLoanInsert,
     addedAmount: number,
     providerTotalDebt: number,
-    receiveBankId: string,
 ) => {
 
-    if (!loanValues.familyLoanProviderId) return failureResponse('Loan Provider id is missing!')
-
-    const loanProviderId = loanValues.familyLoanProviderId
 
     return await db.transaction(
         async (tx) => {
 
-            const [newLoan] = await tx.insert(familyLoansTable).values(loanValues).returning()
+            const [newLoan] = await tx.insert(familyTakenLoanTable).values(loanValues).returning()
 
             const [updatedBank] = await tx.update(familyBankAccountsTable)
                 .set({
@@ -61,7 +70,7 @@ export const loanTakeTransaction = async (
                 })
                 .where(
                     and(
-                        eq(familyBankAccountsTable.id, receiveBankId),
+                        eq(familyBankAccountsTable.id, loanValues.receiveBankId),
                         eq(familyBankAccountsTable.familyId, loanValues.familyId),
                         eq(familyBankAccountsTable.isDeleted, false),
                     )
@@ -74,7 +83,7 @@ export const loanTakeTransaction = async (
                 })
                 .where(
                     and(
-                        eq(familyLoanProviderTable.id, loanProviderId),
+                        eq(familyLoanProviderTable.id, loanValues.loanProviderId),
                         eq(familyLoanProviderTable.familyId, loanValues.familyId),
                         eq(familyLoanProviderTable.isDeleted, false),
                     )

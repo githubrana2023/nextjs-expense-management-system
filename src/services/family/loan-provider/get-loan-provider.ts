@@ -17,6 +17,9 @@ export const getFamilyLoanProviderByIdAndFamilyId = async (id: string, familyId:
 
 
 
+
+
+// only active
 export const getOnlyActiveFamilyLoanProviderByIdAndFamilyId = async (id: string, familyId: string, options?: DbFindFirst<'familyLoanProviderTable'>) => (
     await db.query.familyLoanProviderTable.findFirst({
         where: and(

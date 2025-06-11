@@ -8,60 +8,36 @@ import { TOKEN_KEY } from "@/constant/token-constant"
 import { familyBankAccountCreateFormSchema } from "@/features/family/schema/bank-account"
 import { getFamilyBankAccountByLbnAndFamilyId } from "@/services/family/bank-account"
 import { insertFamilyBankAccount } from "@/services/family/bank-account"
-import { FamilyBankAccount } from "@/drizzle/type"
 import { revalidatePath } from "next/cache"
+import { failureResponse, successResponse } from "@/lib/helpers/send-response"
 
-export const familyBankAccountCreateAction = async < E extends Error>(input: unknown): Promise<SendResponse<NonNullable<FamilyBankAccount>, E>> => {
+export const familyBankAccountCreateAction = async <E extends Error>(input: unknown) => {
     try {
         const validation = familyBankAccountCreateFormSchema.safeParse(input)
-        if (!validation.success) return {
-            success: false,
-            message: 'Invalid Fields!',
-            data: null,
-            error: null
-        }
+        if (!validation.success) return failureResponse('Invalid Fields!')
+
         const { balance, lbn, name } = validation.data
 
         const loggedFamily = await currentFamily()
-        if (!loggedFamily) return {
-            success: false,
-            message: 'Unauthenticated Access!',
-            data: null,
-            error: null
-        }
+        if (!loggedFamily) return failureResponse('Unauthenticated Access!')
 
         const existFamily = await getFamilyById(loggedFamily.id)
 
         if (!existFamily) {
             await deleteCookie(TOKEN_KEY.FAMILY_ACCESS_TOKEN)
             await deleteCookie(TOKEN_KEY.MEMBER_ACCESS_TOKEN)
-            return {
-                success: false,
-                message: 'Unauthorized Access!',
-                data: null,
-                error: null
-            }
+            return failureResponse('Unauthorized Access!')
         }
 
         const existFamilyBankAccountByLbn = await getFamilyBankAccountByLbnAndFamilyId(lbn, existFamily.id)
 
-        if (existFamilyBankAccountByLbn) return {
-            success: false,
-            message: 'Local Bank Number already taken!',
-            data: null,
-            error: null
-        }
+        if (existFamilyBankAccountByLbn) return failureResponse('Local Bank Number already taken!')
 
         const newFamilyBankAccount = await insertFamilyBankAccount({ name, lbn, balance, familyId: existFamily.id })
 
         revalidatePath(`/${existFamily.id}/bank-account`)
 
-        return {
-            success: true,
-            message: 'Unauthenticated Access!',
-            data: newFamilyBankAccount,
-            error: null
-        }
+        return successResponse('Family Bank Account Created!',newFamilyBankAccount)
     } catch (error) {
         return {
             success: false,
