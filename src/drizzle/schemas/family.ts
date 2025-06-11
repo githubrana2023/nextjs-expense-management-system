@@ -14,8 +14,9 @@ import { familyLoanProviderBillsTable } from "./family-loan-provider-bill";
 import { familyTrxNameTable } from "./family-trx-name";
 import { familyShopkeeperPurchaseTable } from "./family-shopkeeper-purchase";
 import { memberTrxTable } from "./member-trx";
-import { memberGivenLoansTable, memberTakeLoansTable } from "./member-loan";
-import { familyLoansTakenTable } from "./family-loan";
+import { memberGivenLoanTable, memberTakenLoanTable } from "./member-loan";
+import { familyTakenLoanTable } from "./family-loan";
+import { familyTrxTable } from "./family-trx";
 
 
 export const familyTable = pgTable('family_table', {
@@ -30,16 +31,18 @@ export const familyTable = pgTable('family_table', {
     updatedAt
 })
 
+
 export const familyRelation = relations(familyTable, ({ many }) => ({
     familyTrxNames: many(familyTrxNameTable),
     familyBanks: many(familyBankAccountsTable),
+    familyTrx:many(familyTrxTable),
     assignFamilySourceBanks: many(assignFamilySourceBankTable),
     assignFamilyReceiveBanks: many(assignFamilyReceiveBankTable),
     shopkeepers: many(familyShopkeepersTable),
     shopkeeperPaidBills: many(familyShopkeeperBillsTable),
-    loanProviderPaidBills: many(familyLoanProviderBillsTable),
+    takenLoanPayments: many(familyLoanProviderBillsTable),
     loanProviders: many(familyLoanProviderTable),
-    familyTakenLoans: many(familyLoansTakenTable),
+    familyTakenLoans: many(familyTakenLoanTable),
     familyShopkeeperPurchases: many(familyShopkeeperPurchaseTable),
 
     //!member related
@@ -48,8 +51,8 @@ export const familyRelation = relations(familyTable, ({ many }) => ({
     memberTrxs: many(memberTrxTable),
 
     memberBankAccounts: many(memberBankAccountsTable),
-    memberReceivedLoans: many(memberTakeLoansTable),
-    memberProvidedLoans: many(memberGivenLoansTable),
+    memberReceivedLoans: many(memberTakenLoanTable),
+    memberProvidedLoans: many(memberGivenLoanTable),
 
 
 }))

@@ -16,7 +16,7 @@ export const assignMemberSourceBankRelation = relations(assignMemberSourceBankTa
   memberTrxName:one(memberTrxNameTable,{
     fields:[assignMemberSourceBankTable.memberTrxNameId],
     references:[memberTrxNameTable.id],
-    relationName:'assignMemberSourceBank'
+    relationName:'assignMemberSourceBank',
   }),
   memberSourceBank:one(memberBankAccountsTable,{
     fields:[assignMemberSourceBankTable.memberSourceBankId],

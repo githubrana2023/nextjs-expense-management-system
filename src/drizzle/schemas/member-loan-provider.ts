@@ -3,7 +3,8 @@ import { familyTable } from "./family";
 import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
 import { membersTable } from "./members";
-import { memberTakeLoansTable } from "./member-loan";
+import { memberLoanProviderBillsTable } from "./member-loan-provider-bill";
+import { memberTakenLoanTable } from "./member-loan";
 
 
 export const memberLoanProviderTable = pgTable('member_loan_provider', {
@@ -28,5 +29,6 @@ export const memberLoanProviderRelation = relations(memberLoanProviderTable, ({ 
         fields: [memberLoanProviderTable.memberId],
         references: [membersTable.id]
     }),
-    providedLoans:many(memberTakeLoansTable),
+    providedLoans:many(memberTakenLoanTable),
+    loanPayments:many(memberLoanProviderBillsTable)
 }))

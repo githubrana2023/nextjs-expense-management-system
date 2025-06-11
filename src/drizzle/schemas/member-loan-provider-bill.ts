@@ -4,7 +4,8 @@ import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
 import { membersTable } from "./members";
 import { memberLoanProviderTable } from "./member-loan-provider";
-import { memberTakenLoansTable } from "./member-loan";
+import { memberTakenLoanTable } from "./member-loan";
+import { memberBankAccountsTable } from "./member-bank-account";
 
 
 export const memberLoanProviderBillsTable = pgTable('member_loan_provider_bill', {
@@ -12,7 +13,9 @@ export const memberLoanProviderBillsTable = pgTable('member_loan_provider_bill',
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     memberId: uuid('member_id').notNull().references(() => membersTable.id),
     memberLoanProviderId: uuid('member_loan_provider_id').notNull().references(() => memberLoanProviderTable.id),
-    memberTakenLoanId: uuid('member_loan_id').notNull().references(() => memberTakenLoansTable.id),
+    memberTakenLoanId: uuid('member_loan_id').notNull().references(() => memberTakenLoanTable.id),
+    memberSourceBankId: uuid('member_source_bank_id').notNull().references(() => memberBankAccountsTable.id),
+
     amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
     description: text('description'),
     paymentDate: timestamp('payment_date', { withTimezone: true }).notNull(),
@@ -33,12 +36,16 @@ export const memberLoanProviderBillsRelation = relations(memberLoanProviderBills
         fields: [memberLoanProviderBillsTable.memberId],
         references: [membersTable.id]
     }),
+    memberSourceBanks: one(memberBankAccountsTable, {
+        fields: [memberLoanProviderBillsTable.memberSourceBankId],
+        references: [memberBankAccountsTable.id]
+    }),
     memberLoanProvider: one(memberLoanProviderTable, {
         fields: [memberLoanProviderBillsTable.memberLoanProviderId],
         references: [memberLoanProviderTable.id]
     }),
-    memberTakenLoan: one(memberTakenLoansTable, {
+    memberTakenLoan: one(memberTakenLoanTable, {
         fields: [memberLoanProviderBillsTable.memberTakenLoanId],
-        references: [memberTakenLoansTable.id]
+        references: [memberTakenLoanTable.id]
     }),
 }))

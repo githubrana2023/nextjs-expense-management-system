@@ -1,1 +1,0 @@
-ALTER TABLE "family_transaction" DROP CONSTRAINT "family_transaction_trx_name_unique";

@@ -31,8 +31,8 @@ export const memberBankAccountsRelation = relations(memberBankAccountsTable, ({ 
         fields: [memberBankAccountsTable.memberId],
         references: [membersTable.id]
     }),
-    assignedMemberReceiveTrx: many(assignMemberReceiveBankTable, { relationName: 'assignMemberReceiveBank' }),
-    assignedMemberSourceTrx: many(assignMemberSourceBankTable, { relationName: 'assignMemberSourceBank' }),
-    memberSourceTrx: many(memberTrxTable, { relationName: 'memberTrxFromSourceBank' }),
-    memberReceiveTrx: many(memberTrxTable, { relationName: 'memberTrxToReceiveBank' }),
+    assignedMemberReceiveTrx: many(assignMemberReceiveBankTable, { relationName: 'assignMemberReceiveTrx' }),
+    assignedMemberSourceTrx: many(assignMemberSourceBankTable, { relationName: 'assignMemberSourceTrx' }),
+    memberSourceTrx: many(memberTrxTable, { relationName: 'memberSourceTrx' }),
+    memberReceiveTrx: many(memberTrxTable, { relationName: 'memberReceiveTrx' }),
 }))

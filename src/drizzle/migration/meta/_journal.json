@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1748765162176,
-      "tag": "0000_cool_madelyne_pryor",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1749030796203,
-      "tag": "0001_tearful_jean_grey",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1749401088663,
-      "tag": "0002_silent_lethal_legion",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1749537508574,
-      "tag": "0003_outstanding_triathlon",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1749577896701,
-      "tag": "0004_previous_longshot",
+      "when": 1749626096456,
+      "tag": "0000_wet_gideon",
       "breakpoints": true
     }
   ]

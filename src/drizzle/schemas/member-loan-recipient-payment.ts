@@ -4,8 +4,8 @@ import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
 import { memberLoanRecipientTable } from "./member-loan-recipient";
 import { membersTable } from "./members";
-import { memberGivenLoansTable } from "./member-loan";
 import { memberLoanProviderTable } from "./member-loan-provider";
+import { memberGivenLoanTable } from "./member-loan";
 
 
 export const memberLoanRecipientPaymentTable = pgTable('member_loan_recipient_payment', {
@@ -13,7 +13,7 @@ export const memberLoanRecipientPaymentTable = pgTable('member_loan_recipient_pa
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     receivedBy: uuid('member_id').notNull().references(() => membersTable.id),
     paidBy: uuid('member_loan_recipient_id').notNull().references(() => memberLoanRecipientTable.id),
-    memberGivenLoanId: uuid('member_loan_give_id').notNull().references(() => memberGivenLoansTable.id),
+    memberGivenLoanId: uuid('member_loan_give_id').notNull().references(() => memberGivenLoanTable.id),
 
     amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
     description: text('description'),
@@ -25,7 +25,7 @@ export const memberLoanRecipientPaymentTable = pgTable('member_loan_recipient_pa
 })
 
 
-export const memberLoanProviderBillsRelation = relations(memberLoanRecipientPaymentTable, ({ one }) => ({
+export const memberLoanRecipientPaymentRelation = relations(memberLoanRecipientPaymentTable, ({ one }) => ({
     family: one(familyTable, {
         fields: [memberLoanRecipientPaymentTable.familyId],
         references: [familyTable.id]
@@ -38,8 +38,8 @@ export const memberLoanProviderBillsRelation = relations(memberLoanRecipientPaym
         fields: [memberLoanRecipientPaymentTable.paidBy],
         references: [memberLoanProviderTable.id]
     }),
-    memberGivenLoan: one(memberGivenLoansTable, {
+    memberGivenLoan: one(memberGivenLoanTable, {
         fields: [memberLoanRecipientPaymentTable.memberGivenLoanId],
-        references: [memberGivenLoansTable.id]
+        references: [memberGivenLoanTable.id]
     }),
 }))
