@@ -9,7 +9,7 @@ import { memberLoanRecipientTable } from "./member-loan-recipient";
 import { memberLoanProviderBillsTable } from "./member-loan-provider-bill";
 
 
-export const memberTakenLoansTable = pgTable('member_take_loans', {
+export const memberTakenLoanTable = pgTable('member_take_loan', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     loanTakenBy: uuid('member_id').notNull().references(() => membersTable.id),
@@ -28,17 +28,17 @@ export const memberTakenLoansTable = pgTable('member_take_loans', {
 
 
 
-export const memberTakenLoansRelation = relations(memberTakenLoansTable, ({ one, many }) => ({
+export const memberTakenLoanRelation = relations(memberTakenLoanTable, ({ one, many }) => ({
     family: one(familyTable, {
-        fields: [memberTakenLoansTable.familyId],
+        fields: [memberTakenLoanTable.familyId],
         references: [familyTable.id]
     }),
     receiveBank: one(memberBankAccountsTable, {
-        fields: [memberTakenLoansTable.memberReceiveBankId],
+        fields: [memberTakenLoanTable.memberReceiveBankId],
         references: [memberBankAccountsTable.id]
     }),
     loanProvider: one(memberLoanProviderTable, {
-        fields: [memberTakenLoansTable.loanProvidedBy],
+        fields: [memberTakenLoanTable.loanProvidedBy],
         references: [memberLoanProviderTable.id]
     }),
     loanTakenPayments: many(memberLoanProviderBillsTable),
@@ -47,7 +47,7 @@ export const memberTakenLoansRelation = relations(memberTakenLoansTable, ({ one,
 
 
 
-export const memberGivenLoansTable = pgTable('member_given_loans', {
+export const memberGivenLoanTable = pgTable('member_given_loan', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     loanGivenBy: uuid('member_id').notNull().references(() => membersTable.id),
@@ -64,13 +64,13 @@ export const memberGivenLoansTable = pgTable('member_given_loans', {
 })
 
 
-export const memberGivenLoansRelation = relations(memberGivenLoansTable, ({ one, many }) => ({
+export const memberGivenLoanRelation = relations(memberGivenLoanTable, ({ one, many }) => ({
     family: one(familyTable, {
-        fields: [memberGivenLoansTable.familyId],
+        fields: [memberGivenLoanTable.familyId],
         references: [familyTable.id]
     }),
     loanReceiver: one(memberLoanProviderTable, {
-        fields: [memberGivenLoansTable.loanRecipientBy],
+        fields: [memberGivenLoanTable.loanRecipientBy],
         references: [memberLoanProviderTable.id]
     }),
     loanGivenPayments: many(memberLoanRecipientTable),

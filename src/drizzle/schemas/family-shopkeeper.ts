@@ -3,6 +3,7 @@ import { familyTable } from "./family";
 import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
 import { familyShopkeeperBillsTable } from "./family-shopkeeper-bill";
+import { familyShopkeeperPurchaseTable } from "./family-shopkeeper-purchase";
 
 
 export const familyShopkeepersTable = pgTable('family_shopkeeper', {
@@ -22,5 +23,6 @@ export const familyShopkeepersRelation = relations(familyShopkeepersTable, ({ on
         fields: [familyShopkeepersTable.familyId],
         references: [familyTable.id]
     }),
-    paidBills:many(familyShopkeeperBillsTable)
+    paidBills:many(familyShopkeeperBillsTable),
+    sales:many(familyShopkeeperPurchaseTable),
 }))

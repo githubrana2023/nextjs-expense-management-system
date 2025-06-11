@@ -22,5 +22,4 @@ export const familyTrxNameRelations = relations(familyTrxNameTable, ({ one ,many
     }),
     assignFamilySourceBanks:many(assignFamilySourceBankTable,{relationName:'assignFamilySourceBank'}),
     assignFamilyReceiveBanks:many(assignFamilyReceiveBankTable,{relationName:'assignFamilyReceiveBank'})
-
 }))

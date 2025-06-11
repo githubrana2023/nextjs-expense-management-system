@@ -12,7 +12,6 @@ export const familyShopkeeperBillsTable = pgTable('family_shopkeepers-bill', {
     amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
     description: text('description'),
     paymentDate: timestamp('payment_date', { withTimezone: true }).notNull(),
-    totalDebt: numeric('total_debt', { precision: 7, scale: 2 }).notNull(),
     isCancel: boolean('isCancel').default(false),
     cancelReason: text('cancel_reason'),
     createdAt,
