@@ -26,6 +26,10 @@ export const getAllShopkeepersByFamilyId = async (familyId: string, options?: Db
 
 
 
+
+
+// only active
+
 export const getOnlyActiveShopkeeperByPhoneAndFamilyId = async (phone: string, familyId: string, options?: DbFindFirst<'familyShopkeepersTable'>) => (
     await db.query.familyShopkeepersTable.findFirst({
         where: and(

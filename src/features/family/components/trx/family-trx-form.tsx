@@ -12,13 +12,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button"
 import toast from "react-hot-toast"
 import { onClose } from "@/lib/redux/slice/modal-slice"
-// import { familyTrxCreateAction } from "../../action/trx/family-trx-create-action"
-import { OptionalOnly, RequiredOnly } from "@/interface"
-import { familyTrxTable } from "@/drizzle/schema"
 import { Textarea } from "@/components/ui/textarea"
 import { FamilyTrxName, AssignFamilyReceiveBank, AssignFamilySourceBank, FamilyBankAccount } from "@/drizzle/type"
 import { useTrxName } from "@/hooks/use-trx-name"
-import { familyTrxCreateAction } from "../../action/trx/family-trx-create-action"
+import { familyTrxCreateAction } from "@/features/family/action/trx"
 
 type TrxTabProps = {
     familyTrxNames: (FamilyTrxName & {

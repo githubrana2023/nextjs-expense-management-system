@@ -1,14 +1,13 @@
 'use server'
 
 import { currentFamily } from "@/lib/current-family"
-import { getFamilyById } from "../../../../services/family/get-family"
+import { getFamilyById } from "@/services/family/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
-import { getFamilyTrxNameByIdAndFamilyId } from "../../../../services/family/trx-name/get-family-trx-name"
+import { getFamilyTrxNameByIdAndFamilyId,updateFamilyTrxName } from "@/services/family/trx-name"
 import { revalidatePath } from "next/cache"
 import { FamilyTrxName } from "@/drizzle/type"
-import { updateFamilyTrxName } from "../../../../services/family/trx-name/update-family-trx-name"
-import { familyTrxNameUpdateFormSchema } from "../../schema/trx-name/family-trx-name-schema"
+import { familyTrxNameUpdateFormSchema } from "@/features/family/schema/trx-name"
 
 
 export const familyTrxNameUpdateAction = async (trxNameId:string,payload:Partial<FamilyTrxName>) => {

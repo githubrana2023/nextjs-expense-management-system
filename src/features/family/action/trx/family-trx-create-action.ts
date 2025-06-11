@@ -3,12 +3,12 @@
 import { currentFamily } from "@/lib/current-family"
 import { familyTrxCreateFormSchema } from "../../schema/trx"
 import { failureResponse, successResponse } from "@/lib/helpers/send-response"
-import { getFamilyById } from "../../../../services/family/get-family"
+import { getFamilyById } from "@/services/family/get-family"
 import { deleteCookie } from "@/lib/helpers"
 import { TOKEN_KEY } from "@/constant/token-constant"
-import { getOnlyActiveFamilyTrxNameByIdAndFamilyId } from "../../../../services/family/trx-name"
+import { getOnlyActiveFamilyTrxNameByIdAndFamilyId } from "@/services/family/trx-name"
 import { revalidatePath } from "next/cache"
-import { getOnlyActiveFamilyBankAccountByIdAndFamilyId } from "../../../../services/family/bank-account"
+import { getOnlyActiveFamilyBankAccountByIdAndFamilyId } from "@/services/family/bank-account"
 import { db } from "@/drizzle/db"
 import { familyBankAccountsTable, familyTrxTable } from "@/drizzle/schema"
 import { and, eq } from "drizzle-orm"
@@ -160,8 +160,6 @@ export const familyTrxCreateAction = async (payload: unknown) => {
         }
 
 
-
-
         if (!existFamilyReceiveBank) return failureResponse('Make sure receive account is active!')
 
         const additionAmount = (Number(existFamilyReceiveBank.balance) + formattedAmount).toString()
@@ -200,6 +198,6 @@ export const familyTrxCreateAction = async (payload: unknown) => {
 
     } catch (error) {
         console.log({ error, from: 'family trx create action' })
-        return failureResponse('Tranction failed!')
+        return failureResponse('Transaction failed!')
     }
 }

@@ -10,16 +10,23 @@ import {
     assignFamilySourceBankTable,
     familyLoanProviderBillsTable,
     familyLoanProviderTable,
-    familyLoansTable,
     memberBankAccountsTable,
     memberLoanProviderBillsTable,
     memberLoanProviderTable,
-    memberLoansTable,
     memberTrxNameTable,
     memberTrxTable,
     membersTable,
     familyShopkeeperBillsTable,
     familyShopkeepersTable,
+    familyTakenLoanTable,
+    familyGivenLoanTable,
+    memberTakenLoanTable,
+    memberGivenLoanTable,
+    familyLoanRecipientTable,
+    memberLoanRecipientTable,
+    familyShopkeeperPurchaseTable,
+    familyLoanRecipientPaymentTable,
+    memberLoanRecipientPaymentTable
 } from "./schema";
 
 export type Family = typeof familyTable.$inferSelect
@@ -52,8 +59,11 @@ export type FamilyLoanProviderBillInsert = typeof familyLoanProviderBillsTable.$
 export type FamilyLoanProvider = typeof familyLoanProviderTable.$inferSelect
 export type FamilyLoanProviderInsert = typeof familyLoanProviderTable.$inferInsert
 
-export type FamilyLoan = typeof familyLoansTable.$inferSelect
-export type FamilyLoanInsert = typeof familyLoansTable.$inferInsert
+export type FamilyGivenLoan = typeof familyGivenLoanTable.$inferSelect
+export type FamilyGivenLoanInsert = typeof familyGivenLoanTable.$inferInsert
+
+export type FamilyTakenLoan = typeof familyTakenLoanTable.$inferSelect
+export type FamilyTakenLoanInsert = typeof familyTakenLoanTable.$inferInsert
 
 export type MemberBankAccount = typeof memberBankAccountsTable.$inferSelect
 export type MemberBankAccountInsert = typeof memberBankAccountsTable.$inferInsert
@@ -64,8 +74,11 @@ export type MemberLoanProviderBillsInsert = typeof memberLoanProviderBillsTable.
 export type MemberLoanProvider = typeof memberLoanProviderTable.$inferSelect
 export type MemberLoanProviderInsert = typeof memberLoanProviderTable.$inferInsert
 
-export type MemberLoan = typeof memberLoansTable.$inferSelect
-export type MemberLoanInsert = typeof memberLoansTable.$inferInsert
+export type MemberTakenLoan = typeof memberTakenLoanTable.$inferSelect
+export type MemberTakenLoanInsert = typeof memberTakenLoanTable.$inferInsert
+
+export type MemberGivenLoan = typeof memberGivenLoanTable.$inferSelect
+export type MemberGivenLoanInsert = typeof memberGivenLoanTable.$inferInsert
 
 export type MemberTrxName = typeof memberTrxNameTable.$inferSelect
 export type MemberTrxNameInsert = typeof memberTrxNameTable.$inferInsert
@@ -82,8 +95,23 @@ export type familyShopkeeperBillInsert = typeof familyShopkeeperBillsTable.$infe
 export type Shopkeeper = typeof familyShopkeepersTable.$inferSelect
 export type ShopkeeperInsert = typeof familyShopkeepersTable.$inferInsert
 
+export type FamilyLoanRecipient = typeof familyLoanRecipientTable.$inferSelect
+export type FamilyLoanRecipientInsert = typeof familyLoanRecipientTable.$inferInsert
+
+export type MemberLoanRecipient = typeof memberLoanRecipientTable.$inferSelect
+export type MemberLoanRecipientInsert = typeof memberLoanRecipientTable.$inferInsert
+
+export type familyShopkeeperPurchase = typeof familyShopkeeperPurchaseTable.$inferSelect
+export type familyShopkeeperPurchaseInsert = typeof familyShopkeeperPurchaseTable.$inferInsert
+
+export type FamilyLoanRecipientPayment = typeof familyLoanRecipientPaymentTable.$inferSelect
+export type FamilyLoanRecipientPaymentInsert = typeof familyLoanRecipientPaymentTable.$inferInsert
+
+export type MemberLoanRecipientPayment = typeof memberLoanRecipientPaymentTable.$inferSelect
+export type MemberLoanRecipientPaymentInsert = typeof memberLoanRecipientPaymentTable.$inferInsert
 
 
+    memberLoanRecipientPaymentTable
 
 
 export type DbQuery = typeof db.query
