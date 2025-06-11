@@ -22,14 +22,14 @@ export const FamilyTrxNameDetailsTabContent = ({ trxName }: FamilyTrxNameDetails
     <div className="flex items-start justify-between">
       <div className="flex flex-col gap-1">
         {
-          assignFamilyReceiveBanks.map(bank => (
+          assignFamilyReceiveBanks?.map(bank => (
             <div key={bank.id}>{bank?.familyReceiveBank?.name}</div>
           ))
         }
       </div>
       <div className="flex flex-col gap-1">
         {
-          assignFamilySourceBanks.map(bank => (
+          assignFamilySourceBanks?.map(bank => (
             <div key={bank.id}>{bank?.familySourceBank?.name}</div>
           ))
         }

@@ -111,7 +111,6 @@ export type MemberLoanRecipientPayment = typeof memberLoanRecipientPaymentTable.
 export type MemberLoanRecipientPaymentInsert = typeof memberLoanRecipientPaymentTable.$inferInsert
 
 
-    memberLoanRecipientPaymentTable
 
 
 export type DbQuery = typeof db.query

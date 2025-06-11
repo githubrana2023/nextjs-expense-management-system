@@ -10,6 +10,7 @@ import { NotEmptyStr, Replace } from "@/interface"
 import { useQueryString } from "@/hooks/use-query-string"
 import { cn } from "@/lib/utils"
 import React, { JSX } from "react"
+import { useClient } from "@/hooks/use-client"
 
 
 export type TabItem<T extends string> = {
@@ -38,9 +39,12 @@ export const ReuseableTab = <T extends string>({
 }: TabsProps<T>) => {
   const safeDefault = defaultValue ?? items[0]?.value
   const { rowSearchParams, setQueryParams } = useQueryString()
+  const isClient = useClient()
 
   // get the tab query
   const isTabSearchQuery = rowSearchParams.has('tab')
+
+  if (!isClient) return null
 
   return (
     <Tabs defaultValue={safeDefault} className={className}>
@@ -53,11 +57,13 @@ export const ReuseableTab = <T extends string>({
                   <TabsTrigger
 
                     value={item.value}
-                    className={cn("", Icon && "min-w-22")}
+                    className={cn("", Icon && "w-full")}
                     onClick={
                       () => setQueryParams('tab', item.value, removeKeyOfValues)
                     }>
-                    <div className={cn("", Icon && "flex items-center gap-1.5 w-full")}>
+                    <div
+                      className={cn("", Icon && "flex items-center gap-1.5 w-full")}
+                    >
                       <span>{item.label}</span>
                       {Icon && Icon}
                     </div>
@@ -66,7 +72,7 @@ export const ReuseableTab = <T extends string>({
                 ) : (
                   <TabsTrigger
                     value={item.value}
-                    className={cn("", Icon && "min-w-22")}>
+                    className={cn("", Icon && "w-full")}>
                     <div className={cn("", Icon && "flex items-center gap-1.5 w-full")}>
                       <span>{item.label}</span>
                       {Icon && Icon}

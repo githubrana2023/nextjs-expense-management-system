@@ -9,6 +9,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Ban, Check, Clock3, CopyCheck, Users } from "lucide-react"
 import { useState } from "react"
 import toast from "react-hot-toast"
+import { FamilyShopkeeperActionCell } from "./family-shopkeeper-action-cell"
 
 
 const PhoneBadge = ({ phone }: { phone: string }) => {
@@ -24,14 +25,14 @@ const PhoneBadge = ({ phone }: { phone: string }) => {
 
     return (
         <Badge onClick={handleOnCopy} variant={copied ? 'success' : 'secondary'} className="cursor-pointer">
-            <span>{copied
-                ? (
-                    <span className='flex items-center gap-1'>
-                        <span>Copied</span>
-                        <CopyCheck size="16" />
-                    </span>
-                ) : phone}</span>
-
+            {copied ? (
+                <p className='flex items-center gap-1'>
+                    <span>Copied</span>
+                    <CopyCheck size="16" />
+                </p>
+            )
+                : phone
+            }
         </Badge>
     )
 }
@@ -96,8 +97,9 @@ export const shopkeeperTableColumns: ColumnDef<ShopkeeperWithFamilyIdAndName>[] 
         id: "actions",
         enableHiding: false,
         cell: ({ row: { original } }) => {
+            console.log('original', original)
             return (
-                <>delete</>
+                <FamilyShopkeeperActionCell shopkeeper={original} />
             )
         },
     },

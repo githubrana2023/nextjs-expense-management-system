@@ -6,15 +6,18 @@ import { useAppDispatch } from "@/hooks/redux"
 import { onOpen } from "@/lib/redux/slice/modal-slice"
 import { shopkeeperTableColumns } from "./shopkeeper-table-columns"
 import { ShopkeeperWithFamilyIdAndName } from "@/interface/shopkeeper"
+import { useClient } from "@/hooks/use-client"
 
 
-type ShopkeeperTabContentProps = {
+type ShopkeeperTableProps = {
     familyShopkeepers: ShopkeeperWithFamilyIdAndName[]
 }
 
-export const ShopkeeperTabContent = ({ familyShopkeepers }: ShopkeeperTabContentProps) => {
-
+export const ShopkeeperTable = ({ familyShopkeepers }: ShopkeeperTableProps) => {
+    const isClient = useClient()
     const dispatch = useAppDispatch()
+
+    if (!isClient) return null
 
     return <CardWrapper
         title="Shopkeepers"

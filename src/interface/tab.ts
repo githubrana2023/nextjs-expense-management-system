@@ -3,20 +3,20 @@ import { CamelCase } from "."
 
 
 type Value = 'defaultActive' | 'queryString'
-type ClientRole = 'family' | 'member'
+type ClientRole = 'family'
 
 export type TrxTabType = 'transaction' | 'trx-name'
 export type TrxNameTabType = 'details' | 'update' | 'assign'
-export type ShopkeeperTabType = 'shopkeeper' | 'purchase-due' | 'shopkeeper-bill'
 export type BankTabType = 'details' | 'update'
-export type LoanTabType = 'details' | 'update'
+export type LoanTabType = 'give' | 'take' | 'loan-provider' | 'loan-recipient'
 
+export type DynamicShopkeeper = 'details' | 'update' | 'purchase-due' | 'shopkeeper-bill'
 
 // 1. Centralized tab types
 type TabTypes = {
   trx: TrxTabType
   trxName: TrxNameTabType
-  shopkeeper: ShopkeeperTabType
+  dynamicShopkeeper: DynamicShopkeeper
   bank: BankTabType
   loan: LoanTabType
 }

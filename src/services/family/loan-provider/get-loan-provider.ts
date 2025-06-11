@@ -13,17 +13,39 @@ export const getFamilyLoanProviderByIdAndFamilyId = async (id: string, familyId:
     })
 )
 
+export const getFamilyLoanProviderByPhoneAndFamilyId = async (phone: string, familyId: string, options?: DbFindFirst<'familyLoanProviderTable'>) => (
+    await db.query.familyLoanProviderTable.findFirst({
+        where: and(
+            eq(familyLoanProviderTable.id, phone),
+            eq(familyLoanProviderTable.familyId, familyId),
+        ),
+        ...options
+    })
+)
 
 
 
 
 
 
-// only active
+
+//! only active
 export const getOnlyActiveFamilyLoanProviderByIdAndFamilyId = async (id: string, familyId: string, options?: DbFindFirst<'familyLoanProviderTable'>) => (
     await db.query.familyLoanProviderTable.findFirst({
         where: and(
             eq(familyLoanProviderTable.id, id),
+            eq(familyLoanProviderTable.familyId, familyId),
+            eq(familyLoanProviderTable.isDeleted, false),
+        ),
+        ...options
+    })
+)
+
+
+export const getOnlyActiveFamilyLoanProviderByPhoneAndFamilyId = async (phone: string, familyId: string, options?: DbFindFirst<'familyLoanProviderTable'>) => (
+    await db.query.familyLoanProviderTable.findFirst({
+        where: and(
+            eq(familyLoanProviderTable.id, phone),
             eq(familyLoanProviderTable.familyId, familyId),
             eq(familyLoanProviderTable.isDeleted, false),
         ),

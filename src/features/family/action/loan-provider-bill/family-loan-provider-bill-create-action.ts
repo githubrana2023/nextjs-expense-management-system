@@ -2,15 +2,16 @@
 
 import { TOKEN_KEY } from "@/constant/token-constant"
 import { db } from "@/drizzle/db"
-import { familyLoanProviderBillsTable } from "@/drizzle/schema"
+import { familyBankAccountsTable, familyLoanProviderBillsTable, familyLoanProviderTable, familyTakenLoanTable } from "@/drizzle/schema"
 import { familyLoanProviderBillCreateSchema } from "@/features/family/schema/loan-provider-bill"
 import { currentFamily } from "@/lib/current-family"
 import { deleteCookie } from "@/lib/helpers"
-import { failureResponse } from "@/lib/helpers/send-response"
+import { failureResponse, successResponse } from "@/lib/helpers/send-response"
 import { getOnlyActiveFamilyBankAccountByIdAndFamilyId } from "@/services/family/bank-account"
 import { getFamilyById } from "@/services/family/get-family"
 import { getDueFamilyTokenLoanByIdAndFamilyIdAndProviderId } from "@/services/family/loan"
-import { getFamilyLoanProviderByIdAndFamilyId, getOnlyActiveFamilyLoanProviderByIdAndFamilyId } from "@/services/family/loan-provider"
+import { getOnlyActiveFamilyLoanProviderByIdAndFamilyId } from "@/services/family/loan-provider"
+import { and, eq } from "drizzle-orm"
 
 export const familyLoanProviderBillCreateAction = async (payload: unknown) => {
     try {
@@ -23,7 +24,7 @@ export const familyLoanProviderBillCreateAction = async (payload: unknown) => {
             familyTakenLoanId,
             paymentDate,
             sourceBankId,
-            description
+            description,
         } = validation.data
 
         const formattedAmount = Number(amount)
@@ -55,6 +56,11 @@ export const familyLoanProviderBillCreateAction = async (payload: unknown) => {
 
         if (!existFamilyTakenLoan) return failureResponse('Family taken loan not found!')
 
+        if (
+            existFamilyTakenLoan.loanStatus === 'FULLY-PAID'
+            && Number(existFamilyTakenLoan.remaining) === 0
+        ) return failureResponse('This loan is already paid!')
+
         const balance = Number(existFamilySourceBank.balance)
         const providerTotalDebt = Number(existFamilyLoanProvider.totalDebt)
         const remaining = Number(existFamilyTakenLoan.remaining)
@@ -63,44 +69,84 @@ export const familyLoanProviderBillCreateAction = async (payload: unknown) => {
         const isProviderTotalDebtLessThanAmount = providerTotalDebt < formattedAmount
         const isRemainingLessThanAmount = remaining < formattedAmount
 
-        
+
         if (isBalanceLessThanAmount
             || isProviderTotalDebtLessThanAmount
             || isRemainingLessThanAmount
         ) return failureResponse(
             isBalanceLessThanAmount
-            ? "Insufficient Balance!"
-            : isProviderTotalDebtLessThanAmount
-            ? 'Due loan is less than you are paying!'
-            : 'Remaining loan is less than your are paying!'
+                ? "Insufficient Balance!"
+                : isProviderTotalDebtLessThanAmount
+                    ? 'Due loan is less than you are paying!'
+                    : 'Remaining loan is less than your are paying!'
         )
-        
+
         const deductedBalance = balance - formattedAmount
         const deductedProviderTotalDebt = providerTotalDebt - formattedAmount
         const deductedRemaining = remaining - formattedAmount
 
         return await db.transaction(
             async (tx) => {
-                const newFamilyLoanProviderBill = await tx.insert(familyLoanProviderBillsTable).values(
+                const [newFamilyLoanProviderBill] = await tx.insert(familyLoanProviderBillsTable).values(
                     {
                         amount,
                         description,
-                        familyId:existFamily.id,
-                        familyLoanProviderId:existFamilyLoanProvider.id,
-                        sourceBankId:existFamilySourceBank.id,
-                        familyTakenLoanId:existFamilyTakenLoan.id,
+                        familyId: existFamily.id,
+                        familyLoanProviderId: existFamilyLoanProvider.id,
+                        sourceBankId: existFamilySourceBank.id,
+                        familyTakenLoanId: existFamilyTakenLoan.id,
                         paymentDate: new Date(paymentDate),
-                        remaining:deductedRemaining.toString(),
+                        remaining: deductedRemaining.toString(),
                     }
                 ).returning()
 
-                
+                const [updatedLoan] = await tx.update(familyTakenLoanTable).set({
+                    remaining: deductedRemaining.toString(),
+                    loanStatus: deductedRemaining === 0 ? 'FULLY-PAID' : 'DUE',
+                }).where(
+                    and(
+                        eq(familyTakenLoanTable.id, existFamilyTakenLoan.id),
+                        eq(familyTakenLoanTable.familyId, existFamily.id),
+                        eq(familyTakenLoanTable.loanProviderId, existFamilyLoanProvider.id)
+                    )
+                ).returning()
+
+                const [updatedLoanProvider] = await tx.update(familyLoanProviderTable).set({
+                    totalDebt: deductedProviderTotalDebt.toString(),
+                }).where(
+                    and(
+                        eq(familyLoanProviderTable.id, existFamilyLoanProvider.id),
+                        eq(familyLoanProviderTable.familyId, existFamily.id),
+                        eq(familyLoanProviderTable.isDeleted, false)
+                    )
+                ).returning()
+
+                const [updatedSourceBank] = await tx.update(familyBankAccountsTable).set({
+                    balance: deductedBalance.toString(),
+                }).where(
+                    and(
+                        eq(familyBankAccountsTable.id, existFamilySourceBank.id),
+                        eq(familyBankAccountsTable.familyId, existFamily.id),
+                        eq(familyBankAccountsTable.isDeleted, false)
+                    )
+                ).returning()
+
+                if (!newFamilyLoanProviderBill || !updatedLoan || !updatedLoanProvider || !updatedSourceBank) {
+                    return failureResponse('Failed to paid the loan!')
+                }
+
+                return successResponse(
+                    'Loan paid successfully!',
+                    {
+                        newFamilyLoanProviderBill,
+                        updatedLoan,
+                        updatedLoanProvider,
+                        updatedSourceBank
+                    }
+                )
             }
         )
-
-
-
     } catch (error) {
-
+        return failureResponse('Failed to create loan provider bill!', error)
     }
 }

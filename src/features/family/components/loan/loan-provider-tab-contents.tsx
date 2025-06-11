@@ -3,13 +3,13 @@
 import { CardWrapper, DataTable } from "@/components"
 import { ActionButton } from "@/components/action-button"
 
-export const ShopkeeperBillContents = () => {
+export const LoanProviderTabContents = () => {
     return (
         <CardWrapper
-            title="Shopkeeper Bill"
-            description="This feature is under development."
+            title="Loan Provider"
+            description="Manage your loan providers. Add or edit loan provider details."
             headerElement={
-                <ActionButton modalType="F_SHOPKEEPER_BILL" />
+                <ActionButton modalType="F_LOAN_PROVIDER" />
             }
         >
             <DataTable data={[]} columns={[]} />

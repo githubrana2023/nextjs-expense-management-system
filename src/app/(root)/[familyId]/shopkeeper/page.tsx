@@ -1,18 +1,13 @@
 import React from 'react'
-import { ReuseableTab } from '@/components/reuseable-tab'
-import { familyTab } from '@/constant/tab'
-import { formatLabel } from '@/lib/word-formatter'
-import { Store, ScrollText } from 'lucide-react'
-import { ShopkeeperTabContent } from '@/features/family/components/shopkeeper'
+import { ShopkeeperTable } from '@/features/family/components/shopkeeper'
 import { getAllShopkeepersByFamilyId } from '@/services/family/shopkeeper'
 import { ShopkeeperWithFamilyIdAndName } from '@/interface/shopkeeper'
-import { ShopkeeperBillContents } from '@/features/family/components/shopkeeper/shopkeeper-bill-tab-contents'
 
-type ShopkeeperPageProps = {
+type ShopkeepersPageProps = {
   params: Promise<{ familyId: string }>
 }
 
-const ShopkeeperPage = async ({ params }: ShopkeeperPageProps) => {
+const ShopkeepersPage = async ({ params }: ShopkeepersPageProps) => {
   const param = await params
 
   const familyShopkeepers = await getAllShopkeepersByFamilyId(param.familyId, {
@@ -27,39 +22,10 @@ const ShopkeeperPage = async ({ params }: ShopkeeperPageProps) => {
   }) as ShopkeeperWithFamilyIdAndName[]
 
 
-  const {
-    shopkeeper,
-    shopkeeperBill,
-    purchaseDue
-  } = familyTab.familyShopkeeper.defaultActive
-
-
 
   return (
-    <ReuseableTab
-
-      items={[
-        {
-          value: shopkeeper,
-          label: formatLabel(shopkeeper),
-          Icon: <Store />,
-          content: <ShopkeeperTabContent familyShopkeepers={familyShopkeepers} />
-        },
-        {
-          value: shopkeeperBill,
-          label: formatLabel(shopkeeperBill),
-          Icon: <ScrollText />,
-          content: <ShopkeeperBillContents />
-        },
-        {
-          value: purchaseDue,
-          label: formatLabel(purchaseDue),
-          Icon: <ScrollText />,
-          content: <ShopkeeperBillContents />
-        }
-      ] as const}
-    />
+    <ShopkeeperTable familyShopkeepers={familyShopkeepers} />
   )
 }
 
-export default ShopkeeperPage
+export default ShopkeepersPage

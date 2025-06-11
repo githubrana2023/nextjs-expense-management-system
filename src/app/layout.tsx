@@ -36,11 +36,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
         <StoreProvider>
-          <AuthProvider session={{family,member}}>
-            <ToastProvider/>
+          <AuthProvider session={{ family, member }}>
+            <ToastProvider />
             <ModalProvider />
             {children}
           </AuthProvider>

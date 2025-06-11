@@ -7,11 +7,11 @@ import { memberBankAccountsTable } from "./member-bank-account";
 import { memberTrxTable } from "./member-trx";
 import { assignMemberReceiveBankTable } from "./assign-member-receive-bank";
 import { assignMemberSourceBankTable } from "./assign-member-source-bank";
-import { memberGivenLoansTable, memberTakenLoansTable } from "./member-loan";
 import { memberLoanProviderTable } from "./member-loan-provider";
 import { memberLoanProviderBillsTable } from "./member-loan-provider-bill";
 import { memberLoanRecipientTable } from "./member-loan-recipient";
 import { memberLoanRecipientPaymentTable } from "./member-loan-recipient-payment";
+import { memberGivenLoanTable, memberTakenLoanTable } from "./member-loan";
 
 
 export const membersTable = pgTable('members', {
@@ -40,8 +40,8 @@ export const membersRelation = relations(membersTable, ({ one, many }) => ({
     transactions: many(memberTrxTable),
     assignedReceiveBanks: many(assignMemberReceiveBankTable),
     assignedSourceBanks: many(assignMemberSourceBankTable),
-    givenLoans: many(memberGivenLoansTable),
-    takenLoans: many(memberTakenLoansTable),
+    givenLoans: many(memberGivenLoanTable),
+    takenLoans: many(memberTakenLoanTable),
     providers: many(memberLoanProviderTable),
     providerPayments: many(memberLoanProviderBillsTable),
     recipients: many(memberLoanRecipientTable),
