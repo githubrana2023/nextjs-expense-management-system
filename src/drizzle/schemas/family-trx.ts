@@ -14,12 +14,12 @@ export const familyTrxTable = pgTable('family_transaction', {
     familySourceBankId: uuid('family_source_bank_id').references(() => familyBankAccountsTable.id),
     familyReceiveBankId: uuid('family_receive_bank_id').references(() => familyBankAccountsTable.id),
     isCancel: boolean('isCancel').default(false),
-    cancelReason:text('cancel_reason'),
+    cancelReason: text('cancel_reason'),
     createdAt,
     updatedAt,
 })
 
-export const familyTrxRelation = relations(familyTrxTable, ({ one, many }) => ({
+export const familyTrxRelation = relations(familyTrxTable, ({ one }) => ({
     familyTrxName: one(familyTrxNameTable, {
         fields: [familyTrxTable.familyTrxNameId],
         references: [familyTrxNameTable.id],

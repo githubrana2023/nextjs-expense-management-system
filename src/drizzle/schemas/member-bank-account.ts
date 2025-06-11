@@ -13,8 +13,8 @@ export const memberBankAccountsTable = pgTable('member_bank_accounts', {
     memberId: uuid('member_id').notNull().references(() => membersTable.id),
     name: text('name').unique().notNull(),
     balance: numeric('balance', { precision: 7, scale: 2 }).notNull(),
-    lbn:text('local_bank_number').notNull().unique(),
-    isDeleted:boolean("is_deleted").default(false),
+    lbn: text('local_bank_number').notNull().unique(),
+    isDeleted: boolean("is_deleted").default(false),
     description: text('description'),
     createdAt,
     updatedAt,
@@ -22,7 +22,7 @@ export const memberBankAccountsTable = pgTable('member_bank_accounts', {
 
 
 
-export const memberBankAccountsRelation = relations(memberBankAccountsTable, ({ one,many }) => ({
+export const memberBankAccountsRelation = relations(memberBankAccountsTable, ({ one, many }) => ({
     family: one(familyTable, {
         fields: [memberBankAccountsTable.familyId],
         references: [familyTable.id]
@@ -31,8 +31,8 @@ export const memberBankAccountsRelation = relations(memberBankAccountsTable, ({ 
         fields: [memberBankAccountsTable.memberId],
         references: [membersTable.id]
     }),
-    assignedMemberReceiveTrx:many(assignMemberReceiveBankTable,{relationName:'assignMemberReceiveBank'}),
-    assignedMemberSourceTrx:many(assignMemberSourceBankTable,{relationName:'assignMemberSourceBank'}),
-    memberSourceTrx:many(memberTrxTable,{relationName:'memberTrxFromSourceBank'}),
-    memberReceiveTrx:many(memberTrxTable,{relationName:'memberTrxToReceiveBank'}),
+    assignedMemberReceiveTrx: many(assignMemberReceiveBankTable, { relationName: 'assignMemberReceiveBank' }),
+    assignedMemberSourceTrx: many(assignMemberSourceBankTable, { relationName: 'assignMemberSourceBank' }),
+    memberSourceTrx: many(memberTrxTable, { relationName: 'memberTrxFromSourceBank' }),
+    memberReceiveTrx: many(memberTrxTable, { relationName: 'memberTrxToReceiveBank' }),
 }))

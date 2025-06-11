@@ -13,12 +13,12 @@ export const memberTrxNameTable = pgTable('member_trx_name', {
     memberId: uuid('member_id').notNull().references(() => membersTable.id),
     name: text('name').notNull(),
     variant: text('variant', { enum: trxNameVariant }).notNull(),
-    isDeleted:boolean("is_deleted").default(false),
+    isDeleted: boolean("is_deleted").default(false),
     createdAt,
     updatedAt
 })
 
-export const memberTrxNameRelations = relations(memberTrxNameTable, ({ one,many }) => ({
+export const memberTrxNameRelations = relations(memberTrxNameTable, ({ one, many }) => ({
     family: one(familyTable, {
         fields: [memberTrxNameTable.familyId],
         references: [familyTable.id]
@@ -27,7 +27,7 @@ export const memberTrxNameRelations = relations(memberTrxNameTable, ({ one,many 
         fields: [memberTrxNameTable.memberId],
         references: [membersTable.id]
     }),
-    memberMemberTrx:many(memberTrxTable),
-    memberReceiveBanks:many(assignMemberReceiveBankTable,{relationName:'assignMemberReceiveBank'}),
-    memberSourceBanks:many(assignMemberSourceBankTable,{relationName:'assignMemberSourceBank'}),
+    memberTrx: many(memberTrxTable),
+    memberReceiveBanks: many(assignMemberReceiveBankTable, { relationName: 'assignMemberReceiveBank' }),
+    memberSourceBanks: many(assignMemberSourceBankTable, { relationName: 'assignMemberSourceBank' }),
 }))

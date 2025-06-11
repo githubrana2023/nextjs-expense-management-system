@@ -4,7 +4,7 @@ import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
 
 
-export const familyLoanProviderTable = pgTable('family_loan_provider', {
+export const familyLoanRecipientTable = pgTable('family_loan_recipient', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     name: text('name').notNull(),
@@ -16,9 +16,9 @@ export const familyLoanProviderTable = pgTable('family_loan_provider', {
 })
 
 
-export const familyLoanProviderRelation = relations(familyLoanProviderTable, ({ one, }) => ({
+export const familyLoanRecipientRelation = relations(familyLoanRecipientTable, ({ one, }) => ({
     family: one(familyTable, {
-        fields: [familyLoanProviderTable.familyId],
+        fields: [familyLoanRecipientTable.familyId],
         references: [familyTable.id]
     }),
 }))

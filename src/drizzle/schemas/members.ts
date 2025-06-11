@@ -4,6 +4,14 @@ import { relations } from "drizzle-orm";
 import { familyTable } from "./family";
 import { memberTrxNameTable } from "./member-trx-name";
 import { memberBankAccountsTable } from "./member-bank-account";
+import { memberTrxTable } from "./member-trx";
+import { assignMemberReceiveBankTable } from "./assign-member-receive-bank";
+import { assignMemberSourceBankTable } from "./assign-member-source-bank";
+import { memberGivenLoansTable, memberTakenLoansTable } from "./member-loan";
+import { memberLoanProviderTable } from "./member-loan-provider";
+import { memberLoanProviderBillsTable } from "./member-loan-provider-bill";
+import { memberLoanRecipientTable } from "./member-loan-recipient";
+import { memberLoanRecipientPaymentTable } from "./member-loan-recipient-payment";
 
 
 export const membersTable = pgTable('members', {
@@ -16,9 +24,10 @@ export const membersTable = pgTable('members', {
     relation: text('relation', { enum: memberRelation }).notNull(),
     role: text('role', { enum: role }).default('MEMBER').notNull(),
     emailVerifiedAt: timestamp('email_verified_at', { withTimezone: true }),
-    isDeleted:boolean("is_deleted").default(false),
+    isDeleted: boolean("is_deleted").default(false),
     createdAt,
     updatedAt,
+
 })
 
 export const membersRelation = relations(membersTable, ({ one, many }) => ({
@@ -27,5 +36,14 @@ export const membersRelation = relations(membersTable, ({ one, many }) => ({
         references: [familyTable.id]
     }),
     trxNames: many(memberTrxNameTable),
-    bankAccounts: many(memberBankAccountsTable)
+    bankAccounts: many(memberBankAccountsTable),
+    transactions: many(memberTrxTable),
+    assignedReceiveBanks: many(assignMemberReceiveBankTable),
+    assignedSourceBanks: many(assignMemberSourceBankTable),
+    givenLoans: many(memberGivenLoansTable),
+    takenLoans: many(memberTakenLoansTable),
+    providers: many(memberLoanProviderTable),
+    providerPayments: many(memberLoanProviderBillsTable),
+    recipients: many(memberLoanRecipientTable),
+    recipientPayments: many(memberLoanRecipientPaymentTable),
 }))

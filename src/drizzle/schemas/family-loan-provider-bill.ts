@@ -3,20 +3,23 @@ import { familyTable } from "./family";
 import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
 import { familyLoanProviderTable } from "./family-loan-provider";
-import { familyLoansTable } from "./family-loan";
+import { familyLoansTakenTable } from "./family-loan";
+import { familyBankAccountsTable } from "./family-bank-account";
 
 
 export const familyLoanProviderBillsTable = pgTable('family_shopkeepers-bill', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     familyLoanProviderId: uuid('family_loan_provider_id').notNull().references(() => familyLoanProviderTable.id),
-    familyLoanId: uuid('family_loan_id').notNull().references(() => familyLoansTable.id),
-    amount:numeric('amount', { precision: 7, scale: 2 }).notNull(),
-    description:text('description'),
-    paymentDate:timestamp('payment_date',{withTimezone:true}).notNull(),
-    totalDebt: numeric('total_debt', { precision: 7, scale: 2 }).notNull(),
+    familyTakenLoanId: uuid('family_taken_loan_id').notNull().references(() => familyLoansTakenTable.id),
+    sourceBankId: uuid('source_bank_id').notNull().references(() => familyBankAccountsTable.id),
+
+    amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
+    description: text('description'),
+    paymentDate: timestamp('payment_date', { withTimezone: true }).notNull(),
+    remaining: numeric('total_remaining', { precision: 7, scale: 2 }).notNull(),
     isCancel: boolean('isCancel').default(false),
-    cancelReason:text('cancel_reason'),
+    cancelReason: text('cancel_reason'),
     createdAt,
     updatedAt
 })
@@ -27,12 +30,16 @@ export const familyLoanProviderBillsRelation = relations(familyLoanProviderBills
         fields: [familyLoanProviderBillsTable.familyId],
         references: [familyTable.id]
     }),
-    familyLoanProvider:one(familyLoanProviderTable,{
-         fields: [familyLoanProviderBillsTable.familyLoanProviderId],
+    familyLoanProvider: one(familyLoanProviderTable, {
+        fields: [familyLoanProviderBillsTable.familyLoanProviderId],
         references: [familyLoanProviderTable.id]
     }),
-    familyLoan:one(familyLoansTable,{
-         fields: [familyLoanProviderBillsTable.familyLoanId],
-        references: [familyLoansTable.id]
+    familyTakenLoan: one(familyLoansTakenTable, {
+        fields: [familyLoanProviderBillsTable.familyTakenLoanId],
+        references: [familyLoansTakenTable.id]
+    }),
+    sourceBank: one(familyBankAccountsTable, {
+        fields: [familyLoanProviderBillsTable.familyTakenLoanId],
+        references: [familyBankAccountsTable.id]
     }),
 }))

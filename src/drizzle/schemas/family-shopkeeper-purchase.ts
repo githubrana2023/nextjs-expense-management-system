@@ -5,7 +5,7 @@ import { createdAt, updatedAt } from "../schema-helpers";
 import { familyShopkeepersTable } from "./family-shopkeeper";
 
 
-export const familyShopkeeperPurchaseTable = pgTable('family_shopkeepers-bill', {
+export const familyShopkeeperPurchaseTable = pgTable('family_shopkeepers-purchase', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
     familyShopkeeperId: uuid('family_shopkeeper_id').notNull().references(() => familyShopkeepersTable.id),
