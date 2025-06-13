@@ -1,7 +1,7 @@
 import { pgTable, uuid, text, boolean } from "drizzle-orm/pg-core";
 import { createdAt, trxNameVariant, updatedAt } from "@/drizzle/schema-helpers";
 import { familyTable } from "./family";
-import { relations } from "drizzle-orm";
+import { Many, relations } from "drizzle-orm";
 import { assignFamilySourceBankTable } from "./assign-family-source-bank";
 import { assignFamilyReceiveBankTable } from "./assign-family-receive-bank";
 
@@ -23,3 +23,4 @@ export const familyTrxNameRelations = relations(familyTrxNameTable, ({ one ,many
     assignFamilySourceBanks:many(assignFamilySourceBankTable,{relationName:'assignFamilySourceBank'}),
     assignFamilyReceiveBanks:many(assignFamilyReceiveBankTable,{relationName:'assignFamilyReceiveBank'})
 }))
+

@@ -21,5 +21,6 @@ export const assignFamilyReceiveBankRelation = relations(assignFamilyReceiveBank
   familyReceiveBank: one(familyBankAccountsTable, {
     fields: [assignFamilyReceiveBankTable.familyReceiveBankId],
     references: [familyBankAccountsTable.id],
+    relationName:"assignFamilyReceiveTrx"
   }),
 }))

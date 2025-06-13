@@ -21,5 +21,6 @@ export const assignFamilySourceBankRelation = relations(assignFamilySourceBankTa
   familySourceBank: one(familyBankAccountsTable, {
     fields: [assignFamilySourceBankTable.familySourceBankId],
     references: [familyBankAccountsTable.id],
+    relationName:'assignFamilySourceTrx'
   }),
 }))

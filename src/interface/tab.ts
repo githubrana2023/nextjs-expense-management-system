@@ -11,13 +11,14 @@ export type BankTabType = 'details' | 'update'
 export type LoanTabType = 'give' | 'take' | 'loan-provider' | 'loan-recipient'
 
 export type DynamicShopkeeper = 'details' | 'update' | 'purchase-due' | 'shopkeeper-bill'
+export type DynamicBank = 'details' | 'update' 
 
 // 1. Centralized tab types
 type TabTypes = {
   trx: TrxTabType
   trxName: TrxNameTabType
   dynamicShopkeeper: DynamicShopkeeper
-  bank: BankTabType
+  dynamicBank: DynamicBank
   loan: LoanTabType
 }
 

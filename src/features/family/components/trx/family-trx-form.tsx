@@ -145,7 +145,7 @@ export const FamilyTrxForm = ({ familyTrxNames }: TrxTabProps) => {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent className='w-full'>
-                                    {familyTrxNames.map(
+                                    {familyTrxNames?.map(
                                         ({ id, name }) => (
                                             <SelectItem value={id} key={id}>{name}</SelectItem>
                                         )
@@ -177,7 +177,7 @@ export const FamilyTrxForm = ({ familyTrxNames }: TrxTabProps) => {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent className='w-full'>
-                                                {selectedTrxName?.assignFamilySourceBanks.map(
+                                                {selectedTrxName?.assignFamilySourceBanks?.map(
                                                     ({ familySourceBank: { id, name } }) => (
                                                         <SelectItem value={id} key={id}>{name}</SelectItem>
                                                     )
@@ -210,7 +210,7 @@ export const FamilyTrxForm = ({ familyTrxNames }: TrxTabProps) => {
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent className='w-full'>
-                                                {selectedTrxName?.assignFamilyReceiveBanks.map(
+                                                {selectedTrxName?.assignFamilyReceiveBanks?.map(
                                                     ({ familyReceiveBank: { id, name } }) => (
                                                         <SelectItem value={id} key={id}>{name}</SelectItem>
                                                     )

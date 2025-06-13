@@ -45,7 +45,6 @@ export const TrxTab = ({ familyTrxNames}: TrxTabProps) => {
                 >
 
                     <FamilyTrxForm familyTrxNames={familyTrxNames}/>
-                    <></>
                 </CardWrapper>
             </Modal>
             <CardWrapper

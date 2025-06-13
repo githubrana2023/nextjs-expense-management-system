@@ -21,6 +21,7 @@ import { assignFamilyReceiveBankTable, assignFamilySourceBankTable } from "@/dri
 import { trxsNameReceiveByCash, trxsNameSourceByCash } from "@/constant/trx-name"
 import { isInclude } from "@/lib/utils"
 import { failureResponse, successResponse } from "@/lib/helpers/send-response"
+import { revalidatePath } from "next/cache"
 
 export interface AssignFamilyTrxNameResponse {
     source?: typeof assignFamilySourceBankTable.$inferSelect;
@@ -126,6 +127,8 @@ export const assignFamilyTrxNameActions = async <
                             return failureResponse('Failed to assign both bank!')
                         }
 
+                        revalidatePath(`/${existFamily.id}/trx/trx-name/${existFamilyTrxName.id}`)
+                        
                         return successResponse('Assigned both source and receive banks.', {
                             source: newAssignedSource,
                             receive: newAssignedReceive
@@ -145,6 +148,9 @@ export const assignFamilyTrxNameActions = async <
                     .returning()
 
                 if (!newAssignedReceive) return failureResponse('Failed to assign receive bank!')
+
+                revalidatePath(`/${existFamily.id}/trx/trx-name/${existFamilyTrxName.id}`)
+
                 return successResponse('Assigned receive bank!', {
                     receive: newAssignedReceive
                 })
@@ -159,6 +165,9 @@ export const assignFamilyTrxNameActions = async <
                 .returning()
 
             if (!newAssignedSource) return failureResponse('Failed to assign source bank!')
+
+            revalidatePath(`/${existFamily.id}/trx/trx-name/${existFamilyTrxName.id}`)
+
             return successResponse('Assigned source bank!', {
                 source: newAssignedSource
             })
@@ -181,6 +190,7 @@ export const assignFamilyTrxNameActions = async <
 
             if (!newAssignedSource) return failureResponse('Failed to assign source bank!')
 
+            revalidatePath(`/${existFamily.id}/trx/trx-name/${existFamilyTrxName.id}`)
             return successResponse('Assigned source bank.', { source: newAssignedSource })
         }
 
@@ -198,6 +208,8 @@ export const assignFamilyTrxNameActions = async <
             .returning()
 
         if (!newAssignedReceive) return failureResponse('Failed to assign receive bank!')
+
+        revalidatePath(`/${existFamily.id}/trx/trx-name/${existFamilyTrxName.id}`)
 
         return successResponse('Assigned receive bank.', { receive: newAssignedReceive })
     } catch (error) {

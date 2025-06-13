@@ -9,8 +9,9 @@ import { and, eq } from "drizzle-orm"
 export const getDueFamilyTokenLoanByIdAndFamilyIdAndProviderId = async (
     id: string,
     familyId: string,
-    loanProviderId:
-        string, options?: DbFindFirst<'familyTakenLoanTable'>) => {
+    loanProviderId: string,
+    options?: DbFindFirst<'familyTakenLoanTable'>
+) => {
     return await db.query.familyTakenLoanTable.findFirst({
         where: and(
             eq(familyTakenLoanTable.id, id),
