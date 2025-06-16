@@ -3,7 +3,7 @@
 import { CardWrapper } from "@/components"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { FamilyBankAccount, FamilyTrxName } from "@/drizzle/type"
+import { FamilyBankAccount, FamilyBankWithBothAssignedTrx, FamilyTrxName } from "@/drizzle/type"
 import { useForm } from "react-hook-form"
 import {
   assignFamilyBankFormSchema,
@@ -14,10 +14,11 @@ import { useState, useTransition } from "react"
 import { Button } from "@/components/ui/button"
 import { assignFamilyTrxNameActions } from "@/features/family/action/trx-name"
 import toast from "react-hot-toast"
+import { Cable } from "lucide-react"
 
 type FamilyTrxNameAssignTabContentProp = {
   familyTrxName: FamilyTrxName;
-  familyBanks: FamilyBankAccount[];
+  familyBanks: FamilyBankWithBothAssignedTrx[];
 }
 
 export const FamilyTrxNameAssignTabContent = ({ familyBanks, familyTrxName }: FamilyTrxNameAssignTabContentProp) => {
@@ -41,10 +42,10 @@ export const FamilyTrxNameAssignTabContent = ({ familyBanks, familyTrxName }: Fa
   const onSubmit = handleSubmit((formValue) => {
     startTransition(
       async () => {
-        const {data,success,message} = await assignFamilyTrxNameActions(formValue, familyTrxName.id)
+        const { data, success, message } = await assignFamilyTrxNameActions(formValue, familyTrxName.id)
 
         console.log({ data })
-        if(!success){
+        if (!success) {
           toast.error(message)
           return
         }
@@ -84,7 +85,13 @@ export const FamilyTrxNameAssignTabContent = ({ familyBanks, familyTrxName }: Fa
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className='w-full'>
-                        {familyBanks.map(({ id, name, }) => (<SelectItem value={id} key={id}>{name}</SelectItem>))}
+                        {familyBanks.map((bank) => (<SelectItem value={bank.id} key={bank.id}>
+                          {bank.name}
+                          {
+                            bank?.assignFamilySourceTrx.some(({ familyTrxNameId }) => familyTrxNameId === familyTrxName.id) && <Cable />
+                          }
+
+                        </SelectItem>))}
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -112,8 +119,15 @@ export const FamilyTrxNameAssignTabContent = ({ familyBanks, familyTrxName }: Fa
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className='w-full'>
-                        {receiveBanks.map(({ id, name, }) => (
-                          <SelectItem value={id} key={id}>{name}</SelectItem>
+                        {receiveBanks.map(({ id, name, assignFamilyReceiveTrx }) => (
+                          <SelectItem value={id} key={id}>
+                            {name}
+                            {
+                              assignFamilyReceiveTrx.some(
+                                ({ familyTrxNameId }) => familyTrxName.id === familyTrxNameId
+                              ) && <Cable />
+                            }
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>

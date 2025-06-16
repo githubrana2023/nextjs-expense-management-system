@@ -1,6 +1,6 @@
 import { boolean, numeric, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, updatedAt } from "@/drizzle/schema-helpers";
-import { relations } from "drizzle-orm";
+import { ExtractRelationsFromTableExtraConfigSchema, ExtractTablesWithRelations, relations } from "drizzle-orm";
 import { familyTable } from "./family";
 import { assignFamilySourceBankTable } from "./assign-family-source-bank";
 import { assignFamilyReceiveBankTable } from "./assign-family-receive-bank";

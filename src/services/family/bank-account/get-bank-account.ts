@@ -5,12 +5,10 @@ import { familyBankAccountsTable } from "@/drizzle/schema"
 import { DbFindMany } from "@/drizzle/type"
 import { and, eq } from "drizzle-orm"
 
-export const getAllFamilyBankAccountsByFamilyId = async (familyId: string) => (
+export const getAllFamilyBankAccountsByFamilyId = async (familyId: string, options?: DbFindMany<'familyBankAccountsTable'>) => (
     await db.query.familyBankAccountsTable.findMany({
         where: eq(familyBankAccountsTable.familyId, familyId),
-        with: {
-            family: true
-        }
+        ...options
     })
 )
 
@@ -43,15 +41,14 @@ export const getFamilyBankAccountByLbnAndFamilyId = async (lbn: string, familyId
 // only Active
 
 
-export const getOnlyActiveFamilyBankAccountsByFamilyId = async (familyId: string,options?:any) => (
+export const getOnlyActiveFamilyBankAccountsByFamilyId = async (familyId: string, options?: DbFindMany<'familyBankAccountsTable'>) => (
     await db.query.familyBankAccountsTable.findMany({
         where: and(
             eq(familyBankAccountsTable.isDeleted, false),
             eq(familyBankAccountsTable.familyId, familyId),
+            eq(familyBankAccountsTable.isDeleted, false),
         ),
-        with: {
-            family: true
-        }
+        ...options
     })
 )
 
@@ -79,23 +76,23 @@ export const getOnlyActiveFamilyBankAccountByLbnAndFamilyId = async (lbn: string
 
 
 export const getOnlyActiveExistFamilySourceAndReceiveBankByIdAndFamilyId = async (
-    sourceBankId:string|undefined,
-    receiveBankId:string|undefined,
-    familyId:string
+    sourceBankId: string | undefined,
+    receiveBankId: string | undefined,
+    familyId: string
 ) => {
-            const [existFamilySourceBank, existFamilyReceiveBank] = await Promise.all([
-                sourceBankId
-                    ? getOnlyActiveFamilyBankAccountByIdAndFamilyId(
-                        sourceBankId,
-                        familyId
-                    )
-                    : undefined,
-                receiveBankId
-                    ? getOnlyActiveFamilyBankAccountByIdAndFamilyId(
-                        receiveBankId,
-                        familyId
-                    )
-                    : undefined
-            ])
-            return { existFamilySourceBank, existFamilyReceiveBank }
-        }
+    const [existFamilySourceBank, existFamilyReceiveBank] = await Promise.all([
+        sourceBankId
+            ? getOnlyActiveFamilyBankAccountByIdAndFamilyId(
+                sourceBankId,
+                familyId
+            )
+            : undefined,
+        receiveBankId
+            ? getOnlyActiveFamilyBankAccountByIdAndFamilyId(
+                receiveBankId,
+                familyId
+            )
+            : undefined
+    ])
+    return { existFamilySourceBank, existFamilyReceiveBank }
+}

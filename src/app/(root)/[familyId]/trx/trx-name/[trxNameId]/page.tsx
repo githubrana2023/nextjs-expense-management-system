@@ -1,21 +1,20 @@
 import { ReuseableTab } from '@/components'
 import { REDIRECT_TO } from '@/constant'
-import { db } from '@/drizzle/db'
-import { assignFamilyReceiveBankTable, assignFamilySourceBankTable, familyTable, familyTrxNameTable } from '@/drizzle/schema'
 import {
   FamilyTrxNameDetailsTabContent,
   FamilyTrxNameUpdateTabContent,
   FamilyTrxNameAssignTabContent,
 } from '@/features/family/components/trx-name'
-import { getAllFamilyBankAccountsByFamilyId } from '@/services/family/bank-account/get-bank-account'
+import {  getOnlyActiveFamilyBankAccountsByFamilyId } from '@/services/family/bank-account/get-bank-account'
 import { getOnlyActiveFamilyTrxNameByIdAndFamilyId } from '@/services/family/trx-name/get-family-trx-name'
 import { TrxNameTabType } from '@/interface/tab'
 import { currentFamily } from '@/lib/current-family'
 import { uuidValidator } from '@/lib/zod'
-import { and, eq } from 'drizzle-orm'
 import { Info, SquarePen, Cable } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import {  AssignFamilyReceiveBank, AssignFamilySourceBank, FamilyBankAccount, FamilyBankWithBothAssignedTrx, FamilyTrxName,  } from '@/drizzle/type'
+
 
 type TrxNameDetailsPageProp = {
   params: Promise<{ familyId: string, trxNameId: string }>;
@@ -33,15 +32,31 @@ const TrxNameDetailsPage = async ({ params, searchParams }: TrxNameDetailsPagePr
   const familyTrxNameId = uuidValidator(param.trxNameId)
   if (!familyTrxNameId) redirect(`/${param.familyId}/trx`)
 
-  const trxName = await getOnlyActiveFamilyTrxNameByIdAndFamilyId(param.trxNameId, param.familyId)
-  const familyBankAccounts = await getAllFamilyBankAccountsByFamilyId(param.familyId)
+  const trxName = await getOnlyActiveFamilyTrxNameByIdAndFamilyId(param.trxNameId, param.familyId) as (FamilyTrxName & {
+      assignFamilyReceiveBanks: (AssignFamilyReceiveBank & {
+        familyReceiveBank: FamilyBankAccount
+      })[],
+      assignFamilySourceBanks: (AssignFamilySourceBank & {
+        familySourceBank: FamilyBankAccount
+      })[]
+    })
+  
+  const familyBankAccounts = await getOnlyActiveFamilyBankAccountsByFamilyId(param.familyId, {
+    with:{
+      assignFamilyReceiveTrx:true,
+      assignFamilySourceTrx:true,
+    }
+  }) as FamilyBankWithBothAssignedTrx[]
+
 
   if (!trxName) redirect(`/${param.familyId}/trx`)
+
+    // const familyBanks = await 
+
 
 
   return (
     <ReuseableTab
-      removeKeyOfValues={['assign', 'details', 'update']}
       defaultValue={(searchParam.tab as TrxNameTabType) || 'details'}
       items={[
         {

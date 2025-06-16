@@ -26,7 +26,8 @@ import {
     memberLoanRecipientTable,
     familyShopkeeperPurchaseTable,
     familyLoanRecipientPaymentTable,
-    memberLoanRecipientPaymentTable
+    memberLoanRecipientPaymentTable,
+    familyRelation
 } from "./schema";
 
 export type Family = typeof familyTable.$inferSelect
@@ -120,3 +121,11 @@ export type DbFindMany<Key extends DbQueryKey> = Parameters<DbQuery[Key]['findMa
 
 export type DbFindFirstReturnType<Key extends DbQueryKey> = ReturnType<DbQuery[Key]['findFirst']>
 export type DbFindManyReturnType<Key extends DbQueryKey> = ReturnType<DbQuery[Key]['findMany']>
+
+
+export type FamilyBankWithBothAssignedTrx = (
+    FamilyBankAccount & {
+        assignFamilyReceiveTrx: AssignFamilyReceiveBank[],
+        assignFamilySourceTrx: AssignFamilySourceBank[],
+    }
+)

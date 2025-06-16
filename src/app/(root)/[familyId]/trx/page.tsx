@@ -6,6 +6,7 @@ import {getOnlyActiveFamilyTrxNameByFamilyId } from '@/services/family/trx-name'
 import { TrxTabType } from '@/interface/tab'
 import { formatLabel } from '@/lib/word-formatter'
 import React from 'react'
+import { AssignFamilyReceiveBank, AssignFamilySourceBank, FamilyBankAccount, FamilyTrxName } from '@/drizzle/type'
 
 type TrxPageProps = {
   params: Promise<{ familyId: string }>;
@@ -18,7 +19,30 @@ const TrxPage = async ({ params, searchParams }: TrxPageProps) => {
   const { familyId } = await params
   const searParam = await searchParams
   const { familyTrx } = familyTab
-  const familyTrxNames = await getOnlyActiveFamilyTrxNameByFamilyId(familyId)
+  
+  const familyTrxNames = await getOnlyActiveFamilyTrxNameByFamilyId(familyId,{
+    with:{
+      assignFamilyReceiveBanks:{
+        with:{
+          familyReceiveBank:true
+        }
+      },
+      assignFamilySourceBanks:{
+        with:{
+          familySourceBank:true
+        }
+      }
+    }
+  }) as (FamilyTrxName & {
+          assignFamilyReceiveBanks: (AssignFamilyReceiveBank & {
+              familyReceiveBank: FamilyBankAccount
+          })[],
+          assignFamilySourceBanks: (AssignFamilySourceBank & {
+              familySourceBank: FamilyBankAccount
+          })[],
+      })[]
+
+      
 
   return (
     <ReuseableTab

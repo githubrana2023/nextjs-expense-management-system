@@ -24,7 +24,7 @@ export const defaultActiveTab: DefaultActiveTab = {
                 trxNameTab: '?tab=trx-name'
             }
         },
-        familyBank: {
+        familyDynamicBank: {
             defaultActive: {
                 details: "details",
                 update: 'update'

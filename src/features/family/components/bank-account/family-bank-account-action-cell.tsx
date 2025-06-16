@@ -23,7 +23,7 @@ type DeleteActionInfo = Pick<FamilyBankAccountColumn, 'name' | 'familyId' | 'id'
 
 export const FamilyBankAccountActionCell = ({ familyBankAccount }: { familyBankAccount: FamilyBankAccountColumn }) => {
     const { familyId, id, name } = familyBankAccount
-    const {familyBank}=familyTab
+    const {queryString}=familyTab.familyDynamicBank
     const [isOpenDropdownMenu, setIsOpenDropDownMenu] = useState(false)
     const [pending, startTransition] = useTransition()
     const { isAlertOpen, payload } = useAlertModal()
@@ -84,13 +84,13 @@ export const FamilyBankAccountActionCell = ({ familyBankAccount }: { familyBankA
                     {
                         !familyBankAccount.isDeleted && (
                             <>
-                                <Link href={`/${familyBankAccount.familyId}/trx/trx-name/${familyBankAccount.id}${familyBank.queryString.detailsTab}`}>
+                                <Link href={`/${familyBankAccount.familyId}/bank-account/${familyBankAccount.id}${queryString.detailsTab}`}>
                                     <DDMenuItem
                                         label='Details'
                                         Icon={<Info />}
                                     />
                                 </Link>
-                                <Link href={`/${familyBankAccount.familyId}/trx/trx-name/${familyBankAccount.id}${familyBank.queryString.updateTab}`}>
+                                <Link href={`/${familyBankAccount.familyId}/bank-account/${familyBankAccount.id}${queryString.updateTab}`}>
                                     <DDMenuItem
                                         label='Update'
                                         Icon={<SquarePen />}

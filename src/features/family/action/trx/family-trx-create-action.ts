@@ -32,6 +32,8 @@ export const familyTrxCreateAction = async (payload: unknown) => {
 
         const formattedAmount = Number(amount)
 
+        if(formattedAmount <= 0) return failureResponse('Amount should be grater than 0')
+
         if (!familySourceBankId && !familyReceiveBankId) return failureResponse('Please select a Bank!')
 
         const existFamily = await getFamilyById(loggedFamily.id)
