@@ -5,6 +5,9 @@ import { createdAt, loanStatus, updatedAt } from "../schema-helpers";
 import { familyLoanProviderTable } from "./family-loan-provider";
 import { familyBankAccountsTable } from "./family-bank-account";
 import { familyLoanRecipientTable } from "./family-loan-recipient";
+import { familyLoanProviderBillsTable } from "./family-loan-provider-bill";
+import { familyLoanRecipientPaymentTable } from "./family-loan-recipient-payment";
+import { table } from "console";
 
 
 export const familyTakenLoanTable = pgTable('family_taken_loan', {
@@ -23,8 +26,23 @@ export const familyTakenLoanTable = pgTable('family_taken_loan', {
 })
 
 
-export const familyTakenLoanRelation = relations(familyTakenLoanTable, ({ }) => ({
-
+export const familyTakenLoanRelation = relations(familyTakenLoanTable, ({ one, many }) => ({
+    family: one(familyTable, {
+        relationName: 'relationBetweenFamilyTakenToanAndFamily',
+        fields: [familyTakenLoanTable.familyId],
+        references: [familyTable.id]
+    }),
+    loanProvider: one(familyLoanProviderTable, {
+        relationName: 'relationBetweenFamilyTakenToanAndFamilyLoanProvider',
+        fields: [familyTakenLoanTable.loanProviderId],
+        references: [familyLoanProviderTable.id]
+    }),
+    receiveBank: one(familyBankAccountsTable, {
+        relationName: 'relationBetweenFamilyTakenToanAndFamilyReceiveBank',
+        fields: [familyTakenLoanTable.receiveBankId],
+        references: [familyBankAccountsTable.id]
+    }),
+    loanPaids: many(familyLoanProviderBillsTable, { relationName: 'relationBetweenFamilyLoanProviderBillAndFamilyTabkenLoan' })
 }))
 
 
@@ -48,6 +66,21 @@ export const familyGivenLoanTable = pgTable('family_given_loan', {
 })
 
 
-export const familyGivenLoanRelation = relations(familyGivenLoanTable, ({ }) => ({
-
+export const familyGivenLoanRelation = relations(familyGivenLoanTable, ({ one, many }) => ({
+    family: one(familyTable, {
+        relationName: 'relationBetweenFamilyGivenLoanAndFamily',
+        fields: [familyGivenLoanTable.familyId],
+        references: [familyTable.id]
+    }),
+    familyLoanRecipient: one(familyLoanRecipientTable, {
+        relationName: 'relationBetweenFamilyGivenLoanAndFamilyLoanRecipient',
+        fields: [familyGivenLoanTable.familyLoanRecipientId],
+        references: [familyLoanRecipientTable.id]
+    }),
+    familySourceBank: one(familyBankAccountsTable, {
+        relationName: 'relationBetweenFamilyGivenLoanAndfamilySourceBank',
+        fields: [familyGivenLoanTable.familySourceBankId],
+        references: [familyBankAccountsTable.id]
+    }),
+    familyGivenLoanPayments: many(familyLoanRecipientPaymentTable, { relationName: 'relationBetweenFamilyLoanRecipientPaymentAndFamilyLoanGiven', })
 }))

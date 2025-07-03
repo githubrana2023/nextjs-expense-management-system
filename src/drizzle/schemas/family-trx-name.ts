@@ -16,11 +16,18 @@ export const familyTrxNameTable = pgTable('family_trx_name', {
     updatedAt
 })
 
-export const familyTrxNameRelations = relations(familyTrxNameTable, ({ many }) => ({
+export const familyTrxNameRelations = relations(familyTrxNameTable, ({ one,many }) => ({
+    family: one(familyTable, {
+        relationName: 'relationBetweenFamilyTransactionNameAndFamily',
+        fields: [familyTrxNameTable.familyId],
+        references: [familyTable.id]
+    }),
     familyTransactions: many(familyTrxTable, {
         relationName: 'relationBetweenFamilyTransactionAndFamilyTractionName',
     }),
-    assignedReceiveBanks: many(assignFamilyReceiveBankTable, { relationName: 'relationBetweenAssignFamilyReceiveBankAndFamilyTransactionName', }),
+    assignedReceiveBanks: many(assignFamilyReceiveBankTable, {
+        relationName: 'relationBetweenAssignFamilyReceiveBankAndFamilyTransactionName',
+    }),
     assignedSourceBanks: many(assignFamilySourceBankTable, {
         relationName: 'relationBetweenAssignFamilySourceBankAndFamilyTrxName',
     })

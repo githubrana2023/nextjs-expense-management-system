@@ -5,6 +5,9 @@ import { familyTable } from "./family";
 import { familyTrxTable } from "./family-trx";
 import { assignFamilyReceiveBankTable } from "./assign-family-receive-bank";
 import { assignFamilySourceBankTable } from "./assign-family-source-bank";
+import { familyLoanProviderBillsTable } from "./family-loan-provider-bill";
+import { familyLoanRecipientPaymentTable } from "./family-loan-recipient-payment";
+import { familyTakenLoanTable } from "./family-loan";
 
 export const familyBankAccountsTable = pgTable('family_bank_accounts', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
@@ -27,12 +30,17 @@ export const familyBankAccountsRelation = relations(familyBankAccountsTable, ({ 
     }
     ),
 
-    familyTransactions: many(familyTrxTable, { relationName: 'relationBetweenFamilyTransactionAndFamilySourceBank', }),
+    familySourceTransactions: many(familyTrxTable, { relationName: 'relationBetweenFamilyTransactionAndFamilySourceBank', }),
 
     assignedReceiveTransactionsName: many(assignFamilyReceiveBankTable, {
         relationName: 'relationBetweenAssignFamilyReceiveBankAndFamilyBankAccount',
     }),
     assignedSourceTransactionsName: many(assignFamilySourceBankTable, {
         relationName: 'relationBetweenAssignFamilySourceBankAndFamilyBankAccount',
-    })
+    }),
+
+    loanPaids: many(familyLoanProviderBillsTable, { relationName: 'relationBetweenFamilyLoanProviderBillAndFamilySourceBank' }),
+    givenLoanPayments: many(familyLoanRecipientPaymentTable, { relationName: 'relationBetweenFamilyLoanRecipientPaymentAndFamilyReceiveBank' }),
+    takenLoans:many(familyTakenLoanTable,{relationName: 'relationBetweenFamilyTakenToanAndFamilyReceiveBank'}),
+    
 }))

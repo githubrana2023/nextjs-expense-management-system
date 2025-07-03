@@ -2,6 +2,8 @@ import { pgTable, uuid, text, numeric, boolean } from "drizzle-orm/pg-core";
 import { familyTable } from "./family";
 import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
+import { familyShopkeeperBillsTable } from "./family-shopkeeper-bill";
+import { familyShopkeeperPurchaseTable } from "./family-shopkeeper-purchase";
 
 export const familyShopkeepersTable = pgTable('family_shopkeeper', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
@@ -15,6 +17,12 @@ export const familyShopkeepersTable = pgTable('family_shopkeeper', {
 })
 
 
-export const familyShopkeepersRelation = relations(familyShopkeepersTable, ({ }) => ({
-
+export const familyShopkeepersRelation = relations(familyShopkeepersTable, ({ one, many }) => ({
+    family: one(familyTable, {
+        relationName: 'relationBetweenFamilyShopkeeperAndFamily',
+        fields: [familyShopkeepersTable.familyId],
+        references: [familyTable.id]
+    }),
+    billPayments: many(familyShopkeeperBillsTable, { relationName: 'relationBetweenfamilyshopkeeperBillAndFamilyShopkeeper' }),
+    sales: many(familyShopkeeperPurchaseTable, { relationName: 'relationBetweenfamilyshopkeeperPurchaseAndFamilyShopkeeper' }),
 }))
