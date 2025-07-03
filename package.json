@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "docker:up": "docker-compose -f postgresql-compose.yml up -d",
+    "docker:down": "docker-compose -f postgresql-compose.yml down",
     "generate": "yarn drizzle-kit generate",
     "drop": "yarn drizzle-kit drop",
     "studio": "yarn drizzle-kit studio",

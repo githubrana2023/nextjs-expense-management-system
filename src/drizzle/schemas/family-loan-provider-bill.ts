@@ -25,23 +25,6 @@ export const familyLoanProviderBillsTable = pgTable('family_loan_provider_bill',
 })
 
 
-export const familyLoanProviderBillsRelation = relations(familyLoanProviderBillsTable, ({ one }) => ({
+export const familyLoanProviderBillsRelation = relations(familyLoanProviderBillsTable, ({ }) => ({
 
-    family: one(familyTable, {
-        fields: [familyLoanProviderBillsTable.familyId],
-        references: [familyTable.id]
-    }),
-
-    familyLoanProvider: one(familyLoanProviderTable, {
-        fields: [familyLoanProviderBillsTable.familyLoanProviderId],
-        references: [familyLoanProviderTable.id]
-    }),
-    familyTakenLoan: one(familyTakenLoanTable, {
-        fields: [familyLoanProviderBillsTable.familyTakenLoanId],
-        references: [familyTakenLoanTable.id]
-    }),
-    sourceBank: one(familyBankAccountsTable, {
-        fields: [familyLoanProviderBillsTable.sourceBankId],
-        references: [familyBankAccountsTable.id]
-    }),
 }))

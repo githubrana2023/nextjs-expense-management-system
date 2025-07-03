@@ -20,20 +20,5 @@ export const memberTrxTable = pgTable('member_transaction', {
 })
 
 export const memberTrxRelation = relations(memberTrxTable, ({ one }) => ({
-    memberTrxName: one(memberTrxNameTable, {
-        fields: [memberTrxTable.memberTrxNameId],
-        references: [memberTrxNameTable.id],
-    }),
 
-    memberSourceBank: one(memberBankAccountsTable, {
-        fields: [memberTrxTable.memberSourceBankId],
-        references: [memberBankAccountsTable.id],
-        relationName: 'memberTrxFromSourceBank'
-    }),
-
-    receiveBank: one(memberBankAccountsTable, {
-        fields: [memberTrxTable.memberReceiveBankId],
-        references: [memberBankAccountsTable.id],
-        relationName: 'memberTrxToReceiveBank'
-    }),
 }))

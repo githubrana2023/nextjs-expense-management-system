@@ -23,16 +23,5 @@ export const memberBankAccountsTable = pgTable('member_bank_accounts', {
 
 
 export const memberBankAccountsRelation = relations(memberBankAccountsTable, ({ one, many }) => ({
-    family: one(familyTable, {
-        fields: [memberBankAccountsTable.familyId],
-        references: [familyTable.id]
-    }),
-    member: one(membersTable, {
-        fields: [memberBankAccountsTable.memberId],
-        references: [membersTable.id]
-    }),
-    assignedMemberReceiveTrx: many(assignMemberReceiveBankTable, { relationName: 'assignMemberReceiveTrx' }),
-    assignedMemberSourceTrx: many(assignMemberSourceBankTable, { relationName: 'assignMemberSourceTrx' }),
-    memberSourceTrx: many(memberTrxTable, { relationName: 'memberSourceTrx' }),
-    memberReceiveTrx: many(memberTrxTable, { relationName: 'memberReceiveTrx' }),
+
 }))

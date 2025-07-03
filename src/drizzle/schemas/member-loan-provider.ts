@@ -14,21 +14,11 @@ export const memberLoanProviderTable = pgTable('member_loan_provider', {
     name: text('name').notNull(),
     phone: text('phone').notNull().unique(),
     totalDebt: numeric('total_debt', { precision: 7, scale: 2 }),
-    isDeleted:boolean("is_deleted").default(false),
+    isDeleted: boolean("is_deleted").default(false),
     createdAt,
     updatedAt
 })
 
 
-export const memberLoanProviderRelation = relations(memberLoanProviderTable, ({ one ,many}) => ({
-    family: one(familyTable, {
-        fields: [memberLoanProviderTable.familyId],
-        references: [familyTable.id]
-    }),
-    member: one(membersTable, {
-        fields: [memberLoanProviderTable.memberId],
-        references: [membersTable.id]
-    }),
-    providedLoans:many(memberTakenLoanTable),
-    loanPayments:many(memberLoanProviderBillsTable)
+export const memberLoanProviderRelation = relations(memberLoanProviderTable, ({ one, many }) => ({
 }))

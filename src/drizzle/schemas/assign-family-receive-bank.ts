@@ -14,13 +14,13 @@ export const assignFamilyReceiveBankTable = pgTable('assign_family_receive_bank'
 
 export const assignFamilyReceiveBankRelation = relations(assignFamilyReceiveBankTable, ({ one }) => ({
   familyTrxName: one(familyTrxNameTable, {
+    relationName: 'relationBetweenAssignFamilyReceiveBankAndFamilyTransactionName',
     fields: [assignFamilyReceiveBankTable.familyTrxNameId],
-    references: [familyTrxNameTable.id],
-    relationName: 'assignFamilyReceiveBank'
+    references: [familyTrxNameTable.id]
   }),
   familyReceiveBank: one(familyBankAccountsTable, {
+    relationName: 'relationBetweenAssignFamilyReceiveBankAndFamilyBankAccount',
     fields: [assignFamilyReceiveBankTable.familyReceiveBankId],
-    references: [familyBankAccountsTable.id],
-    relationName:"assignFamilyReceiveTrx"
+    references: [familyBankAccountsTable.id]
   }),
 }))

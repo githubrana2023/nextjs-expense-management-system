@@ -29,19 +29,7 @@ export const memberTakenLoanTable = pgTable('member_take_loan', {
 
 
 export const memberTakenLoanRelation = relations(memberTakenLoanTable, ({ one, many }) => ({
-    family: one(familyTable, {
-        fields: [memberTakenLoanTable.familyId],
-        references: [familyTable.id]
-    }),
-    receiveBank: one(memberBankAccountsTable, {
-        fields: [memberTakenLoanTable.memberReceiveBankId],
-        references: [memberBankAccountsTable.id]
-    }),
-    loanProvider: one(memberLoanProviderTable, {
-        fields: [memberTakenLoanTable.loanProvidedBy],
-        references: [memberLoanProviderTable.id]
-    }),
-    loanTakenPayments: many(memberLoanProviderBillsTable),
+
 }))
 
 
@@ -65,13 +53,5 @@ export const memberGivenLoanTable = pgTable('member_given_loan', {
 
 
 export const memberGivenLoanRelation = relations(memberGivenLoanTable, ({ one, many }) => ({
-    family: one(familyTable, {
-        fields: [memberGivenLoanTable.familyId],
-        references: [familyTable.id]
-    }),
-    loanReceiver: one(memberLoanProviderTable, {
-        fields: [memberGivenLoanTable.loanRecipientBy],
-        references: [memberLoanProviderTable.id]
-    }),
-    loanGivenPayments: many(memberLoanRecipientTable),
+
 }))

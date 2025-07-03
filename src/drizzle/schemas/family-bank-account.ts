@@ -1,10 +1,10 @@
 import { boolean, numeric, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, updatedAt } from "@/drizzle/schema-helpers";
-import { ExtractRelationsFromTableExtraConfigSchema, ExtractTablesWithRelations, relations } from "drizzle-orm";
+import { relations } from "drizzle-orm";
 import { familyTable } from "./family";
-import { assignFamilySourceBankTable } from "./assign-family-source-bank";
+import { familyTrxTable } from "./family-trx";
 import { assignFamilyReceiveBankTable } from "./assign-family-receive-bank";
-import { familyLoanProviderBillsTable } from "./family-loan-provider-bill";
+import { assignFamilySourceBankTable } from "./assign-family-source-bank";
 
 export const familyBankAccountsTable = pgTable('family_bank_accounts', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
@@ -21,10 +21,18 @@ export const familyBankAccountsTable = pgTable('family_bank_accounts', {
 
 export const familyBankAccountsRelation = relations(familyBankAccountsTable, ({ one, many }) => ({
     family: one(familyTable, {
+        relationName: 'relationBetweenFamilyBankAccountAndFamily',
         fields: [familyBankAccountsTable.familyId],
         references: [familyTable.id]
+    }
+    ),
+
+    familyTransactions: many(familyTrxTable, { relationName: 'relationBetweenFamilyTransactionAndFamilySourceBank', }),
+
+    assignedReceiveTransactionsName: many(assignFamilyReceiveBankTable, {
+        relationName: 'relationBetweenAssignFamilyReceiveBankAndFamilyBankAccount',
     }),
-    takenLoanPayments:many(familyLoanProviderBillsTable),
-    assignFamilySourceTrx: many(assignFamilySourceBankTable, { relationName: "assignFamilySourceTrx" }),
-    assignFamilyReceiveTrx: many(assignFamilyReceiveBankTable, { relationName: "assignFamilyReceiveTrx" }),
+    assignedSourceTransactionsName: many(assignFamilySourceBankTable, {
+        relationName: 'relationBetweenAssignFamilySourceBankAndFamilyBankAccount',
+    })
 }))

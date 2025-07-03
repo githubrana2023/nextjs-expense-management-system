@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: my-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgresql
+      POSTGRES_PASSWORD: postgresql
+      POSTGRES_DB: ems
+    ports:
+      - "5432:5432"
+    volumes:
+      - "D:/docker-data/postgresql/ems-db-data:/var/lib/postgresql/data"

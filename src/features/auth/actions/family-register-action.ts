@@ -50,6 +50,7 @@ export const familyRegisterAction = async <T, E extends Error>(payload: FamilyRe
 
     return { success: true, message: 'Family register successful!', data: newFamily, error: null }
   } catch (error) {
+    console.error('Family registration error:', error)
     return { success: false, message: 'Failed to register family', data: null, error }
   }
 }

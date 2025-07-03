@@ -21,14 +21,5 @@ export const memberLoanRecipientTable = pgTable('member_loan_recipient', {
 
 
 export const memberLoanRecipientRelation = relations(memberLoanRecipientTable, ({ one, many }) => ({
-    family: one(familyTable, {
-        fields: [memberLoanRecipientTable.familyId],
-        references: [familyTable.id]
-    }),
-    member: one(membersTable, {
-        fields: [memberLoanRecipientTable.memberId],
-        references: [membersTable.id]
-    }),
-    loanPayments: many(memberLoanRecipientPaymentTable),
-    loans: many(memberGivenLoanTable)
+
 }))

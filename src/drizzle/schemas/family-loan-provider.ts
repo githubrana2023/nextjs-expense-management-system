@@ -2,8 +2,6 @@ import { pgTable, uuid, text, numeric, boolean } from "drizzle-orm/pg-core";
 import { familyTable } from "./family";
 import { relations } from "drizzle-orm";
 import { createdAt, updatedAt } from "../schema-helpers";
-import { familyLoanProviderBillsTable } from "./family-loan-provider-bill";
-import { familyTakenLoanTable } from "./family-loan";
 
 
 export const familyLoanProviderTable = pgTable('family_loan_provider', {
@@ -18,11 +16,4 @@ export const familyLoanProviderTable = pgTable('family_loan_provider', {
 })
 
 
-export const familyLoanProviderRelation = relations(familyLoanProviderTable, ({ one,many }) => ({
-    family: one(familyTable, {
-        fields: [familyLoanProviderTable.familyId],
-        references: [familyTable.id]
-    }),
-    loanPayments:many(familyLoanProviderBillsTable),
-    providedLoans:many(familyTakenLoanTable)
-}))
+export const familyLoanProviderRelation = relations(familyLoanProviderTable, ({ }) => ({}))

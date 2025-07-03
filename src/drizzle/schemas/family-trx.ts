@@ -3,6 +3,7 @@ import { relations } from "drizzle-orm";
 import { familyTrxNameTable } from "./family-trx-name";
 import { familyBankAccountsTable } from "./family-bank-account";
 import { createdAt, updatedAt } from "@/drizzle/schema-helpers";
+import { familyTable } from "./family";
 
 
 export const familyTrxTable = pgTable('family_transaction', {
@@ -10,6 +11,7 @@ export const familyTrxTable = pgTable('family_transaction', {
     name: text('trx_name').notNull(),
     amount: numeric('amount', { precision: 7, scale: 2 }).notNull(),
     description: text('description'),
+    familyId: uuid('family_id').notNull().references(() => familyTable.id),
     familyTrxNameId: uuid('family_trx_name_id').notNull().references(() => familyTrxNameTable.id),
     familySourceBankId: uuid('family_source_bank_id').references(() => familyBankAccountsTable.id),
     familyReceiveBankId: uuid('family_receive_bank_id').references(() => familyBankAccountsTable.id),
@@ -20,20 +22,24 @@ export const familyTrxTable = pgTable('family_transaction', {
 })
 
 export const familyTrxRelation = relations(familyTrxTable, ({ one }) => ({
+    family: one(familyTable, {
+        relationName: 'relationBetweenFamilyAndFamilyTrx',
+        fields: [familyTrxTable.familyId],
+        references: [familyTable.id]
+    }),
     familyTrxName: one(familyTrxNameTable, {
+        relationName: 'relationBetweenFamilyTransactionAndFamilyTractionName',
         fields: [familyTrxTable.familyTrxNameId],
-        references: [familyTrxNameTable.id],
+        references: [familyTrxNameTable.id]
     }),
-
     familySourceBank: one(familyBankAccountsTable, {
+        relationName: 'relationBetweenFamilyTransactionAndFamilySourceBank',
         fields: [familyTrxTable.familySourceBankId],
-        references: [familyBankAccountsTable.id],
-        relationName: 'familyTrxFromSourceBank'
+        references: [familyBankAccountsTable.id]
     }),
-
-    receiveBank: one(familyBankAccountsTable, {
+    familyReceiveBank: one(familyBankAccountsTable, {
+        relationName: 'relationBetweenFamilyTransactionAndFamilyReceiveBank',
         fields: [familyTrxTable.familyReceiveBankId],
-        references: [familyBankAccountsTable.id],
-        relationName: 'familyTrxToReceiveBank'
+        references: [familyBankAccountsTable.id]
     }),
 }))

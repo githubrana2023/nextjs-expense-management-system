@@ -110,6 +110,7 @@ export const familyLoginAction = async <FR extends Error>(payload: FamilyLoginFo
     }
   } catch (error) {
     console.error("Family Login Action Error:", error)
+
     return {
       success: false,
       message: "Failed to login!",
