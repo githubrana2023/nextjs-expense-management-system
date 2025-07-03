@@ -25,5 +25,5 @@ export const familyLoanProviderRelation = relations(familyLoanProviderTable, ({ 
         references: [familyTable.id]
     }),
     loanPayments: many(familyLoanProviderBillsTable, { relationName: 'relationBetweenFamilyLoanProviderBillAndFamilyLoanProvider' }),
-    providedLoans:many(familyTakenLoanTable,{relationName:'relationBetweenFamilyTakenToanAndFamilyLoanProvider'})
+    providedLoans: many(familyTakenLoanTable, { relationName: 'relationBetweenFamilyTakenLoanAndFamilyLoanProvider' })
 }))

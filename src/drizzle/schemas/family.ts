@@ -13,6 +13,12 @@ import { familyShopkeeperBillsTable } from "./family-shopkeeper-bill";
 import { familyShopkeeperPurchaseTable } from "./family-shopkeeper-purchase";
 import { familyShopkeepersTable } from "./family-shopkeeper";
 import { familyTrxNameTable } from "./family-trx-name";
+import { memberBankAccountsTable } from "./member-bank-account";
+import { memberLoanProviderTable } from "./member-loan-provider";
+import { memberLoanRecipientPaymentTable } from "./member-loan-recipient-payment";
+import { memberLoanRecipientTable } from "./member-loan-recipient";
+import { memberGivenLoanTable, memberTakenLoanTable } from "./member-loan";
+import { memberTrxNameTable } from "./member-trx-name";
 
 export const familyTable = pgTable('family_table', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
@@ -35,10 +41,32 @@ export const familyRelation = relations(familyTable, ({ many }) => ({
     loanProviders: many(familyLoanProviderTable, { relationName: 'relationBetweenFamilyLoanProviderAndFamily' }),
     familyLoanRecipientPayments: many(familyLoanRecipientPaymentTable, { relationName: 'relationBetweenFamilyLoanRecipientPaymentAndFamily' }),
     loanRecipients: many(familyLoanRecipientTable, { relationName: 'relationBetweenFamilyLoanRecipientAndFamily', }),
-    takenLoans: many(familyTakenLoanTable, { relationName: 'relationBetweenFamilyTakenToanAndFamily', }),
+    takenLoans: many(familyTakenLoanTable, { relationName: 'relationBetweenFamilyTakenLoanAndFamily', }),
     givenLoans: many(familyGivenLoanTable, { relationName: 'relationBetweenFamilyGivenLoanAndFamily' }),
-    familyShopkeeperBills: many(familyShopkeeperBillsTable, { relationName: 'relationBetweenfamilyshopkeeperBillAndFamily' }),
-    shopkeeperPurchases: many(familyShopkeeperPurchaseTable, { relationName: 'relationBetweenfamilyshopkeeperPurchaseAndFamily' }),
+    familyShopkeeperBills: many(familyShopkeeperBillsTable, { relationName: 'relationBetweenFamilyShopkeeperBillAndFamily' }),
+    shopkeeperPurchases: many(familyShopkeeperPurchaseTable, { relationName: 'relationBetweenFamilyShopkeeperPurchaseAndFamily' }),
     shopkeepers: many(familyShopkeepersTable, { relationName: 'relationBetweenFamilyShopkeeperAndFamily', }),
-    familyTransactionsName: many(familyTrxNameTable, { relationName: 'relationBetweenFamilyTransactionNameAndFamily', })
+    familyTransactionsName: many(familyTrxNameTable, { relationName: 'relationBetweenFamilyTransactionNameAndFamily', }),
+    memberBankAccounts: many(memberBankAccountsTable, { relationName: 'relationBetweenMemberBankAccountAndFamily', }),
+    memberLoanProviderPaidBills: many(familyLoanProviderBillsTable, {
+        relationName: 'relationBetweenMemberLoanProviderBillAndFamily',
+    }),
+    memberLoanProviders: many(memberLoanProviderTable, {
+        relationName: 'relationBetweenMemberLoanProviderAndFamily',
+    }),
+    memberLoanRecipientPayments: many(memberLoanRecipientPaymentTable, {
+        relationName: 'relationBetweenMemberLoanRecipientPaymentAndFamily',
+    }),
+    memberLoanRecipients: many(memberLoanRecipientTable, {
+        relationName: 'relationBetweenMemberLoanRecipientAndFamily',
+    }),
+    memberGivenLoans: many(memberGivenLoanTable, {
+        relationName: 'relationBetweenMemberGivenLoanAndFamily',
+    }),
+    memberTakenLoans: many(memberTakenLoanTable, {
+        relationName: 'relationBetweenMemberTakenLoanAndFamily',
+    }),
+    memberTransactionsName: many(memberTrxNameTable, {
+        relationName: 'relationBetweenMemberTrxNameAndFamily',
+    })
 }))

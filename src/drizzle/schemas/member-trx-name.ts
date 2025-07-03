@@ -3,9 +3,8 @@ import { createdAt, trxNameVariant, updatedAt } from "@/drizzle/schema-helpers";
 import { familyTable } from "./family";
 import { relations } from "drizzle-orm";
 import { membersTable } from "./members";
-import { assignMemberReceiveBankTable } from "./assign-member-receive-bank";
-import { assignMemberSourceBankTable } from "./assign-member-source-bank";
 import { memberTrxTable } from "./member-trx";
+import { assignMemberReceiveBankTable } from "./assign-member-receive-bank";
 
 export const memberTrxNameTable = pgTable('member_trx_name', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
@@ -19,5 +18,20 @@ export const memberTrxNameTable = pgTable('member_trx_name', {
 })
 
 export const memberTrxNameRelations = relations(memberTrxNameTable, ({ one, many }) => ({
-
+    family: one(familyTable, {
+        relationName: 'relationBetweenMemberTrxNameAndFamily',
+        fields: [memberTrxNameTable.familyId],
+        references: [familyTable.id]
+    }),
+    member: one(membersTable, {
+        relationName: 'relationBetweenMemberTrxNameAndMember',
+        fields: [memberTrxNameTable.memberId],
+        references: [membersTable.id]
+    }),
+    memberTransactions: many(memberTrxTable, {
+        relationName: 'relationBetweenMemberTrxAndMemberTrxName',
+    }),
+    assignedMemberReceiveBanks: many(assignMemberReceiveBankTable, {
+        relationName: 'relationBetweenAssignMemberReceiveBankAndMemberTrxName',
+    })
 }))

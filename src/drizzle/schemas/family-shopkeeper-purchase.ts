@@ -23,13 +23,13 @@ export const familyShopkeeperPurchaseTable = pgTable('family_shopkeepers-purchas
 
 export const familyShopkeeperPurchaseRelation = relations(familyShopkeeperPurchaseTable, ({ one }) => ({
     family: one(familyTable, {
-        relationName: 'relationBetweenfamilyshopkeeperPurchaseAndFamily',
+        relationName: 'relationBetweenFamilyShopkeeperPurchaseAndFamily',
         fields: [familyShopkeeperPurchaseTable.familyId],
         references: [familyTable.id]
     }
     ),
     familyShopkeeper: one(familyShopkeepersTable, {
-        relationName: 'relationBetweenfamilyshopkeeperPurchaseAndFamilyShopkeeper',
+        relationName: 'relationBetweenFamilyShopkeeperPurchaseAndFamilyShopkeeper',
         fields: [familyShopkeeperPurchaseTable.familyShopkeeperId],
         references: [familyShopkeepersTable.id]
     }

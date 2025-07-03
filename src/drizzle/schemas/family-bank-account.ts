@@ -41,6 +41,6 @@ export const familyBankAccountsRelation = relations(familyBankAccountsTable, ({ 
 
     loanPaids: many(familyLoanProviderBillsTable, { relationName: 'relationBetweenFamilyLoanProviderBillAndFamilySourceBank' }),
     givenLoanPayments: many(familyLoanRecipientPaymentTable, { relationName: 'relationBetweenFamilyLoanRecipientPaymentAndFamilyReceiveBank' }),
-    takenLoans:many(familyTakenLoanTable,{relationName: 'relationBetweenFamilyTakenToanAndFamilyReceiveBank'}),
-    
+    takenLoans: many(familyTakenLoanTable, { relationName: 'relationBetweenFamilyTakenLoanAndFamilyReceiveBank' }),
+
 }))

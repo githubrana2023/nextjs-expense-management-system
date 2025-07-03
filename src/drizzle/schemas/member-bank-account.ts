@@ -3,9 +3,10 @@ import { createdAt, updatedAt } from "@/drizzle/schema-helpers";
 import { membersTable } from "./members";
 import { relations } from "drizzle-orm";
 import { familyTable } from "./family";
-import { assignMemberReceiveBankTable } from "./assign-member-receive-bank";
-import { assignMemberSourceBankTable } from "./assign-member-source-bank";
+import { memberLoanProviderBillsTable } from "./member-loan-provider-bill";
+import { memberGivenLoanTable, memberTakenLoanTable } from "./member-loan";
 import { memberTrxTable } from "./member-trx";
+import { assignMemberReceiveBankTable } from "./assign-member-receive-bank";
 
 export const memberBankAccountsTable = pgTable('member_bank_accounts', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
@@ -23,5 +24,32 @@ export const memberBankAccountsTable = pgTable('member_bank_accounts', {
 
 
 export const memberBankAccountsRelation = relations(memberBankAccountsTable, ({ one, many }) => ({
-
+    family: one(familyTable, {
+        relationName: 'relationBetweenMemberBankAccountAndFamily',
+        fields: [memberBankAccountsTable.familyId],
+        references: [familyTable.id]
+    }),
+    member: one(membersTable, {
+        relationName: 'relationBetweenMemberBankAccountAndMember',
+        fields: [memberBankAccountsTable.memberId],
+        references: [membersTable.id]
+    }),
+    loanPaids: many(memberLoanProviderBillsTable, {
+        relationName: 'relationBetweenMemberLoanProviderBillAndMemberSourceBank',
+    }),
+    givenLoans: many(memberGivenLoanTable, {
+        relationName: 'relationBetweenMemberGivenLoanAndMemberSourceBank',
+    }),
+    takenLoans: many(memberTakenLoanTable, {
+        relationName: 'relationBetweenMemberTakenLoanAndMemberReceiveBank',
+    }),
+    sourceTransactions: many(memberTrxTable, {
+        relationName: 'relationBetweenMemberTrxAndMemberSourceBank',
+    }),
+    ReceiveTransactions: many(memberTrxTable, {
+        relationName: 'relationBetweenMemberTrxAndMemberReceiveBank',
+    }),
+    assignedMemberReceiveBanks: many(assignMemberReceiveBankTable, {
+        relationName: 'relationBetweenAssignMemberReceiveBankAndMemberBank',
+    })
 }))

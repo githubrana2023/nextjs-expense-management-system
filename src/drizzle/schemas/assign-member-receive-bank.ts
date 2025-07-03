@@ -12,6 +12,15 @@ export const assignMemberReceiveBankTable = pgTable('assign_member_receive_bank'
   updatedAt,
 })
 
-export const assignMemberReceiveBankRelation = relations(assignMemberReceiveBankTable, ({ }) => ({
-
+export const assignMemberReceiveBankRelation = relations(assignMemberReceiveBankTable, ({ one }) => ({
+  memberTrxName: one(memberTrxNameTable, {
+    relationName: 'relationBetweenAssignMemberReceiveBankAndMemberTrxName',
+    fields: [assignMemberReceiveBankTable.memberTrxNameId],
+    references: [memberTrxNameTable.id]
+  }),
+  memberReceiveBank: one(memberBankAccountsTable, {
+    relationName: 'relationBetweenAssignMemberReceiveBankAndMemberBank',
+    fields: [assignMemberReceiveBankTable.memberReceiveBankId],
+    references: [memberBankAccountsTable.id]
+  }),
 }))

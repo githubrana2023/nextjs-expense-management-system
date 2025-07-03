@@ -23,6 +23,6 @@ export const familyShopkeepersRelation = relations(familyShopkeepersTable, ({ on
         fields: [familyShopkeepersTable.familyId],
         references: [familyTable.id]
     }),
-    billPayments: many(familyShopkeeperBillsTable, { relationName: 'relationBetweenfamilyshopkeeperBillAndFamilyShopkeeper' }),
-    sales: many(familyShopkeeperPurchaseTable, { relationName: 'relationBetweenfamilyshopkeeperPurchaseAndFamilyShopkeeper' }),
+    billPayments: many(familyShopkeeperBillsTable, { relationName: 'relationBetweenFamilyShopkeeperBillAndFamilyShopkeeper' }),
+    sales: many(familyShopkeeperPurchaseTable, { relationName: 'relationBetweenFamilyShopkeeperPurchaseAndFamilyShopkeeper' }),
 }))

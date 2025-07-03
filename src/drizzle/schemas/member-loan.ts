@@ -7,13 +7,14 @@ import { memberBankAccountsTable } from "./member-bank-account";
 import { membersTable } from "./members";
 import { memberLoanRecipientTable } from "./member-loan-recipient";
 import { memberLoanProviderBillsTable } from "./member-loan-provider-bill";
+import { memberLoanRecipientPaymentTable } from "./member-loan-recipient-payment";
 
 
 export const memberTakenLoanTable = pgTable('member_take_loan', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
-    loanTakenBy: uuid('member_id').notNull().references(() => membersTable.id),
-    loanProvidedBy: uuid('member_loan_provider_id').notNull().references(() => memberLoanProviderTable.id),
+    memberId: uuid('member_id').notNull().references(() => membersTable.id),
+    memberLoanProviderId: uuid('member_loan_provider_id').notNull().references(() => memberLoanProviderTable.id),
     memberReceiveBankId: uuid('member_receive_bank_id').notNull().references(() => memberBankAccountsTable.id),
 
     loanStatus: text('loan_type', { enum: loanStatus }).notNull(),
@@ -29,7 +30,29 @@ export const memberTakenLoanTable = pgTable('member_take_loan', {
 
 
 export const memberTakenLoanRelation = relations(memberTakenLoanTable, ({ one, many }) => ({
-
+    familyId: one(familyTable, {
+        relationName: 'relationBetweenMemberTakenLoanAndFamily',
+        fields: [memberTakenLoanTable.familyId],
+        references: [familyTable.id]
+    }),
+    memberId: one(membersTable, {
+        relationName: 'relationBetweenMemberTakenLoanAndMember',
+        fields: [memberTakenLoanTable.memberId],
+        references: [membersTable.id]
+    }),
+    memberLoanProviderId: one(memberLoanProviderTable, {
+        relationName: 'relationBetweenMemberTakenLoanAndMemberLoanProvider',
+        fields: [memberTakenLoanTable.memberLoanProviderId],
+        references: [memberLoanProviderTable.id]
+    }),
+    memberReceiveBankId: one(memberBankAccountsTable, {
+        relationName: 'relationBetweenMemberTakenLoanAndMemberReceiveBank',
+        fields: [memberTakenLoanTable.memberReceiveBankId],
+        references: [memberBankAccountsTable.id]
+    }),
+    loanPaids: many(memberLoanProviderBillsTable, {
+        relationName: 'relationBetweenMemberLoanProviderBillAndMemberTakenLoan',
+    })
 }))
 
 
@@ -38,8 +61,8 @@ export const memberTakenLoanRelation = relations(memberTakenLoanTable, ({ one, m
 export const memberGivenLoanTable = pgTable('member_given_loan', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
     familyId: uuid('family_id').notNull().references(() => familyTable.id),
-    loanGivenBy: uuid('member_id').notNull().references(() => membersTable.id),
-    loanRecipientBy: uuid('member_loan_recipient_id').notNull().references(() => memberLoanRecipientTable.id),
+    memberId: uuid('member_id').notNull().references(() => membersTable.id),
+    loanRecipientId: uuid('member_loan_recipient_id').notNull().references(() => memberLoanRecipientTable.id),
     memberSourceBankId: uuid('member_source_bank_id').notNull().references(() => memberBankAccountsTable.id),
 
     loanStatus: text('loan_type', { enum: loanStatus }).notNull(),
@@ -53,5 +76,27 @@ export const memberGivenLoanTable = pgTable('member_given_loan', {
 
 
 export const memberGivenLoanRelation = relations(memberGivenLoanTable, ({ one, many }) => ({
-
+    family: one(familyTable, {
+        relationName: 'relationBetweenMemberGivenLoanAndFamily',
+        fields: [memberGivenLoanTable.familyId],
+        references: [familyTable.id]
+    }),
+    member: one(membersTable, {
+        relationName: 'relationBetweenMemberGivenLoanAndMember',
+        fields: [memberGivenLoanTable.memberId],
+        references: [membersTable.id]
+    }),
+    loanRecipient: one(memberLoanRecipientTable, {
+        relationName: 'relationBetweenMemberGivenLoanAndMemberLoanRecipient',
+        fields: [memberGivenLoanTable.loanRecipientId],
+        references: [memberLoanRecipientTable.id]
+    }),
+    memberSourceBank: one(memberBankAccountsTable, {
+        relationName: 'relationBetweenMemberGivenLoanAndMemberSourceBank',
+        fields: [memberGivenLoanTable.memberSourceBankId],
+        references: [memberBankAccountsTable.id]
+    }),
+    loanRecipientPayments: many(memberLoanRecipientPaymentTable, {
+        relationName: 'relationBetweenMemberLoanRecipientPaymentAndMemberGivenLoan',
+    })
 }))

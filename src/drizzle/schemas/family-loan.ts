@@ -7,7 +7,6 @@ import { familyBankAccountsTable } from "./family-bank-account";
 import { familyLoanRecipientTable } from "./family-loan-recipient";
 import { familyLoanProviderBillsTable } from "./family-loan-provider-bill";
 import { familyLoanRecipientPaymentTable } from "./family-loan-recipient-payment";
-import { table } from "console";
 
 
 export const familyTakenLoanTable = pgTable('family_taken_loan', {
@@ -28,21 +27,21 @@ export const familyTakenLoanTable = pgTable('family_taken_loan', {
 
 export const familyTakenLoanRelation = relations(familyTakenLoanTable, ({ one, many }) => ({
     family: one(familyTable, {
-        relationName: 'relationBetweenFamilyTakenToanAndFamily',
+        relationName: 'relationBetweenFamilyTakenLoanAndFamily',
         fields: [familyTakenLoanTable.familyId],
         references: [familyTable.id]
     }),
     loanProvider: one(familyLoanProviderTable, {
-        relationName: 'relationBetweenFamilyTakenToanAndFamilyLoanProvider',
+        relationName: 'relationBetweenFamilyTakenLoanAndFamilyLoanProvider',
         fields: [familyTakenLoanTable.loanProviderId],
         references: [familyLoanProviderTable.id]
     }),
     receiveBank: one(familyBankAccountsTable, {
-        relationName: 'relationBetweenFamilyTakenToanAndFamilyReceiveBank',
+        relationName: 'relationBetweenFamilyTakenLoanAndFamilyReceiveBank',
         fields: [familyTakenLoanTable.receiveBankId],
         references: [familyBankAccountsTable.id]
     }),
-    loanPaids: many(familyLoanProviderBillsTable, { relationName: 'relationBetweenFamilyLoanProviderBillAndFamilyTabkenLoan' })
+    loanPaids: many(familyLoanProviderBillsTable, { relationName: 'relationBetweenFamilyLoanProviderBillAndFamilyTakenLoan' })
 }))
 
 
