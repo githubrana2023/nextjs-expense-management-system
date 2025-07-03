@@ -19,6 +19,7 @@ import { memberLoanRecipientPaymentTable } from "./member-loan-recipient-payment
 import { memberLoanRecipientTable } from "./member-loan-recipient";
 import { memberGivenLoanTable, memberTakenLoanTable } from "./member-loan";
 import { memberTrxNameTable } from "./member-trx-name";
+import { memberLoanProviderBillsTable } from "./member-loan-provider-bill";
 
 export const familyTable = pgTable('family_table', {
     id: uuid('id').primaryKey().unique().defaultRandom(),
@@ -48,7 +49,7 @@ export const familyRelation = relations(familyTable, ({ many }) => ({
     shopkeepers: many(familyShopkeepersTable, { relationName: 'relationBetweenFamilyShopkeeperAndFamily', }),
     familyTransactionsName: many(familyTrxNameTable, { relationName: 'relationBetweenFamilyTransactionNameAndFamily', }),
     memberBankAccounts: many(memberBankAccountsTable, { relationName: 'relationBetweenMemberBankAccountAndFamily', }),
-    memberLoanProviderPaidBills: many(familyLoanProviderBillsTable, {
+    memberLoanProviderPaidBills: many(memberLoanProviderBillsTable, {
         relationName: 'relationBetweenMemberLoanProviderBillAndFamily',
     }),
     memberLoanProviders: many(memberLoanProviderTable, {
