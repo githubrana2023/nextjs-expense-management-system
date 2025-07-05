@@ -1,3 +1,6 @@
+import { Globe, GlobeLock, House, LayoutDashboard, User } from "lucide-react"
+import { JSX } from "react"
+
 export const AUTH_ROUTES= ['/auth/login','/auth/register','/auth/reset-password']
 export const PUBLIC_ROUTES = ['/','/public-route',]
 export const REDIRECT_TO = {
@@ -19,6 +22,15 @@ export const appRoute = {
     REGISTER_PAGE:'/auth/register',
 } as const
 
+export const appRouteIcon : Partial<Record<AppRouteKey,JSX.Element>> = {
+    HOME:<House size={20}/>,
+    DASHBOARD:<LayoutDashboard size={20}/>,
+    FAMILY:<User size={20}/>,
+    MEMBER:<User size={20}/>,
+    PUBLIC:<Globe size={20}/>,
+    NOT_PUBLIC:<GlobeLock size={20}/>
+
+}
 
 type AppRoute = typeof appRoute[keyof typeof appRoute]
-type AppRouteKey = keyof typeof appRoute
+export type AppRouteKey = keyof typeof appRoute

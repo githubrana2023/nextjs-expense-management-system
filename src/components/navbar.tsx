@@ -4,6 +4,10 @@ import { LogOutButton } from "@/features/auth/components/log-out"
 import { TOKEN_KEY } from "@/constant/token-constant"
 import { appRoute } from "@/constant"
 import { currentMember } from "@/lib/current-member"
+import { MobileNav } from "./mobile-nav"
+import Image from "next/image"
+
+import logo from '../../public/accounting.png'
 
 export const Navbar = async () => {
 
@@ -34,8 +38,11 @@ export const Navbar = async () => {
     })
 
     return (
-        <nav>
-            <ul className="flex flex-wrap items-center justify-center gap-4 border py-5 px-4 shadow-sm">
+        <nav className="flex items-center justify-between px-6">
+
+            <MobileNav routes={routes}/>
+
+            <ul className="hidden md:flex flex-wrap items-center justify-center gap-4 border py-5 px-4 shadow-sm">
                 {
                     routes.map(
                         route => (
@@ -49,38 +56,8 @@ export const Navbar = async () => {
                 {
                     loggedFamily && <LogOutButton tokenKey={TOKEN_KEY.FAMILY_ACCESS_TOKEN} redirectTo="/auth/login"/>
                 }
-                {/* <li className="border border-b-indigo-800 px-2 py-1">
-                    <Link href={'/'}>Home</Link>
-                </li>
-                <li className="border border-b-indigo-800 px-2 py-1">
-                    <Link href={'/dashboard'}>Dashboard</Link>
-                </li>
-                <li className="border border-b-indigo-800 px-2 py-1">
-                    <Link href={'/public-route'}>Public</Link>
-                </li>
-                <li className="border border-b-indigo-800 px-2 py-1">
-                    <Link href={'/not-public-route'}>Not Public</Link>
-                </li>
-                <li className="border border-b-indigo-800 px-2 py-1">
-                    <Link href={'/auth/login'}>Login</Link>
-                </li>
-                <li className="border border-b-indigo-800 px-2 py-1">
-                    <Link href={'/auth/register'}>Register</Link>
-                </li>
-                {!loggedFamily && <>
-                    <li className="border border-b-indigo-800 px-2 py-1">
-                        <Link href={'/auth/login'}>Login</Link>
-                    </li>
-                    <li className="border border-b-indigo-800 px-2 py-1">
-                        <Link href={'/auth/register'}>Register</Link>
-                    </li>
-
-                </>}
-                {
-                    loggedFamily && <LogOutButton tokenKey={TOKEN_KEY.FAMILY_ACCESS_TOKEN} />
-                } */}
+                
             </ul>
-
         </nav>
     )
 }
